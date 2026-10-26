@@ -1,0 +1,515 @@
+Status,Progress,Duration (in seconds),Finished,DistributionChannel,UserLanguage,QID5_1,Q17,Q18,QID6,age,partyid,leaning,temp_c,temp_label
+Response Type,Progress,Duration (in seconds),Finished,Distribution Channel,User Language,"Scientists at the IPCC predict that the earth could see a rise of up to [Field-temp_label] by 2100
+
+
+
+According to a forthcoming report by the Intergovernmental Panel on Climate Change (IPCC), human activities have warmed the climate over the last 2000 years at a rate that is historically unprecedented. This report warns that the global temperature could rise by up to [Field-temp_label] over the next 70 years or so.
+
+
+
+If the earth warms by [Field-temp_label], how worried would you be? - 1","If the earth warms by [Field-temp_label], how much do you think this will harm people in the United States?","If the earth warms by [Field-temp_label], how much do you think this will harm you personally?","To show you are paying attention, please select Somewhat disagree below.",Age,"Generally speaking, do you usually think of yourself as a Republican, Democrat, Independent, or what?",Do you think of yourself as closer to the Republican Party or tothe Democratic Party?,temp_c,temp_label
+"{""ImportId"":""status""}","{""ImportId"":""progress""}","{""ImportId"":""duration""}","{""ImportId"":""finished""}","{""ImportId"":""distributionChannel""}","{""ImportId"":""userLanguage""}","{""ImportId"":""QID5_1""}","{""ImportId"":""QID17""}","{""ImportId"":""QID18""}","{""ImportId"":""QID6""}","{""ImportId"":""QID9""}","{""ImportId"":""QID12""}","{""ImportId"":""QID21""}","{""ImportId"":""temp_c""}","{""ImportId"":""temp_label""}"
+IP Address,100,39,True,anonymous,EN,5,Not at all (1),Not at all (1),Somewhat disagree,55–64,Republican,,2.5,2.5 °C
+IP Address,100,48,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,55–64,Democrat,,5,5 °C
+IP Address,100,41,True,anonymous,EN,25,(2),Not at all (1),Somewhat disagree,35–44,Republican,,1.5,1.5 °C
+IP Address,100,121,True,anonymous,EN,80,(6),(5),Somewhat disagree,25–34,Democrat,,2,2 °C
+IP Address,100,53,True,anonymous,EN,54,(5),(6),Somewhat disagree,35–44,Republican,,5,5 °C
+IP Address,100,71,True,anonymous,EN,34,(5),(2),Somewhat disagree,35–44,Republican,,3.5,3.5 °C
+IP Address,100,39,True,anonymous,EN,75,(6),(5),Somewhat disagree,35–44,Democrat,,2,2 °C
+IP Address,100,99,True,anonymous,EN,35,(3),(3),Somewhat disagree,55–64,Republican,,4.5,4.5 °C
+IP Address,100,116,True,anonymous,EN,87,A great deal (7),A great deal  (7),Somewhat disagree,25–34,Democrat,,6,6 °C
+IP Address,100,90,True,anonymous,EN,90,(6),(6),Somewhat disagree,25–34,Independent,Closer to Democratic,6,6 °C
+IP Address,100,51,True,anonymous,EN,22,(4),(2),Somewhat disagree,35–44,Republican,,4.5,4.5 °C
+IP Address,100,42,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,55–64,Independent,Closer to Republican,2.5,2.5 °C
+IP Address,100,72,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,45–54,No preference,Neither,5.5,5.5 °C
+IP Address,100,84,True,anonymous,EN,41,(5),(3),Somewhat disagree,55–64,Independent,Closer to Democratic,5,5 °C
+IP Address,100,56,True,anonymous,EN,56,(4),(2),Somewhat disagree,18–24,Republican,,2,2 °C
+IP Address,100,51,True,anonymous,EN,74,(5),(3),Somewhat disagree,35–44,Republican,,2.5,2.5 °C
+IP Address,100,40,True,anonymous,EN,82,(6),(5),Somewhat disagree,25–34,Independent,Closer to Democratic,6,6 °C
+IP Address,100,255,True,anonymous,EN,85,(5),(5),Somewhat disagree,65+,Democrat,,2,2 °C
+IP Address,100,103,True,anonymous,EN,95,(6),(6),Somewhat disagree,55–64,Democrat,,2,2 °C
+IP Address,100,94,True,anonymous,EN,71,(6),(6),Somewhat disagree,45–54,Republican,,3.5,3.5 °C
+IP Address,100,84,True,anonymous,EN,90,A great deal (7),A great deal  (7),Somewhat disagree,25–34,Democrat,,3.5,3.5 °C
+IP Address,100,61,True,anonymous,EN,64,A great deal (7),(6),Somewhat disagree,25–34,Republican,,3,3 °C
+IP Address,100,110,True,anonymous,EN,70,(6),A great deal  (7),Somewhat disagree,55–64,Democrat,,4,4 °C
+IP Address,100,125,True,anonymous,EN,80,(5),(3),Somewhat disagree,45–54,Independent,Closer to Democratic,3,3 °C
+IP Address,100,80,True,anonymous,EN,97,(6),(6),Somewhat disagree,25–34,Democrat,,2,2 °C
+IP Address,100,70,True,anonymous,EN,72,(6),(4),Somewhat disagree,18–24,Democrat,,3,3 °C
+IP Address,100,61,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,18–24,Democrat,,3,3 °C
+IP Address,100,54,True,anonymous,EN,70,(5),(5),Somewhat disagree,45–54,Democrat,,5.5,5.5 °C
+IP Address,100,51,True,anonymous,EN,100,A great deal (7),(2),Somewhat disagree,45–54,Democrat,,6,6 °C
+IP Address,100,81,True,anonymous,EN,90,(6),(6),Somewhat disagree,25–34,Democrat,,6,6 °C
+IP Address,100,167,True,anonymous,EN,31,(4),Not at all (1),Somewhat disagree,35–44,Democrat,,1.5,1.5 °C
+IP Address,100,93,True,anonymous,EN,50,(5),(4),Somewhat disagree,25–34,Democrat,,2.5,2.5 °C
+IP Address,100,56,True,anonymous,EN,24,(3),(2),Somewhat disagree,45–54,Independent,Closer to Democratic,1.5,1.5 °C
+IP Address,100,41,True,anonymous,EN,81,A great deal (7),(5),Somewhat disagree,35–44,Democrat,,1.5,1.5 °C
+IP Address,100,67,True,anonymous,EN,20,(2),(2),Somewhat disagree,35–44,Independent,Closer to Republican,3.5,3.5 °C
+IP Address,100,58,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,25–34,Democrat,,3.5,3.5 °C
+IP Address,100,35,True,anonymous,EN,72,(6),(6),Somewhat disagree,25–34,Independent,Closer to Republican,5.5,5.5 °C
+IP Address,100,83,True,anonymous,EN,90,(5),(5),Somewhat disagree,35–44,Democrat,,3,3 °C
+IP Address,100,55,True,anonymous,EN,84,(6),(6),Somewhat disagree,25–34,Democrat,,4.5,4.5 °C
+IP Address,100,56,True,anonymous,EN,21,(3),(2),Somewhat disagree,25–34,Republican,,5.5,5.5 °C
+IP Address,100,63,True,anonymous,EN,92,A great deal (7),A great deal  (7),Somewhat disagree,65+,Democrat,,2,2 °C
+IP Address,100,97,True,anonymous,EN,60,(5),(3),Somewhat disagree,45–54,Independent,Closer to Democratic,5,5 °C
+IP Address,100,28,True,anonymous,EN,92,A great deal (7),(6),Somewhat disagree,18–24,Democrat,,6,6 °C
+IP Address,100,68,True,anonymous,EN,60,A great deal (7),(2),Somewhat disagree,55–64,Democrat,,5.5,5.5 °C
+IP Address,100,53,True,anonymous,EN,83,A great deal (7),A great deal  (7),Somewhat agree,65+,Democrat,,4,4 °C
+IP Address,100,33,True,anonymous,EN,100,A great deal (7),(5),Somewhat disagree,35–44,Democrat,,1.5,1.5 °C
+IP Address,100,104,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,45–54,Republican,,3,3 °C
+IP Address,100,90,True,anonymous,EN,60,(5),(4),Somewhat disagree,35–44,Independent,Neither,1.5,1.5 °C
+IP Address,100,66,True,anonymous,EN,27,(3),(3),Somewhat disagree,45–54,Republican,,6,6 °C
+IP Address,100,82,True,anonymous,EN,71,(6),(6),Somewhat disagree,65+,Independent,Neither,2.5,2.5 °C
+IP Address,100,92,True,anonymous,EN,50,(4),(3),Somewhat disagree,45–54,Independent,Closer to Democratic,5.5,5.5 °C
+IP Address,100,107,True,anonymous,EN,81,(6),(6),Somewhat disagree,25–34,Independent,Closer to Democratic,4,4 °C
+IP Address,100,72,True,anonymous,EN,60,(4),(3),Somewhat disagree,45–54,Democrat,,2,2 °C
+IP Address,100,61,True,anonymous,EN,41,(6),(5),Somewhat disagree,35–44,Independent,Neither,1.5,1.5 °C
+IP Address,100,66,True,anonymous,EN,76,(4),(4),Somewhat disagree,45–54,Democrat,,5,5 °C
+IP Address,100,80,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,65+,Democrat,,5,5 °C
+IP Address,100,40,True,anonymous,EN,93,(6),(5),Somewhat disagree,25–34,Republican,,4.5,4.5 °C
+IP Address,100,84,True,anonymous,EN,10,(3),Not at all (1),Somewhat disagree,35–44,Republican,,5.5,5.5 °C
+IP Address,100,55,True,anonymous,EN,91,(6),(5),Somewhat disagree,25–34,Democrat,,4,4 °C
+IP Address,100,155,True,anonymous,EN,75,(6),(6),Somewhat disagree,35–44,Republican,,3.5,3.5 °C
+IP Address,100,43,True,anonymous,EN,86,A great deal (7),A great deal  (7),Somewhat disagree,45–54,Democrat,,1.5,1.5 °C
+IP Address,100,68,True,anonymous,EN,55,(4),(2),Somewhat disagree,35–44,Republican,,3.5,3.5 °C
+IP Address,100,95,True,anonymous,EN,97,(4),(5),Somewhat disagree,65+,Independent,Closer to Republican,2.5,2.5 °C
+IP Address,100,55,True,anonymous,EN,80,(6),(6),Somewhat disagree,25–34,Independent,Closer to Democratic,6,6 °C
+IP Address,100,58,True,anonymous,EN,83,A great deal (7),(6),Somewhat disagree,25–34,Republican,,3,3 °C
+IP Address,100,69,True,anonymous,EN,87,(6),(6),Somewhat disagree,55–64,Independent,Closer to Democratic,6,6 °C
+IP Address,100,99,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,35–44,Democrat,,5.5,5.5 °C
+IP Address,100,100,True,anonymous,EN,10,(5),Not at all (1),Somewhat disagree,55–64,Independent,Closer to Democratic,3,3 °C
+IP Address,100,106,True,anonymous,EN,99,A great deal (7),A great deal  (7),Somewhat disagree,35–44,Democrat,,5,5 °C
+IP Address,100,90,True,anonymous,EN,100,A great deal (7),(5),Somewhat disagree,35–44,Independent,Neither,2.5,2.5 °C
+IP Address,100,72,True,anonymous,EN,29,(4),(2),Somewhat disagree,25–34,Independent,Closer to Republican,5.5,5.5 °C
+IP Address,100,49,True,anonymous,EN,93,(5),(5),Somewhat disagree,18–24,Democrat,,2.5,2.5 °C
+IP Address,100,63,True,anonymous,EN,76,(6),(3),Somewhat disagree,55–64,Democrat,,2.5,2.5 °C
+IP Address,100,69,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,45–54,Independent,Closer to Democratic,3.5,3.5 °C
+IP Address,100,103,True,anonymous,EN,100,A great deal (7),(5),Somewhat disagree,45–54,Independent,Closer to Democratic,5.5,5.5 °C
+IP Address,100,61,True,anonymous,EN,56,(4),(3),Somewhat disagree,18–24,Democrat,,3,3 °C
+IP Address,100,39,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,35–44,Democrat,,3.5,3.5 °C
+IP Address,100,114,True,anonymous,EN,91,(6),(6),Somewhat disagree,45–54,Democrat,,1.5,1.5 °C
+IP Address,100,26,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,45–54,Democrat,,5.5,5.5 °C
+IP Address,100,66,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,35–44,Republican,,3.5,3.5 °C
+IP Address,100,48,True,anonymous,EN,52,(4),(5),Somewhat disagree,18–24,Republican,,6,6 °C
+IP Address,100,274,True,anonymous,EN,65,(6),(6),Somewhat disagree,45–54,Democrat,,6,6 °C
+IP Address,100,79,True,anonymous,EN,75,(5),(5),Somewhat disagree,55–64,Republican,,2.5,2.5 °C
+IP Address,100,84,True,anonymous,EN,65,(6),(5),Somewhat disagree,45–54,Democrat,,3.5,3.5 °C
+IP Address,100,50,True,anonymous,EN,32,(5),(2),Somewhat disagree,55–64,Democrat,,2.5,2.5 °C
+IP Address,100,45,True,anonymous,EN,74,A great deal (7),(4),Somewhat disagree,55–64,Democrat,,4.5,4.5 °C
+IP Address,100,65,True,anonymous,EN,85,(6),(4),Somewhat disagree,55–64,Democrat,,2.5,2.5 °C
+IP Address,100,51,True,anonymous,EN,88,(5),(5),Somewhat disagree,35–44,Democrat,,5.5,5.5 °C
+IP Address,100,47,True,anonymous,EN,54,(5),(4),Somewhat disagree,25–34,Independent,Closer to Democratic,5.5,5.5 °C
+IP Address,100,101,True,anonymous,EN,100,A great deal (7),(5),Somewhat disagree,55–64,Democrat,,4.5,4.5 °C
+IP Address,100,77,True,anonymous,EN,85,(6),(4),Somewhat disagree,55–64,Democrat,,2.5,2.5 °C
+IP Address,100,31,True,anonymous,EN,89,A great deal (7),(5),Somewhat disagree,35–44,Independent,Closer to Democratic,5,5 °C
+IP Address,100,65,True,anonymous,EN,47,(4),(4),Somewhat disagree,25–34,Republican,,3.5,3.5 °C
+IP Address,100,337,True,anonymous,EN,23,(2),(2),Somewhat disagree,25–34,Democrat,,5,5 °C
+IP Address,100,132,True,anonymous,EN,10,(2),Not at all (1),Somewhat disagree,18–24,Independent,Closer to Republican,6,6 °C
+IP Address,100,28,True,anonymous,EN,78,(5),(4),Somewhat disagree,25–34,Republican,,6,6 °C
+IP Address,100,89,True,anonymous,EN,75,(6),(6),Somewhat disagree,35–44,Democrat,,3,3 °C
+IP Address,100,191,True,anonymous,EN,100,A great deal (7),(6),Somewhat disagree,35–44,Republican,,5.5,5.5 °C
+IP Address,100,29,True,anonymous,EN,65,(6),(4),Somewhat disagree,35–44,Republican,,3,3 °C
+IP Address,100,129,True,anonymous,EN,20,(3),Not at all (1),Somewhat disagree,45–54,Independent,Neither,4,4 °C
+IP Address,100,60,True,anonymous,EN,79,(6),(6),Somewhat disagree,45–54,Democrat,,2.5,2.5 °C
+IP Address,100,138,True,anonymous,EN,75,(5),(5),Somewhat disagree,35–44,Independent,Closer to Democratic,3,3 °C
+IP Address,100,95,True,anonymous,EN,24,(2),(2),Somewhat disagree,45–54,Republican,,2,2 °C
+IP Address,100,89,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,65+,Democrat,,6,6 °C
+IP Address,100,110,True,anonymous,EN,60,(5),(5),Somewhat disagree,35–44,Independent,Closer to Republican,2,2 °C
+IP Address,100,42,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,35–44,Democrat,,2,2 °C
+IP Address,100,45,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,35–44,Independent,Closer to Democratic,5.5,5.5 °C
+IP Address,100,82,True,anonymous,EN,99,A great deal (7),(5),Somewhat disagree,25–34,Independent,Closer to Democratic,1.5,1.5 °C
+IP Address,100,63,True,anonymous,EN,78,(5),(5),Somewhat disagree,45–54,Independent,Closer to Democratic,6,6 °C
+IP Address,100,74,True,anonymous,EN,48,(4),(3),Somewhat disagree,25–34,Independent,Closer to Democratic,3,3 °C
+IP Address,100,79,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,35–44,No preference,Neither,2,2 °C
+IP Address,100,46,True,anonymous,EN,97,(5),(5),Somewhat disagree,25–34,Republican,,3,3 °C
+IP Address,100,47,True,anonymous,EN,1,Not at all (1),Not at all (1),Somewhat disagree,55–64,Republican,,5,5 °C
+IP Address,100,58,True,anonymous,EN,50,(5),(2),Somewhat disagree,25–34,Independent,Closer to Democratic,6,6 °C
+IP Address,100,87,True,anonymous,EN,39,(4),(4),Somewhat disagree,45–54,Republican,,3.5,3.5 °C
+IP Address,100,90,True,anonymous,EN,90,(6),(6),Somewhat disagree,25–34,Democrat,,4.5,4.5 °C
+IP Address,100,64,True,anonymous,EN,57,(6),(5),Somewhat disagree,55–64,Democrat,,5.5,5.5 °C
+IP Address,100,225,True,anonymous,EN,72,(5),(6),Somewhat disagree,25–34,Republican,,4,4 °C
+IP Address,100,116,True,anonymous,EN,80,(4),(5),Somewhat disagree,35–44,Republican,,3.5,3.5 °C
+IP Address,100,138,True,anonymous,EN,70,(5),(4),Somewhat disagree,45–54,Democrat,,5.5,5.5 °C
+IP Address,100,95,True,anonymous,EN,14,(2),Not at all (1),Somewhat disagree,45–54,Independent,Neither,5.5,5.5 °C
+IP Address,100,49,True,anonymous,EN,80,(6),(4),Somewhat disagree,25–34,Democrat,,4,4 °C
+IP Address,100,27,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,25–34,Republican,,1.5,1.5 °C
+IP Address,100,119,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,55–64,Independent,Closer to Democratic,4.5,4.5 °C
+IP Address,100,55,True,anonymous,EN,80,(6),(6),Somewhat disagree,25–34,Democrat,,5.5,5.5 °C
+IP Address,100,128,True,anonymous,EN,95,A great deal (7),A great deal  (7),Somewhat disagree,35–44,Republican,,2.5,2.5 °C
+IP Address,100,206,True,anonymous,EN,10,(3),(2),Somewhat disagree,45–54,Republican,,5,5 °C
+IP Address,100,118,True,anonymous,EN,45,(4),(4),Somewhat disagree,35–44,Independent,Neither,1.5,1.5 °C
+IP Address,100,66,True,anonymous,EN,62,(5),(5),Somewhat disagree,35–44,Independent,Neither,3.5,3.5 °C
+IP Address,100,45,True,anonymous,EN,46,(5),(3),Somewhat disagree,25–34,Democrat,,2.5,2.5 °C
+IP Address,100,103,True,anonymous,EN,81,(6),(4),Somewhat disagree,55–64,Independent,Closer to Democratic,3.5,3.5 °C
+IP Address,100,51,True,anonymous,EN,1,Not at all (1),Not at all (1),Somewhat disagree,55–64,Republican,,2,2 °C
+IP Address,100,136,True,anonymous,EN,85,A great deal (7),(5),Somewhat disagree,35–44,Republican,,6,6 °C
+IP Address,100,132,True,anonymous,EN,79,(2),(4),Somewhat disagree,55–64,Democrat,,3.5,3.5 °C
+IP Address,100,43,True,anonymous,EN,2,(2),(2),Somewhat disagree,45–54,Republican,,4,4 °C
+IP Address,100,41,True,anonymous,EN,25,(2),Not at all (1),Somewhat disagree,25–34,Republican,,3,3 °C
+IP Address,100,48,True,anonymous,EN,80,(6),(6),Somewhat disagree,35–44,Independent,Neither,4,4 °C
+IP Address,100,43,True,anonymous,EN,60,(5),(4),Somewhat disagree,45–54,Republican,,6,6 °C
+IP Address,100,88,True,anonymous,EN,74,(6),(6),Somewhat disagree,45–54,Republican,,4.5,4.5 °C
+IP Address,100,83,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,25–34,Independent,Closer to Democratic,5,5 °C
+IP Address,100,46,True,anonymous,EN,84,(5),(5),Somewhat disagree,25–34,Democrat,,6,6 °C
+IP Address,100,41,True,anonymous,EN,72,(6),(5),Somewhat disagree,25–34,Democrat,,4.5,4.5 °C
+IP Address,100,41,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,45–54,Republican,,2,2 °C
+IP Address,100,71,True,anonymous,EN,55,(5),Not at all (1),Somewhat disagree,45–54,Independent,Neither,1.5,1.5 °C
+IP Address,100,100,True,anonymous,EN,94,A great deal (7),A great deal  (7),Somewhat disagree,55–64,Independent,Neither,5,5 °C
+IP Address,100,171,True,anonymous,EN,70,(5),(4),Somewhat disagree,55–64,Democrat,,3,3 °C
+IP Address,100,69,True,anonymous,EN,73,(5),(5),Somewhat disagree,55–64,Republican,,5,5 °C
+IP Address,100,78,True,anonymous,EN,81,(5),(2),Somewhat disagree,35–44,Republican,,3.5,3.5 °C
+IP Address,100,98,True,anonymous,EN,90,(6),(6),Somewhat disagree,45–54,Independent,Closer to Democratic,5,5 °C
+IP Address,100,69,True,anonymous,EN,7,Not at all (1),Not at all (1),Somewhat disagree,65+,Republican,,2.5,2.5 °C
+IP Address,100,65,True,anonymous,EN,91,(6),(6),Somewhat disagree,45–54,Independent,Closer to Democratic,5,5 °C
+IP Address,100,131,True,anonymous,EN,92,A great deal (7),A great deal  (7),Somewhat disagree,65+,Democrat,,6,6 °C
+IP Address,100,353,True,anonymous,EN,78,(5),(5),Somewhat disagree,25–34,Independent,Closer to Democratic,1.5,1.5 °C
+IP Address,100,134,True,anonymous,EN,3,Not at all (1),(2),Somewhat disagree,35–44,No preference,Neither,1.5,1.5 °C
+IP Address,100,83,True,anonymous,EN,90,A great deal (7),A great deal  (7),Somewhat disagree,55–64,Independent,Closer to Republican,1.5,1.5 °C
+IP Address,100,97,True,anonymous,EN,3,(3),Not at all (1),Somewhat disagree,65+,Republican,,4,4 °C
+IP Address,100,61,True,anonymous,EN,65,(6),(5),Somewhat disagree,45–54,Republican,,4.5,4.5 °C
+IP Address,100,73,True,anonymous,EN,65,(6),(5),Somewhat disagree,35–44,Independent,Neither,4.5,4.5 °C
+IP Address,100,74,True,anonymous,EN,80,(5),(5),Somewhat disagree,65+,Democrat,,4.5,4.5 °C
+IP Address,100,82,True,anonymous,EN,30,(3),(3),Somewhat disagree,55–64,Republican,,3.5,3.5 °C
+IP Address,100,66,True,anonymous,EN,73,(5),(5),Somewhat disagree,35–44,Independent,Closer to Republican,5.5,5.5 °C
+IP Address,100,54,True,anonymous,EN,40,(3),(3),Somewhat disagree,45–54,Republican,,2,2 °C
+IP Address,100,176,True,anonymous,EN,100,(6),A great deal  (7),Somewhat disagree,18–24,Democrat,,5,5 °C
+IP Address,100,46,True,anonymous,EN,66,(5),(6),Somewhat disagree,45–54,Independent,Closer to Democratic,4,4 °C
+IP Address,100,67,True,anonymous,EN,80,(6),(6),Somewhat disagree,25–34,Independent,Closer to Democratic,3.5,3.5 °C
+IP Address,100,49,True,anonymous,EN,80,A great deal (7),(6),Somewhat disagree,35–44,Democrat,,6,6 °C
+IP Address,100,52,True,anonymous,EN,20,(4),(2),Somewhat disagree,35–44,Independent,Closer to Republican,4.5,4.5 °C
+IP Address,100,142,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,45–54,Independent,Neither,5,5 °C
+IP Address,100,39,True,anonymous,EN,85,(6),(5),Somewhat disagree,25–34,Independent,Neither,4.5,4.5 °C
+IP Address,100,29,True,anonymous,EN,90,(6),(6),Somewhat disagree,55–64,Democrat,,1.5,1.5 °C
+IP Address,100,48,True,anonymous,EN,20,(2),(2),Somewhat disagree,45–54,Republican,,4,4 °C
+IP Address,100,88,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,35–44,Democrat,,3,3 °C
+IP Address,100,89,True,anonymous,EN,85,(5),(4),Somewhat disagree,45–54,Democrat,,3.5,3.5 °C
+IP Address,100,72,True,anonymous,EN,81,(6),(5),Somewhat disagree,45–54,Independent,Closer to Republican,6,6 °C
+IP Address,100,128,True,anonymous,EN,0,A great deal (7),Not at all (1),Strongly disagree,35–44,Independent,Neither,6,6 °C
+IP Address,100,126,True,anonymous,EN,94,(6),(5),Somewhat disagree,55–64,Democrat,,1.5,1.5 °C
+IP Address,100,183,True,anonymous,EN,85,(5),(5),Somewhat disagree,25–34,Independent,Closer to Republican,3.5,3.5 °C
+IP Address,100,117,True,anonymous,EN,60,(5),(5),Somewhat disagree,35–44,Democrat,,5,5 °C
+IP Address,100,66,True,anonymous,EN,19,(3),(2),Somewhat disagree,55–64,Independent,Neither,6,6 °C
+IP Address,100,40,True,anonymous,EN,86,(6),(6),Somewhat disagree,35–44,Democrat,,6,6 °C
+IP Address,100,59,True,anonymous,EN,100,(6),(5),Somewhat disagree,25–34,Democrat,,3.5,3.5 °C
+IP Address,100,68,True,anonymous,EN,80,(6),(4),Somewhat disagree,45–54,Republican,,1.5,1.5 °C
+IP Address,100,104,True,anonymous,EN,55,(5),(5),Somewhat disagree,35–44,Democrat,,6,6 °C
+IP Address,100,38,True,anonymous,EN,55,(4),(3),Somewhat disagree,35–44,Independent,Neither,3,3 °C
+IP Address,100,118,True,anonymous,EN,92,A great deal (7),A great deal  (7),Somewhat disagree,55–64,Democrat,,3,3 °C
+IP Address,100,144,True,anonymous,EN,50,A great deal (7),(4),Somewhat disagree,25–34,Independent,Closer to Republican,2.5,2.5 °C
+IP Address,100,114,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,55–64,Republican,,5.5,5.5 °C
+IP Address,100,59,True,anonymous,EN,56,(6),(5),Somewhat disagree,45–54,Independent,Neither,6,6 °C
+IP Address,100,45,True,anonymous,EN,100,A great deal (7),(4),Somewhat disagree,45–54,Democrat,,2,2 °C
+IP Address,100,34,True,anonymous,EN,46,(3),(3),Somewhat disagree,25–34,Republican,,6,6 °C
+IP Address,100,23,True,anonymous,EN,2,Not at all (1),Not at all (1),Somewhat disagree,25–34,Republican,,2,2 °C
+IP Address,100,49,True,anonymous,EN,20,(3),(3),Somewhat disagree,18–24,Republican,,4.5,4.5 °C
+IP Address,100,68,True,anonymous,EN,77,(5),(5),Somewhat disagree,65+,Independent,Closer to Democratic,5.5,5.5 °C
+IP Address,100,131,True,anonymous,EN,82,(5),(5),Somewhat disagree,55–64,Democrat,,4.5,4.5 °C
+IP Address,100,87,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,35–44,Democrat,,1.5,1.5 °C
+IP Address,100,69,True,anonymous,EN,61,(4),(4),Somewhat disagree,55–64,Republican,,5,5 °C
+IP Address,100,200,True,anonymous,EN,100,(6),(5),Somewhat disagree,55–64,Democrat,,3,3 °C
+IP Address,100,124,True,anonymous,EN,89,(6),(5),Somewhat disagree,65+,Independent,Closer to Republican,5.5,5.5 °C
+IP Address,100,48,True,anonymous,EN,100,A great deal (7),(4),Somewhat disagree,55–64,Independent,Closer to Democratic,5,5 °C
+IP Address,100,238,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,45–54,Independent,Neither,3.5,3.5 °C
+IP Address,100,79,True,anonymous,EN,1,(2),Not at all (1),Somewhat disagree,55–64,Independent,Closer to Republican,5.5,5.5 °C
+IP Address,100,58,True,anonymous,EN,85,(6),A great deal  (7),Somewhat disagree,35–44,Independent,Closer to Democratic,6,6 °C
+IP Address,100,103,True,anonymous,EN,85,(6),(6),Somewhat disagree,25–34,Independent,Neither,2,2 °C
+IP Address,100,49,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,18–24,Independent,Closer to Democratic,2,2 °C
+IP Address,100,87,True,anonymous,EN,10,(4),(2),Somewhat disagree,25–34,Independent,Neither,5,5 °C
+IP Address,100,81,True,anonymous,EN,99,A great deal (7),Not at all (1),Somewhat disagree,45–54,Independent,Closer to Democratic,5.5,5.5 °C
+IP Address,100,57,True,anonymous,EN,30,(2),Not at all (1),Somewhat disagree,18–24,Independent,Closer to Republican,1.5,1.5 °C
+IP Address,100,190,True,anonymous,EN,5,(2),Not at all (1),Somewhat disagree,35–44,Independent,Closer to Republican,2.5,2.5 °C
+IP Address,100,78,True,anonymous,EN,70,(4),(4),Somewhat disagree,18–24,Independent,Neither,5,5 °C
+IP Address,100,52,True,anonymous,EN,9,(2),(2),Somewhat disagree,55–64,Republican,,6,6 °C
+IP Address,100,57,True,anonymous,EN,90,(6),(3),Somewhat disagree,25–34,Democrat,,3,3 °C
+IP Address,100,63,True,anonymous,EN,48,(5),(5),Somewhat disagree,25–34,Independent,Neither,4,4 °C
+IP Address,100,55,True,anonymous,EN,90,A great deal (7),Not at all (1),Somewhat disagree,55–64,Independent,Closer to Democratic,3.5,3.5 °C
+IP Address,100,35,True,anonymous,EN,36,(3),(2),Somewhat disagree,18–24,Independent,Closer to Republican,2.5,2.5 °C
+IP Address,100,107,True,anonymous,EN,0,(2),(2),Somewhat disagree,25–34,Independent,Neither,3,3 °C
+IP Address,100,74,True,anonymous,EN,91,(5),(5),Somewhat disagree,35–44,Democrat,,5,5 °C
+IP Address,100,49,True,anonymous,EN,61,(5),(5),Somewhat disagree,35–44,Independent,Neither,4,4 °C
+IP Address,100,45,True,anonymous,EN,34,(3),(3),Somewhat disagree,35–44,Independent,Closer to Republican,1.5,1.5 °C
+IP Address,100,216,True,anonymous,EN,50,(5),(4),Somewhat disagree,25–34,Independent,Closer to Democratic,5,5 °C
+IP Address,100,43,True,anonymous,EN,91,A great deal (7),A great deal  (7),Somewhat disagree,65+,Democrat,,2.5,2.5 °C
+IP Address,100,86,True,anonymous,EN,19,(2),(2),Somewhat disagree,45–54,Independent,Neither,5.5,5.5 °C
+IP Address,100,112,True,anonymous,EN,65,(2),Not at all (1),Somewhat disagree,55–64,Republican,,5.5,5.5 °C
+IP Address,100,79,True,anonymous,EN,98,A great deal (7),(6),Somewhat disagree,25–34,Democrat,,3,3 °C
+IP Address,100,59,True,anonymous,EN,20,(3),(3),Somewhat disagree,45–54,Democrat,,4,4 °C
+IP Address,100,64,True,anonymous,EN,74,(4),(2),Somewhat disagree,45–54,Republican,,5.5,5.5 °C
+IP Address,100,197,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,35–44,Republican,,2,2 °C
+IP Address,100,129,True,anonymous,EN,8,(2),Not at all (1),Somewhat disagree,35–44,Republican,,6,6 °C
+IP Address,100,41,True,anonymous,EN,56,(5),(2),Somewhat disagree,18–24,Independent,Neither,5,5 °C
+IP Address,100,200,True,anonymous,EN,61,(5),(5),Somewhat disagree,45–54,Republican,,2,2 °C
+IP Address,100,90,True,anonymous,EN,37,(4),(3),Somewhat disagree,35–44,No preference,Closer to Republican,2.5,2.5 °C
+IP Address,100,90,True,anonymous,EN,70,(5),(6),Somewhat disagree,35–44,Democrat,,2.5,2.5 °C
+IP Address,100,63,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,25–34,Republican,,1.5,1.5 °C
+IP Address,100,41,True,anonymous,EN,57,(5),(4),Somewhat disagree,18–24,Democrat,,2.5,2.5 °C
+IP Address,100,107,True,anonymous,EN,80,(6),(5),Somewhat disagree,25–34,Republican,,3.5,3.5 °C
+IP Address,100,29,True,anonymous,EN,56,(5),(5),Somewhat disagree,18–24,Independent,Closer to Democratic,1.5,1.5 °C
+IP Address,100,146,True,anonymous,EN,5,(2),Not at all (1),Somewhat disagree,45–54,Republican,,3.5,3.5 °C
+IP Address,100,118,True,anonymous,EN,73,(6),(6),Somewhat disagree,35–44,Republican,,4,4 °C
+IP Address,100,41,True,anonymous,EN,63,(5),(6),Somewhat disagree,35–44,Democrat,,5,5 °C
+IP Address,100,144,True,anonymous,EN,41,(4),(3),Somewhat disagree,65+,Democrat,,3,3 °C
+IP Address,100,56,True,anonymous,EN,95,A great deal (7),A great deal  (7),Somewhat disagree,65+,Democrat,,3,3 °C
+IP Address,100,42,True,anonymous,EN,62,(5),(5),Somewhat disagree,18–24,Democrat,,1.5,1.5 °C
+IP Address,100,156,True,anonymous,EN,80,(6),(6),Somewhat disagree,65+,Independent,Closer to Democratic,6,6 °C
+IP Address,100,50,True,anonymous,EN,88,(6),(5),Somewhat disagree,35–44,Independent,Neither,3.5,3.5 °C
+IP Address,100,61,True,anonymous,EN,50,(5),(4),Somewhat disagree,35–44,Independent,Neither,5,5 °C
+IP Address,100,226,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,65+,Republican,,6,6 °C
+IP Address,100,54,True,anonymous,EN,60,(5),(3),Somewhat disagree,35–44,Democrat,,4,4 °C
+IP Address,100,60,True,anonymous,EN,52,(6),(3),Somewhat disagree,45–54,Republican,,2,2 °C
+IP Address,100,70,True,anonymous,EN,75,(6),Not at all (1),Somewhat disagree,65+,Independent,Closer to Democratic,3.5,3.5 °C
+IP Address,100,196,True,anonymous,EN,99,(6),(5),Somewhat disagree,55–64,Independent,Closer to Democratic,2.5,2.5 °C
+IP Address,100,150,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,65+,Republican,,4.5,4.5 °C
+IP Address,100,129,True,anonymous,EN,60,(6),(4),Somewhat disagree,45–54,Democrat,,1.5,1.5 °C
+IP Address,100,125,True,anonymous,EN,65,(5),(4),Somewhat disagree,25–34,Independent,Closer to Democratic,2.5,2.5 °C
+IP Address,100,127,True,anonymous,EN,90,(6),(6),Somewhat disagree,35–44,Democrat,,5.5,5.5 °C
+IP Address,100,49,True,anonymous,EN,92,A great deal (7),(6),Somewhat disagree,45–54,Democrat,,5,5 °C
+IP Address,100,37,True,anonymous,EN,83,(5),(5),Somewhat disagree,35–44,Democrat,,4,4 °C
+IP Address,100,78,True,anonymous,EN,67,(5),(4),Somewhat disagree,55–64,Republican,,6,6 °C
+IP Address,100,38,True,anonymous,EN,70,(5),(4),Somewhat disagree,25–34,Democrat,,3,3 °C
+IP Address,100,45,True,anonymous,EN,59,(5),(4),Somewhat disagree,45–54,Independent,Closer to Democratic,6,6 °C
+IP Address,100,64,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,55–64,Republican,,1.5,1.5 °C
+IP Address,100,68,True,anonymous,EN,100,(5),(5),Somewhat disagree,25–34,Democrat,,2.5,2.5 °C
+IP Address,100,133,True,anonymous,EN,90,(6),(6),Somewhat disagree,65+,Democrat,,4.5,4.5 °C
+IP Address,100,66,True,anonymous,EN,75,(5),(5),Somewhat disagree,65+,Democrat,,3,3 °C
+IP Address,100,80,True,anonymous,EN,84,A great deal (7),(6),Somewhat disagree,45–54,Democrat,,2.5,2.5 °C
+IP Address,100,225,True,anonymous,EN,90,(6),A great deal  (7),Somewhat disagree,18–24,Democrat,,5,5 °C
+IP Address,100,72,True,anonymous,EN,70,(5),(3),Somewhat disagree,55–64,Democrat,,5.5,5.5 °C
+IP Address,100,80,True,anonymous,EN,31,(4),(2),Somewhat disagree,55–64,Independent,Neither,2,2 °C
+IP Address,100,87,True,anonymous,EN,75,(5),(5),Somewhat disagree,18–24,Democrat,,3,3 °C
+IP Address,100,95,True,anonymous,EN,2,Not at all (1),Not at all (1),Somewhat disagree,55–64,Republican,,3,3 °C
+IP Address,100,61,True,anonymous,EN,68,(6),(6),Somewhat disagree,25–34,Republican,,6,6 °C
+IP Address,100,96,True,anonymous,EN,90,(6),(6),Somewhat disagree,55–64,Democrat,,4,4 °C
+IP Address,100,28,True,anonymous,EN,88,(6),(6),Somewhat disagree,18–24,Democrat,,2,2 °C
+IP Address,100,111,True,anonymous,EN,95,(6),(4),Somewhat disagree,35–44,Independent,Closer to Democratic,5.5,5.5 °C
+IP Address,100,75,True,anonymous,EN,75,(6),(4),Somewhat disagree,65+,Democrat,,4,4 °C
+IP Address,100,54,True,anonymous,EN,70,(5),(5),Somewhat disagree,35–44,Independent,Closer to Republican,1.5,1.5 °C
+IP Address,100,62,True,anonymous,EN,60,(6),(6),Somewhat disagree,45–54,Independent,Closer to Democratic,1.5,1.5 °C
+IP Address,100,245,True,anonymous,EN,95,(5),(5),Somewhat disagree,55–64,Democrat,,6,6 °C
+IP Address,100,46,True,anonymous,EN,79,(3),(2),Somewhat disagree,25–34,Independent,Neither,4.5,4.5 °C
+IP Address,100,187,True,anonymous,EN,30,A great deal (7),Not at all (1),Somewhat disagree,25–34,Democrat,,5.5,5.5 °C
+IP Address,100,45,True,anonymous,EN,16,(3),(3),Somewhat disagree,18–24,Independent,Neither,4,4 °C
+IP Address,100,92,True,anonymous,EN,80,(5),(5),Somewhat disagree,65+,Democrat,,5,5 °C
+IP Address,100,65,True,anonymous,EN,63,(5),(4),Somewhat disagree,25–34,Independent,Neither,1.5,1.5 °C
+IP Address,100,26,True,anonymous,EN,81,A great deal (7),(5),Somewhat disagree,25–34,Democrat,,6,6 °C
+IP Address,100,110,True,anonymous,EN,76,(5),(5),Somewhat disagree,25–34,Independent,Closer to Democratic,1.5,1.5 °C
+IP Address,100,128,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,45–54,Independent,Neither,2.5,2.5 °C
+IP Address,100,48,True,anonymous,EN,100,(5),(5),Somewhat disagree,18–24,Independent,Closer to Democratic,4.5,4.5 °C
+IP Address,100,128,True,anonymous,EN,85,(6),(6),Somewhat disagree,35–44,Democrat,,1.5,1.5 °C
+IP Address,100,45,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,35–44,Independent,Closer to Democratic,6,6 °C
+IP Address,100,121,True,anonymous,EN,63,(5),(5),Somewhat disagree,35–44,Independent,Neither,4,4 °C
+IP Address,100,80,True,anonymous,EN,90,(6),(6),Somewhat disagree,45–54,Republican,,6,6 °C
+IP Address,100,55,True,anonymous,EN,5,A great deal (7),A great deal  (7),Somewhat disagree,45–54,Independent,Closer to Republican,6,6 °C
+IP Address,100,85,True,anonymous,EN,80,A great deal (7),A great deal  (7),Somewhat disagree,55–64,Independent,Closer to Democratic,5,5 °C
+IP Address,100,128,True,anonymous,EN,79,(6),(5),Somewhat disagree,55–64,Republican,,5.5,5.5 °C
+IP Address,100,79,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,55–64,Independent,Closer to Democratic,4.5,4.5 °C
+IP Address,100,58,True,anonymous,EN,90,(6),(6),Somewhat disagree,55–64,Republican,,6,6 °C
+IP Address,100,93,True,anonymous,EN,40,(4),(5),Somewhat disagree,55–64,Independent,Closer to Democratic,4,4 °C
+IP Address,100,438,True,anonymous,EN,90,(6),(5),Somewhat disagree,55–64,Democrat,,5,5 °C
+IP Address,100,72,True,anonymous,EN,42,(4),(4),Somewhat disagree,18–24,Republican,,5,5 °C
+IP Address,100,40,True,anonymous,EN,20,A great deal (7),(2),Somewhat disagree,18–24,Independent,Closer to Democratic,2.5,2.5 °C
+IP Address,100,104,True,anonymous,EN,64,A great deal (7),(5),Somewhat disagree,55–64,Independent,Closer to Democratic,3.5,3.5 °C
+IP Address,100,74,True,anonymous,EN,10,Not at all (1),Not at all (1),Somewhat disagree,55–64,Independent,Closer to Republican,3.5,3.5 °C
+IP Address,100,185,True,anonymous,EN,51,(4),(3),Somewhat disagree,45–54,Democrat,,3,3 °C
+IP Address,100,124,True,anonymous,EN,80,(6),(5),Somewhat disagree,65+,Independent,Closer to Democratic,2,2 °C
+IP Address,100,84,True,anonymous,EN,48,(5),(3),Somewhat disagree,55–64,Republican,,4,4 °C
+IP Address,100,117,True,anonymous,EN,20,(3),(2),Somewhat disagree,45–54,Independent,Closer to Republican,2,2 °C
+IP Address,100,55,True,anonymous,EN,80,(5),(3),Somewhat disagree,18–24,Democrat,,3.5,3.5 °C
+IP Address,100,80,True,anonymous,EN,52,(3),(3),Somewhat disagree,45–54,Independent,Closer to Republican,2,2 °C
+IP Address,100,30,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,18–24,Democrat,,4,4 °C
+IP Address,100,49,True,anonymous,EN,50,(2),(2),Somewhat disagree,18–24,Republican,,2,2 °C
+IP Address,100,74,True,anonymous,EN,12,(2),Not at all (1),Somewhat disagree,65+,Independent,Closer to Republican,3.5,3.5 °C
+IP Address,100,78,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,55–64,Democrat,,3.5,3.5 °C
+IP Address,100,50,True,anonymous,EN,81,(6),(6),Somewhat disagree,25–34,Independent,Closer to Republican,2,2 °C
+IP Address,100,84,True,anonymous,EN,84,(6),(4),Somewhat disagree,35–44,Independent,Neither,4.5,4.5 °C
+IP Address,100,95,True,anonymous,EN,81,A great deal (7),(6),Somewhat disagree,18–24,Republican,,3,3 °C
+IP Address,100,113,True,anonymous,EN,79,(5),(6),Somewhat disagree,25–34,Republican,,5,5 °C
+IP Address,100,138,True,anonymous,EN,1,(2),Not at all (1),Somewhat disagree,65+,Independent,Closer to Republican,2,2 °C
+IP Address,100,63,True,anonymous,EN,39,(4),(3),Somewhat disagree,25–34,Independent,Closer to Democratic,3,3 °C
+IP Address,100,26,True,anonymous,EN,30,(3),(3),Somewhat disagree,45–54,Republican,,6,6 °C
+IP Address,100,118,True,anonymous,EN,55,(5),(6),Somewhat disagree,55–64,Republican,,3,3 °C
+IP Address,100,54,True,anonymous,EN,50,(5),(4),Somewhat disagree,55–64,Independent,Closer to Democratic,3.5,3.5 °C
+IP Address,100,55,True,anonymous,EN,45,(3),Not at all (1),Somewhat disagree,25–34,Republican,,5.5,5.5 °C
+IP Address,100,54,True,anonymous,EN,71,(5),Not at all (1),Somewhat disagree,55–64,Democrat,,3,3 °C
+IP Address,100,71,True,anonymous,EN,100,(6),(6),Somewhat disagree,45–54,Democrat,,5.5,5.5 °C
+IP Address,100,308,True,anonymous,EN,95,(6),(6),Somewhat disagree,65+,Democrat,,2,2 °C
+IP Address,100,86,True,anonymous,EN,100,A great deal (7),(5),Somewhat disagree,55–64,Democrat,,4.5,4.5 °C
+IP Address,100,51,True,anonymous,EN,81,A great deal (7),A great deal  (7),Somewhat disagree,45–54,Democrat,,6,6 °C
+IP Address,100,71,True,anonymous,EN,85,(5),(6),Somewhat disagree,25–34,Independent,Neither,5.5,5.5 °C
+IP Address,100,87,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,65+,Independent,Closer to Democratic,2,2 °C
+IP Address,100,117,True,anonymous,EN,5,(2),Not at all (1),Somewhat disagree,35–44,Republican,,4.5,4.5 °C
+IP Address,100,78,True,anonymous,EN,92,(5),(4),Somewhat disagree,45–54,Democrat,,5.5,5.5 °C
+IP Address,100,59,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,25–34,Independent,Neither,2,2 °C
+IP Address,100,47,True,anonymous,EN,90,(5),(4),Somewhat disagree,25–34,Democrat,,3.5,3.5 °C
+IP Address,100,70,True,anonymous,EN,83,A great deal (7),A great deal  (7),Somewhat disagree,55–64,Republican,,4.5,4.5 °C
+IP Address,100,54,True,anonymous,EN,41,(3),(2),Somewhat disagree,25–34,Democrat,,1.5,1.5 °C
+IP Address,100,138,True,anonymous,EN,68,(4),(4),Somewhat disagree,45–54,Independent,Closer to Republican,2,2 °C
+IP Address,100,186,True,anonymous,EN,58,(5),(4),Somewhat disagree,35–44,Democrat,,2,2 °C
+IP Address,100,44,True,anonymous,EN,95,A great deal (7),A great deal  (7),Somewhat disagree,35–44,Democrat,,2,2 °C
+IP Address,100,163,True,anonymous,EN,77,(6),(6),Somewhat disagree,45–54,Independent,Neither,3,3 °C
+IP Address,100,122,True,anonymous,EN,77,(5),(3),Somewhat disagree,65+,Independent,Closer to Democratic,3,3 °C
+IP Address,100,103,True,anonymous,EN,98,(6),(6),Somewhat disagree,45–54,Democrat,,4.5,4.5 °C
+IP Address,100,46,True,anonymous,EN,85,A great deal (7),(5),Somewhat disagree,18–24,Democrat,,5.5,5.5 °C
+IP Address,100,45,True,anonymous,EN,70,(5),(5),Somewhat disagree,18–24,Democrat,,4.5,4.5 °C
+IP Address,100,253,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,65+,Independent,Closer to Democratic,3.5,3.5 °C
+IP Address,100,176,True,anonymous,EN,70,(5),(5),Strongly disagree,35–44,Independent,Neither,3,3 °C
+IP Address,100,53,True,anonymous,EN,81,(6),A great deal  (7),Somewhat disagree,25–34,Independent,Neither,1.5,1.5 °C
+IP Address,100,91,True,anonymous,EN,60,(4),(2),Somewhat disagree,55–64,Independent,Closer to Republican,1.5,1.5 °C
+IP Address,100,79,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,55–64,Democrat,,3.5,3.5 °C
+IP Address,100,40,True,anonymous,EN,81,(6),(2),Somewhat disagree,18–24,Independent,Closer to Democratic,5.5,5.5 °C
+IP Address,100,95,True,anonymous,EN,50,(4),(4),Somewhat disagree,55–64,Independent,Closer to Republican,1.5,1.5 °C
+IP Address,100,97,True,anonymous,EN,50,(5),(5),Somewhat disagree,45–54,Independent,Closer to Republican,5.5,5.5 °C
+IP Address,100,37,True,anonymous,EN,54,(3),(2),Somewhat disagree,35–44,Independent,Closer to Republican,4.5,4.5 °C
+IP Address,100,76,True,anonymous,EN,1,Not at all (1),Not at all (1),Somewhat disagree,65+,Republican,,5,5 °C
+IP Address,100,65,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,25–34,Republican,,5.5,5.5 °C
+IP Address,100,87,True,anonymous,EN,20,(2),(2),Somewhat disagree,25–34,Independent,Closer to Republican,1.5,1.5 °C
+IP Address,100,92,True,anonymous,EN,20,(3),(3),Somewhat disagree,45–54,Republican,,5,5 °C
+IP Address,100,116,True,anonymous,EN,3,(6),(6),Somewhat disagree,45–54,Independent,Neither,5,5 °C
+IP Address,100,187,True,anonymous,EN,65,(5),(5),Somewhat disagree,55–64,Republican,,6,6 °C
+IP Address,100,58,True,anonymous,EN,85,(5),(5),Somewhat disagree,25–34,Independent,Closer to Republican,2,2 °C
+IP Address,100,72,True,anonymous,EN,15,(4),(3),Somewhat disagree,45–54,Republican,,4.5,4.5 °C
+IP Address,100,114,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,25–34,Republican,,2.5,2.5 °C
+IP Address,100,181,True,anonymous,EN,90,(6),(6),Somewhat disagree,65+,Democrat,,3.5,3.5 °C
+IP Address,100,108,True,anonymous,EN,25,(3),(2),Somewhat disagree,45–54,Independent,Closer to Republican,4.5,4.5 °C
+IP Address,100,29,True,anonymous,EN,81,(5),(6),Somewhat disagree,18–24,Independent,Closer to Democratic,5.5,5.5 °C
+IP Address,100,114,True,anonymous,EN,73,(5),(6),Somewhat disagree,55–64,Republican,,4,4 °C
+IP Address,100,47,True,anonymous,EN,91,(6),(6),Somewhat disagree,18–24,Independent,Closer to Republican,2,2 °C
+IP Address,100,75,True,anonymous,EN,35,(5),(3),Somewhat disagree,25–34,Other party,Neither,2.5,2.5 °C
+IP Address,100,138,True,anonymous,EN,25,(3),(3),Somewhat disagree,35–44,Independent,Neither,3.5,3.5 °C
+IP Address,100,80,True,anonymous,EN,59,(4),(4),Somewhat disagree,65+,Republican,,5,5 °C
+IP Address,100,86,True,anonymous,EN,70,(5),(5),Somewhat disagree,55–64,Independent,Closer to Republican,3.5,3.5 °C
+IP Address,100,69,True,anonymous,EN,29,(5),(4),Somewhat disagree,18–24,Independent,Closer to Republican,3.5,3.5 °C
+IP Address,100,83,True,anonymous,EN,62,(5),(4),Somewhat disagree,25–34,Independent,Closer to Democratic,3.5,3.5 °C
+IP Address,100,252,True,anonymous,EN,80,(6),Not at all (1),Somewhat disagree,65+,Democrat,,3.5,3.5 °C
+IP Address,100,47,True,anonymous,EN,97,(6),(6),Somewhat disagree,18–24,Democrat,,3,3 °C
+IP Address,100,338,True,anonymous,EN,60,(5),(6),Somewhat disagree,55–64,Democrat,,3,3 °C
+IP Address,100,190,True,anonymous,EN,55,(5),(5),Somewhat disagree,35–44,No preference,Neither,5.5,5.5 °C
+IP Address,100,114,True,anonymous,EN,62,(6),(6),Somewhat disagree,35–44,Democrat,,2.5,2.5 °C
+IP Address,100,39,True,anonymous,EN,90,(5),(4),Somewhat disagree,55–64,Independent,Closer to Democratic,2,2 °C
+IP Address,100,76,True,anonymous,EN,87,(6),(5),Somewhat disagree,25–34,Independent,Closer to Democratic,5.5,5.5 °C
+IP Address,100,127,True,anonymous,EN,75,(2),(2),Somewhat disagree,55–64,Republican,,2.5,2.5 °C
+IP Address,100,73,True,anonymous,EN,60,(4),(4),Somewhat disagree,55–64,Republican,,3.5,3.5 °C
+IP Address,100,114,True,anonymous,EN,30,(3),(2),Somewhat disagree,55–64,Independent,Closer to Democratic,1.5,1.5 °C
+IP Address,100,95,True,anonymous,EN,82,(5),(5),Somewhat disagree,45–54,Independent,Neither,4,4 °C
+IP Address,100,136,True,anonymous,EN,70,(3),(3),Somewhat disagree,25–34,Independent,Closer to Republican,5.5,5.5 °C
+IP Address,100,70,True,anonymous,EN,33,(5),(4),Somewhat disagree,45–54,Republican,,3,3 °C
+IP Address,100,155,True,anonymous,EN,80,(6),(6),Somewhat disagree,45–54,Independent,Neither,5.5,5.5 °C
+IP Address,100,97,True,anonymous,EN,52,(5),(6),Somewhat disagree,55–64,Independent,Closer to Democratic,3.5,3.5 °C
+IP Address,100,96,True,anonymous,EN,50,(4),(4),Somewhat disagree,45–54,Republican,,5.5,5.5 °C
+IP Address,100,57,True,anonymous,EN,45,(4),(3),Somewhat disagree,25–34,Independent,Closer to Democratic,1.5,1.5 °C
+IP Address,100,109,True,anonymous,EN,23,(5),(3),Somewhat disagree,65+,Republican,,4.5,4.5 °C
+IP Address,100,168,True,anonymous,EN,82,(6),(6),Somewhat disagree,35–44,Democrat,,1.5,1.5 °C
+IP Address,100,97,True,anonymous,EN,61,(4),(4),Somewhat disagree,35–44,Independent,Neither,5,5 °C
+IP Address,100,81,True,anonymous,EN,95,(6),(2),Somewhat disagree,65+,Independent,Closer to Democratic,4.5,4.5 °C
+IP Address,100,108,True,anonymous,EN,80,A great deal (7),A great deal  (7),Somewhat disagree,45–54,Independent,Neither,3.5,3.5 °C
+IP Address,100,44,True,anonymous,EN,64,(4),(3),Somewhat disagree,25–34,Independent,Neither,4.5,4.5 °C
+IP Address,100,104,True,anonymous,EN,80,(6),(5),Somewhat disagree,45–54,Democrat,,3.5,3.5 °C
+IP Address,100,58,True,anonymous,EN,95,(6),(6),Somewhat disagree,25–34,Democrat,,5,5 °C
+IP Address,100,160,True,anonymous,EN,40,(4),(4),Somewhat disagree,25–34,Independent,Neither,2.5,2.5 °C
+IP Address,100,128,True,anonymous,EN,62,(4),(5),Somewhat disagree,55–64,Democrat,,2,2 °C
+IP Address,100,79,True,anonymous,EN,71,(6),(5),Somewhat disagree,35–44,Republican,,5,5 °C
+IP Address,100,43,True,anonymous,EN,10,(4),(4),Neither agree nor disagree,25–34,Independent,Neither,2.5,2.5 °C
+IP Address,100,118,True,anonymous,EN,10,Not at all (1),Not at all (1),Somewhat disagree,55–64,Independent,Closer to Republican,1.5,1.5 °C
+IP Address,100,59,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,45–54,Republican,,2,2 °C
+IP Address,100,95,True,anonymous,EN,48,(3),(3),Somewhat disagree,35–44,Independent,Neither,2,2 °C
+IP Address,100,101,True,anonymous,EN,0,(2),(2),Somewhat disagree,35–44,Independent,Neither,2,2 °C
+IP Address,100,63,True,anonymous,EN,63,(6),(5),Somewhat disagree,25–34,Republican,,5.5,5.5 °C
+IP Address,100,178,True,anonymous,EN,25,(2),Not at all (1),Somewhat disagree,55–64,Republican,,2,2 °C
+IP Address,100,131,True,anonymous,EN,80,(5),(5),Somewhat disagree,25–34,Republican,,1.5,1.5 °C
+IP Address,100,91,True,anonymous,EN,57,(6),(4),Somewhat disagree,65+,Republican,,3.5,3.5 °C
+IP Address,100,164,True,anonymous,EN,100,A great deal (7),(6),Somewhat disagree,65+,Independent,Neither,5,5 °C
+IP Address,100,81,True,anonymous,EN,80,(6),(5),Somewhat disagree,55–64,Democrat,,5,5 °C
+IP Address,100,148,True,anonymous,EN,60,A great deal (7),(5),Somewhat disagree,25–34,Independent,Neither,4,4 °C
+IP Address,100,42,True,anonymous,EN,22,(2),(3),Somewhat disagree,25–34,Independent,Closer to Democratic,3.5,3.5 °C
+IP Address,100,63,True,anonymous,EN,70,(6),A great deal  (7),Somewhat disagree,18–24,Independent,Closer to Republican,3,3 °C
+IP Address,100,75,True,anonymous,EN,100,A great deal (7),Not at all (1),Somewhat disagree,18–24,Independent,Closer to Republican,3.5,3.5 °C
+IP Address,100,153,True,anonymous,EN,100,A great deal (7),(3),Somewhat disagree,65+,Republican,,5.5,5.5 °C
+IP Address,100,78,True,anonymous,EN,71,(5),(5),Somewhat disagree,55–64,Democrat,,2.5,2.5 °C
+IP Address,100,57,True,anonymous,EN,95,(6),(6),Somewhat disagree,18–24,Democrat,,4,4 °C
+IP Address,100,58,True,anonymous,EN,83,(6),(6),Somewhat disagree,65+,Democrat,,4.5,4.5 °C
+IP Address,100,53,True,anonymous,EN,100,(5),(4),Somewhat disagree,55–64,Independent,Closer to Democratic,6,6 °C
+IP Address,100,340,True,anonymous,EN,70,(5),(5),Somewhat disagree,18–24,Democrat,,2,2 °C
+IP Address,100,62,True,anonymous,EN,46,(4),(4),Somewhat disagree,18–24,Independent,Neither,2,2 °C
+IP Address,100,98,True,anonymous,EN,14,(5),(5),Somewhat disagree,65+,Republican,,5,5 °C
+IP Address,100,66,True,anonymous,EN,100,A great deal (7),Not at all (1),Somewhat disagree,65+,Independent,Neither,2,2 °C
+IP Address,100,66,True,anonymous,EN,100,(6),(6),Somewhat disagree,25–34,Independent,Closer to Democratic,2.5,2.5 °C
+IP Address,100,211,True,anonymous,EN,50,(5),(4),Somewhat disagree,65+,Republican,,5.5,5.5 °C
+IP Address,100,79,True,anonymous,EN,80,(6),Not at all (1),Somewhat disagree,65+,Republican,,5.5,5.5 °C
+IP Address,100,58,True,anonymous,EN,78,(5),(2),Somewhat disagree,55–64,Independent,Neither,2.5,2.5 °C
+IP Address,100,73,True,anonymous,EN,70,(6),(6),Somewhat disagree,55–64,Democrat,,5.5,5.5 °C
+IP Address,100,125,True,anonymous,EN,60,(5),(5),Somewhat disagree,65+,Independent,Closer to Democratic,1.5,1.5 °C
+IP Address,100,45,True,anonymous,EN,70,(5),(4),Somewhat disagree,65+,Republican,,4,4 °C
+IP Address,100,112,True,anonymous,EN,99,A great deal (7),(6),Somewhat disagree,55–64,Independent,Neither,3,3 °C
+IP Address,100,108,True,anonymous,EN,59,(3),(3),Somewhat agree,55–64,Republican,,6,6 °C
+IP Address,100,76,True,anonymous,EN,51,(4),(2),Somewhat disagree,55–64,Independent,Neither,2.5,2.5 °C
+IP Address,100,119,True,anonymous,EN,72,(5),(4),Somewhat disagree,65+,Republican,,6,6 °C
+IP Address,100,91,True,anonymous,EN,70,(5),(6),Somewhat disagree,55–64,Independent,Neither,2,2 °C
+IP Address,100,97,True,anonymous,EN,9,(2),Not at all (1),Somewhat disagree,65+,Independent,Neither,4.5,4.5 °C
+IP Address,100,77,True,anonymous,EN,99,A great deal (7),A great deal  (7),Somewhat disagree,55–64,Republican,,5,5 °C
+IP Address,100,210,True,anonymous,EN,93,A great deal (7),A great deal  (7),Somewhat disagree,55–64,Independent,Closer to Democratic,4.5,4.5 °C
+IP Address,100,82,True,anonymous,EN,70,(5),(4),Somewhat disagree,55–64,Republican,,4.5,4.5 °C
+IP Address,100,32,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,55–64,Republican,,4,4 °C
+IP Address,100,162,True,anonymous,EN,18,(2),Not at all (1),Somewhat disagree,65+,Republican,,4,4 °C
+IP Address,100,63,True,anonymous,EN,71,(4),(2),Somewhat disagree,55–64,Democrat,,5,5 °C
+IP Address,100,114,True,anonymous,EN,68,(5),(3),Somewhat disagree,55–64,Independent,Neither,4,4 °C
+IP Address,100,69,True,anonymous,EN,95,(6),(4),Somewhat disagree,55–64,Independent,Closer to Democratic,1.5,1.5 °C
+IP Address,100,138,True,anonymous,EN,23,(2),(2),Somewhat disagree,55–64,Republican,,3,3 °C
+IP Address,100,118,True,anonymous,EN,62,(4),(3),Somewhat disagree,55–64,Republican,,3,3 °C
+IP Address,100,88,True,anonymous,EN,66,(5),(4),Somewhat disagree,55–64,Independent,Neither,5.5,5.5 °C
+IP Address,100,101,True,anonymous,EN,94,A great deal (7),A great deal  (7),Somewhat disagree,65+,Independent,Closer to Republican,3,3 °C
+IP Address,100,254,True,anonymous,EN,51,(5),(3),Somewhat disagree,55–64,Republican,,4,4 °C
+IP Address,100,95,True,anonymous,EN,1,Not at all (1),Not at all (1),Somewhat disagree,65+,Independent,Neither,3.5,3.5 °C
+IP Address,100,64,True,anonymous,EN,52,(5),(5),Somewhat disagree,55–64,Republican,,3,3 °C
+IP Address,100,111,True,anonymous,EN,16,(6),(6),Somewhat disagree,55–64,Democrat,,3.5,3.5 °C
+IP Address,100,124,True,anonymous,EN,61,(6),(3),Somewhat disagree,55–64,Independent,Neither,5,5 °C
+IP Address,100,60,True,anonymous,EN,8,(2),Not at all (1),Somewhat disagree,55–64,Independent,Closer to Republican,3.5,3.5 °C
+IP Address,100,247,True,anonymous,EN,81,(5),(6),Somewhat disagree,65+,Republican,,4,4 °C
+IP Address,100,92,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,65+,Republican,,6,6 °C
+IP Address,100,42,True,anonymous,EN,9,(2),(2),Somewhat disagree,65+,Republican,,3,3 °C
+IP Address,100,137,True,anonymous,EN,81,A great deal (7),A great deal  (7),Somewhat disagree,65+,Democrat,,5,5 °C
+IP Address,100,142,True,anonymous,EN,85,(6),Not at all (1),Somewhat disagree,65+,Other party,Closer to Democratic,2.5,2.5 °C
+IP Address,100,103,True,anonymous,EN,95,(6),(5),Somewhat disagree,55–64,Democrat,,5.5,5.5 °C
+IP Address,100,71,True,anonymous,EN,90,(6),(5),Somewhat disagree,55–64,Independent,Closer to Democratic,4,4 °C
+IP Address,100,62,True,anonymous,EN,81,(5),(4),Somewhat disagree,65+,Democrat,,1.5,1.5 °C
+IP Address,100,56,True,anonymous,EN,80,(6),(6),Somewhat disagree,18–24,No preference,Closer to Republican,6,6 °C
+IP Address,100,56,True,anonymous,EN,91,A great deal (7),(5),Somewhat disagree,55–64,Democrat,,5.5,5.5 °C
+IP Address,100,69,True,anonymous,EN,91,(6),(2),Somewhat disagree,65+,Democrat,,2.5,2.5 °C
+IP Address,100,89,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat disagree,65+,Democrat,,3.5,3.5 °C
+IP Address,100,53,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,65+,Independent,Neither,1.5,1.5 °C
+IP Address,100,121,True,anonymous,EN,100,(6),(4),Somewhat disagree,55–64,Democrat,,1.5,1.5 °C
+IP Address,100,62,True,anonymous,EN,32,(3),(3),Somewhat disagree,55–64,Republican,,5.5,5.5 °C
+IP Address,100,58,True,anonymous,EN,23,(3),(2),Somewhat disagree,55–64,Independent,Neither,6,6 °C
+IP Address,100,87,True,anonymous,EN,80,A great deal (7),(5),Somewhat disagree,65+,Democrat,,4,4 °C
+IP Address,100,87,True,anonymous,EN,45,(3),Not at all (1),Somewhat disagree,65+,Republican,,4.5,4.5 °C
+IP Address,100,64,True,anonymous,EN,13,(4),(2),Somewhat disagree,65+,Republican,,2,2 °C
+IP Address,100,51,True,anonymous,EN,35,(4),(2),Somewhat disagree,45–54,Republican,,3,3 °C
+IP Address,100,68,True,anonymous,EN,66,(5),(4),Somewhat disagree,65+,Democrat,,3,3 °C
+IP Address,100,62,True,anonymous,EN,40,(4),(4),Somewhat disagree,55–64,Republican,,4,4 °C
+IP Address,100,455,True,anonymous,EN,50,(4),(4),Somewhat disagree,55–64,Independent,Neither,3,3 °C
+IP Address,100,99,True,anonymous,EN,10,(2),(2),Somewhat disagree,55–64,Republican,,5,5 °C
+IP Address,100,66,True,anonymous,EN,11,(2),(2),Somewhat disagree,55–64,Independent,Neither,4.5,4.5 °C
+IP Address,100,68,True,anonymous,EN,2,Not at all (1),Not at all (1),Somewhat disagree,65+,Republican,,4.5,4.5 °C
+IP Address,100,66,True,anonymous,EN,80,(5),(5),Somewhat disagree,55–64,Independent,Closer to Democratic,3.5,3.5 °C
+IP Address,100,78,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,55–64,Republican,,3.5,3.5 °C
+IP Address,100,71,True,anonymous,EN,70,(5),(5),Somewhat disagree,55–64,Republican,,1.5,1.5 °C
+IP Address,100,53,True,anonymous,EN,2,(2),Not at all (1),Somewhat disagree,65+,Republican,,2.5,2.5 °C
+IP Address,100,198,True,anonymous,EN,82,(6),(6),Somewhat disagree,55–64,Republican,,2,2 °C
+IP Address,100,69,True,anonymous,EN,1,(2),Not at all (1),Somewhat disagree,55–64,Republican,,5,5 °C
+IP Address,100,89,True,anonymous,EN,25,(4),(3),Somewhat disagree,65+,Republican,,5.5,5.5 °C
+IP Address,100,79,True,anonymous,EN,2,Not at all (1),Not at all (1),Somewhat disagree,65+,Republican,,6,6 °C
+IP Address,100,49,True,anonymous,EN,60,(5),(4),Somewhat disagree,65+,Republican,,6,6 °C
+IP Address,100,81,True,anonymous,EN,78,(6),(5),Somewhat disagree,18–24,Independent,Closer to Democratic,1.5,1.5 °C
+IP Address,100,52,True,anonymous,EN,80,(5),(5),Somewhat disagree,18–24,Republican,,1.5,1.5 °C
+IP Address,100,49,True,anonymous,EN,40,(5),(5),Somewhat disagree,18–24,Democrat,,3.5,3.5 °C
+IP Address,100,48,True,anonymous,EN,94,A great deal (7),A great deal  (7),Somewhat disagree,18–24,Independent,Neither,4,4 °C
+IP Address,100,182,True,anonymous,EN,86,(4),(4),Somewhat disagree,18–24,Independent,Closer to Republican,2.5,2.5 °C
+IP Address,100,79,True,anonymous,EN,100,A great deal (7),A great deal  (7),Somewhat agree,18–24,Independent,Closer to Democratic,4,4 °C
+IP Address,100,63,True,anonymous,EN,95,A great deal (7),(6),Somewhat disagree,18–24,Independent,Closer to Democratic,6,6 °C
+IP Address,100,108,True,anonymous,EN,30,(4),(3),Somewhat disagree,18–24,Independent,Closer to Republican,4,4 °C
+IP Address,100,39,True,anonymous,EN,59,(5),(5),Somewhat disagree,18–24,Independent,Closer to Democratic,4,4 °C
+IP Address,100,45,True,anonymous,EN,80,(6),(5),Somewhat disagree,18–24,Independent,Neither,2.5,2.5 °C
+IP Address,100,49,True,anonymous,EN,59,(5),(5),Somewhat disagree,18–24,Independent,Closer to Democratic,5.5,5.5 °C
+IP Address,100,46,True,anonymous,EN,100,(6),(5),Somewhat disagree,18–24,Other party,Closer to Democratic,1.5,1.5 °C
+IP Address,100,36,True,anonymous,EN,0,Not at all (1),Not at all (1),Somewhat disagree,18–24,Independent,Closer to Republican,4.5,4.5 °C
+IP Address,100,47,True,anonymous,EN,80,(6),(6),Somewhat disagree,18–24,Independent,Closer to Democratic,1.5,1.5 °C
+IP Address,100,31,True,anonymous,EN,100,(6),(6),Somewhat disagree,18–24,Independent,Closer to Democratic,5,5 °C
+IP Address,100,182,True,anonymous,EN,60,(6),A great deal  (7),Somewhat disagree,18–24,No preference,Neither,6,6 °C

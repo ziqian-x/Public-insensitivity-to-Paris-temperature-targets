@@ -1,0 +1,669 @@
+---
+title: "Main Paper and Supplementary Information Replication"
+author: "Ziqian Xia"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+fontsize: 11pt
+geometry: margin=1in
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, fig.align = "center")
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(broom)
+library(rstatix)
+library(patchwork)
+library(knitr)
+library(stargazer)
+```
+
+## 1) Data Preparation
+
+```{r}
+path_v1 <- file.path("data", "validation1", "validation1.csv")
+path_p1 <- file.path("data", "pilot1", "pilot1_full500data.csv")
+path_p2 <- file.path("data", "pilot2", "pilot2_wave2.csv")
+
+clean_validation1 <- function(path) {
+  v1_raw <- read_csv(path, show_col_types = FALSE) |> slice(-c(1, 2))
+  v1_clean <- v1_raw |>
+    filter(Finished == "TRUE", QID2 == "I agree", QID6 == "Somewhat disagree") |>
+    mutate(`Duration (in seconds)` = as.numeric(`Duration (in seconds)`))
+
+  speed_threshold <- median(v1_clean$`Duration (in seconds)`, na.rm = TRUE) / 3
+
+  v1 <- v1_clean |>
+    filter(`Duration (in seconds)` >= speed_threshold) |>
+    mutate(
+      across(c(QID5_1, Q17_1, Q18_1, temp_c), as.numeric),
+      worry_item = QID5_1,
+      worry_index = (QID5_1 + Q17_1 + Q18_1) / 3,
+      temp_numeric_c = temp_c,
+      temp_centered_c = temp_c - mean(temp_c, na.rm = TRUE),
+      temp_condition = factor(temp_c),
+      unit_condition = factor(unit, levels = c("C", "F"))
+    ) |>
+    select(worry_item, worry_index, temp_numeric_c, temp_centered_c, temp_condition, unit_condition,
+           partyid, leaning, QID5_1, Q17_1, Q18_1) |>
+    tidyr::drop_na(worry_item, worry_index, temp_numeric_c, temp_condition, unit_condition, QID5_1, Q17_1, Q18_1, partyid)
+
+  list(v1 = v1, speed_threshold = speed_threshold)
+}
+
+clean_pilot1 <- function(path) {
+  p1_raw <- read_csv(path, show_col_types = FALSE) |> slice(-c(1, 2))
+  p1_raw |>
+    filter(Finished == "TRUE", QID6 == "Somewhat disagree") |>
+    transmute(
+      worry = abs(parse_number(QID5)),
+      temp_numeric = as.numeric(temp_c),
+      temp_condition = factor(temp_c)
+    ) |>
+    tidyr::drop_na()
+}
+
+clean_pilot2 <- function(path) {
+  p2_raw <- read_csv(path, show_col_types = FALSE) |> slice(-c(1, 2))
+  p2_raw |>
+    filter(Finished %in% c("TRUE", "True"), QID6 == "Somewhat disagree") |>
+    transmute(
+      worry = as.numeric(QID5_1),
+      temp_numeric = as.numeric(temp_c),
+      temp_condition = factor(temp_c)
+    ) |>
+    tidyr::drop_na()
+}
+
+v1_obj <- clean_validation1(path_v1)
+v1 <- v1_obj$v1
+p1 <- clean_pilot1(path_p1)
+p2 <- clean_pilot2(path_p2)
+
+alpha_cronbach <- function(mat) {
+  k <- ncol(mat)
+  item_vars <- apply(mat, 2, var, na.rm = TRUE)
+  total_var <- var(rowSums(mat, na.rm = TRUE), na.rm = TRUE)
+  if (k <= 1 || total_var == 0) return(NA_real_)
+  (k / (k - 1)) * (1 - sum(item_vars, na.rm = TRUE) / total_var)
+}
+
+alpha_worry <- alpha_cronbach(as.matrix(v1[, c("QID5_1", "Q17_1", "Q18_1")]))
+
+pairwise_cohens_d <- function(data, outcome, group_var) {
+  groups <- sort(unique(as.character(data[[group_var]])))
+  pairs <- combn(groups, 2, simplify = FALSE)
+
+  d_rows <- lapply(pairs, function(g) {
+    x1 <- data[[outcome]][as.character(data[[group_var]]) == g[1]]
+    x2 <- data[[outcome]][as.character(data[[group_var]]) == g[2]]
+    n1 <- sum(!is.na(x1))
+    n2 <- sum(!is.na(x2))
+    s1 <- sd(x1, na.rm = TRUE)
+    s2 <- sd(x2, na.rm = TRUE)
+    pooled_sd <- sqrt(((n1 - 1) * s1^2 + (n2 - 1) * s2^2) / (n1 + n2 - 2))
+    d <- (mean(x1, na.rm = TRUE) - mean(x2, na.rm = TRUE)) / pooled_sd
+    d_abs <- abs(d)
+
+    tibble::tibble(
+      group1 = g[1],
+      group2 = g[2],
+      cohen_d = d,
+      abs_cohen_d = d_abs,
+      effect_size = dplyr::case_when(
+        d_abs < 0.2 ~ "Trivial",
+        d_abs < 0.5 ~ "Small",
+        d_abs < 0.8 ~ "Medium",
+        TRUE ~ "Large"
+      )
+    )
+  })
+
+  dplyr::bind_rows(d_rows)
+}
+
+kable(
+  tibble::tibble(
+    Dataset = c("Main study", "Pilot 1", "Pilot 2"),
+    N = c(nrow(v1), nrow(p1), nrow(p2)),
+    Outcome = c("Worry index (0-100)", "Worry (1-7)", "Worry (0-100)")
+  ),
+  caption = "Analytic sample sizes"
+)
+
+cat("Cronbach's alpha (Main study worry index):", round(alpha_worry, 3), "\n")
+cat("Speeding exclusion threshold in main study (seconds):", round(v1_obj$speed_threshold, 2), "\n")
+```
+
+## 2) Main Paper Figure 1
+
+```{r fig.height=9.5, fig.width=12}
+m_index <- lm(worry_index ~ temp_numeric_c, data = v1)
+m_p1 <- lm(worry ~ temp_numeric, data = p1)
+m_p2 <- lm(worry ~ temp_numeric, data = p2)
+
+model_caption <- function(model, digits = 3) {
+  slope <- coef(model)[2]
+  p_value <- summary(model)$coefficients[2, 4]
+  r2 <- summary(model)$r.squared
+  paste0(
+    "Coef = ", format(round(slope, digits), nsmall = digits),
+    ", p = ", format.pval(p_value, digits = 3),
+    ", R2 = ", format(round(r2, 3), nsmall = ifelse(r2 < 0.01, 3, 2))
+  )
+}
+
+set.seed(123)
+temp_breaks <- seq(1.5, 6, by = 0.5)
+temp_labels <- as.character(temp_breaks)
+
+paper_theme <- theme_classic(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "plain", size = 16),
+    plot.subtitle = element_text(face = "plain", size = 14),
+    plot.caption = element_text(size = 10, hjust = 1),
+    axis.title = element_text(face = "plain")
+  )
+
+plot_a <- ggplot(v1, aes(x = temp_numeric_c, y = worry_index)) +
+  geom_jitter(width = 0.1, alpha = 0.22, color = "gray45", size = 1.4) +
+  stat_summary(aes(group = 1), fun.data = mean_cl_normal,
+               geom = "pointrange", size = 0.9, color = "black") +
+  geom_smooth(method = "lm", se = TRUE, aes(group = 1),
+              color = "firebrick", fill = "firebrick", alpha = 0.16) +
+  scale_x_continuous(breaks = temp_breaks, labels = temp_labels) +
+  coord_cartesian(ylim = c(0, 100)) +
+  paper_theme +
+  labs(
+    title = "A", subtitle = paste0("Main Study (N = ", nrow(v1), ")"),
+    x = "Projected Temperature Rise (C)", y = "Worry Index (0-100)",
+    caption = model_caption(m_index)
+  )
+
+plot_b <- ggplot(p1, aes(x = temp_numeric, y = worry)) +
+  geom_jitter(width = 0.1, alpha = 0.22, color = "gray45", size = 1.4) +
+  stat_summary(aes(group = 1), fun.data = mean_cl_normal,
+               geom = "pointrange", size = 0.9, color = "black") +
+  geom_smooth(method = "lm", se = TRUE, aes(group = 1),
+              color = "firebrick", fill = "firebrick", alpha = 0.16) +
+  scale_x_continuous(breaks = temp_breaks, labels = temp_labels) +
+  paper_theme +
+  theme(axis.text.x = element_text(size = 6.5), axis.title = element_text(size = 10)) +
+  labs(
+    title = "B", subtitle = paste0("Pilot 1 (N = ", nrow(p1), ")"),
+    x = "Projected Temperature Rise (C)", y = "Worry (1-7)",
+    caption = model_caption(m_p1)
+  )
+
+plot_c <- ggplot(p2, aes(x = temp_numeric, y = worry)) +
+  geom_jitter(width = 0.1, alpha = 0.22, color = "gray45", size = 1.4) +
+  stat_summary(aes(group = 1), fun.data = mean_cl_normal,
+               geom = "pointrange", size = 0.9, color = "black") +
+  geom_smooth(method = "lm", se = TRUE, aes(group = 1),
+              color = "firebrick", fill = "firebrick", alpha = 0.16) +
+  scale_x_continuous(breaks = temp_breaks, labels = temp_labels) +
+  coord_cartesian(ylim = c(0, 100)) +
+  paper_theme +
+  theme(axis.text.x = element_text(size = 6.5), axis.title = element_text(size = 10)) +
+  labs(
+    title = "C", subtitle = paste0("Pilot 2 (N = ", nrow(p2), ")"),
+    x = "Projected Temperature Rise (C)", y = "Worry (0-100)",
+    caption = model_caption(m_p2)
+  )
+
+# Figure 1D retains non-leaning Independents/Other as a third descriptive group
+# (N=986), matching the main-paper figure.
+party_three <- v1 |>
+  mutate(
+    party_figure = case_when(
+      partyid == "Democrat" | leaning == "Closer to Democratic" ~ "Democrat",
+      partyid == "Republican" | leaning == "Closer to Republican" ~ "Republican",
+      TRUE ~ "Independent / Other"
+    ),
+    party_figure = factor(
+      party_figure,
+      levels = c("Democrat", "Republican", "Independent / Other")
+    )
+  )
+
+# Tables S9 and S10 use two-party coding, including leaners (N=845).
+party_binary_df <- v1 |>
+  mutate(
+    party_binary = case_when(
+      partyid == "Democrat" ~ "Democrat",
+      partyid == "Republican" ~ "Republican",
+      partyid %in% c("Independent", "No preference", "Other party") &
+        leaning == "Closer to Democratic" ~ "Democrat",
+      partyid %in% c("Independent", "No preference", "Other party") &
+        leaning == "Closer to Republican" ~ "Republican",
+      TRUE ~ NA_character_
+    ),
+    party_binary = factor(party_binary, levels = c("Democrat", "Republican"))
+  ) |>
+  tidyr::drop_na(party_binary)
+
+plot_d <- ggplot(
+  party_three,
+  aes(x = temp_numeric_c, y = worry_index, color = party_figure, group = party_figure)
+) +
+  geom_jitter(width = 0.1, alpha = 0.08, size = 1.1) +
+  stat_summary(fun.data = mean_cl_normal,
+               geom = "pointrange", size = 0.8, position = position_dodge(width = 0.3)) +
+  geom_smooth(method = "lm", se = TRUE, alpha = 0.15, linewidth = 0.8) +
+  scale_x_continuous(breaks = temp_breaks, labels = temp_labels) +
+  scale_color_manual(
+    values = c(
+      "Democrat" = "#0072B2",
+      "Republican" = "#D55E00",
+      "Independent / Other" = "#999999"
+    )
+  ) +
+  paper_theme +
+  theme(legend.position = "inside", legend.position.inside = c(0.71, 0.22),
+        legend.background = element_rect(fill = "white", color = "gray70"),
+        legend.text = element_text(size = 10), legend.title = element_text(size = 11)) +
+  theme(axis.text.x = element_text(size = 6.5), axis.title = element_text(size = 10)) +
+  coord_cartesian(ylim = c(0, 100)) +
+  labs(
+    title = "D", subtitle = paste0("Main Study (N = ", nrow(party_three), ")"),
+    x = "Projected Temperature Rise (C)", y = "Worry Index (0-100)", color = "Party"
+  )
+
+fig1 <- plot_a / (plot_b | plot_c | plot_d) +
+  plot_layout(heights = c(1.05, 1))
+fig1
+
+dir.create(file.path("outputs", "figures"), recursive = TRUE, showWarnings = FALSE)
+ggsave(file.path("outputs", "figures", "Figure1.pdf"), fig1, width = 12, height = 9.5)
+```
+
+## 3) SI Table S1 (Study Chronology and Participant Flow)
+
+The public data exclude collection timestamps and direct participant identifiers.
+The dates and exclusion counts below reproduce the participant-flow table in the
+final SI.
+
+```{r}
+s1_flow <- tibble::tribble(
+  ~Study, ~`Collection dates`, ~`Initial N`, ~`Did not consent`, ~`Failed attention check`, ~`Speeding exclusion`, ~`Final N`,
+  "Pilot 1", "Sep. 22-23, 2025", 500, 1, 6, 0, 493,
+  "Pilot 2", "Sep. 25-26, 2025", 504, 0, 6, 0, 498,
+  "Main study", "Oct. 11-13, 2025", 1005, 1, 6, 12, 986
+)
+
+kable(s1_flow, caption = "Table S1. Study chronology and participant flow")
+```
+
+## 4) SI Table S2 (Main OLS)
+
+```{r}
+s1_model <- lm(worry_index ~ temp_numeric_c, data = v1)
+s1_tidy <- tidy(s1_model, conf.int = TRUE) |>
+  transmute(
+    Predictor = dplyr::recode(term,
+                              `(Intercept)` = "(Intercept)",
+                              temp_numeric_c = "Projected warming (C)"),
+    Coefficient = round(estimate, 3),
+    `Std. Error` = round(std.error, 3),
+    `95% CI` = paste0("[", round(conf.low, 2), ", ", round(conf.high, 2), "]"),
+    `p-value` = signif(p.value, 3)
+  )
+
+s1_fit <- glance(s1_model)
+
+kable(s1_tidy, caption = "Table S2. Linear regression model predicting worry index")
+kable(
+  tibble::tibble(
+    N = nrow(v1),
+    `R-squared` = round(s1_fit$r.squared, 3),
+    `Adjusted R-squared` = round(s1_fit$adj.r.squared, 3)
+  ),
+  caption = "Table S2 model fit"
+)
+```
+
+## 5) SI Table S8 (Holm-Corrected Pairwise Comparisons)
+
+```{r}
+cohen_d_pairs <- pairwise_cohens_d(v1, "worry_index", "temp_condition")
+
+s2_pairs <- pairwise_t_test(v1, worry_index ~ temp_condition, pool.sd = FALSE, p.adjust.method = "holm") |>
+  left_join(cohen_d_pairs, by = c("group1", "group2")) |>
+  transmute(
+    Group1 = group1,
+    Group2 = group2,
+    N1 = n1,
+    N2 = n2,
+    t = round(statistic, 4),
+    df = round(df, 4),
+    p = signif(p, 3),
+    p_adj = signif(p.adj, 3),
+    Sig_unadj = dplyr::case_when(
+      p < 0.001 ~ "***",
+      p < 0.01 ~ "**",
+      p < 0.05 ~ "*",
+      p < 0.1 ~ ".",
+      TRUE ~ "ns"
+    ),
+    Sig_holm = dplyr::case_when(
+      p.adj < 0.001 ~ "***",
+      p.adj < 0.01 ~ "**",
+      p.adj < 0.05 ~ "*",
+      p.adj < 0.1 ~ ".",
+      TRUE ~ "ns"
+    ),
+    `Cohen's d` = round(cohen_d, 3),
+    `|d|` = round(abs_cohen_d, 3),
+    Magnitude = effect_size
+  )
+
+kable(s2_pairs, caption = "Table S8. Pairwise contrasts across warming conditions with Holm correction and Cohen's d")
+```
+
+## 6) SI Table S11 (Unit Framing Interaction)
+
+```{r}
+s3_model <- lm(worry_index ~ temp_centered_c * unit_condition, data = v1)
+s3_tidy <- tidy(s3_model, conf.int = TRUE) |>
+  transmute(
+    Predictor = dplyr::recode(term,
+                              `(Intercept)` = "(Intercept)",
+                              temp_centered_c = "Projected warming (centered at 3.699 C)",
+                              unit_conditionF = "Unit condition [Fahrenheit]",
+                              `temp_centered_c:unit_conditionF` = "Warming x Unit [Fahrenheit]"),
+    Coefficient = round(estimate, 3),
+    `Std. Error` = round(std.error, 3),
+    `95% CI` = paste0("[", round(conf.low, 2), ", ", round(conf.high, 2), "]"),
+    `p-value` = signif(p.value, 3)
+  )
+
+s3_fit <- glance(s3_model)
+
+kable(s3_tidy, caption = "Table S11. Interaction model: warming x unit framing")
+kable(
+  tibble::tibble(
+    N = nrow(v1),
+    `R-squared` = round(s3_fit$r.squared, 3),
+    `Adjusted R-squared` = round(s3_fit$adj.r.squared, 3)
+  ),
+  caption = "Table S11 model fit"
+)
+```
+
+## 7) SI Table S12 (Text Embedding Results)
+
+Run this first from `text_embedding/` if needed:
+
+```bash
+python3 text_embedding/run_text_embedding.py
+```
+
+```{r}
+path_s4 <- file.path("outputs", "tables", "table_s12.csv")
+if (file.exists(path_s4)) {
+  s4 <- read_csv(path_s4, show_col_types = FALSE)
+  kable(s4, caption = "Table S12. Embedding model results")
+} else {
+  cat("Table S12 file not found. Run: python3 text_embedding/run_text_embedding.py\n")
+}
+```
+
+## 8) SI Table S10 (Party x Temperature Model)
+
+The interaction term for projected warming by party is not statistically significant (`p = 0.938` for Republican vs Democrat slope difference), indicating little evidence that warming sensitivity differs by party.
+
+```{r}
+s5_interaction_model <- lm(worry_index ~ temp_numeric_c * party_binary, data = party_binary_df)
+
+s5_interaction <- tidy(s5_interaction_model, conf.int = TRUE) |>
+  transmute(
+    Term = term,
+    Coefficient = round(estimate, 3),
+    `Std. Error` = round(std.error, 3),
+    `95% CI` = paste0("[", round(conf.low, 2), ", ", round(conf.high, 2), "]"),
+    `p-value` = signif(p.value, 3)
+  )
+
+s5_fit <- glance(s5_interaction_model)
+
+kable(s5_interaction, caption = "Table S10. Interaction model for party-specific sensitivity to projected warming")
+kable(
+  tibble::tibble(
+    N = nrow(party_binary_df),
+    `R-squared` = round(s5_fit$r.squared, 3),
+    `Adjusted R-squared` = round(s5_fit$adj.r.squared, 3)
+  ),
+  caption = "Table S10 model fit"
+)
+```
+
+## 9) SI Table S3 (Pilot 1 Full Regression Results)
+
+Pilot analyses use the same linear trend specification as the main model, regressing each pilot outcome on projected warming magnitude (in C).
+
+```{r}
+s6_p1 <- tidy(m_p1, conf.int = TRUE) |>
+  transmute(
+    Predictor = dplyr::recode(term, `(Intercept)` = "(Intercept)", temp_numeric = "Projected warming (C)"),
+    Coefficient = round(estimate, 3),
+    `Std. Error` = round(std.error, 3),
+    `t-stat` = round(statistic, 3),
+    `95% CI` = paste0("[", round(conf.low, 2), ", ", round(conf.high, 2), "]"),
+    `p-value` = signif(p.value, 3)
+  )
+
+s6_fit <- glance(m_p1)
+
+kable(s6_p1, caption = "Table S3. Pilot 1 full OLS regression (Outcome: Worry 1-7)")
+kable(
+  tibble::tibble(
+    N = nrow(p1),
+    `R-squared` = round(s6_fit$r.squared, 3),
+    `Adjusted R-squared` = round(s6_fit$adj.r.squared, 3),
+    Sigma = round(s6_fit$sigma, 3)
+  ),
+  caption = "Table S3 model fit"
+)
+```
+
+## 10) SI Table S4 (Pilot 2 Full Regression Results)
+
+```{r}
+s7_p2 <- tidy(m_p2, conf.int = TRUE) |>
+  transmute(
+    Predictor = dplyr::recode(term, `(Intercept)` = "(Intercept)", temp_numeric = "Projected warming (C)"),
+    Coefficient = round(estimate, 3),
+    `Std. Error` = round(std.error, 3),
+    `t-stat` = round(statistic, 3),
+    `95% CI` = paste0("[", round(conf.low, 2), ", ", round(conf.high, 2), "]"),
+    `p-value` = signif(p.value, 3)
+  )
+
+s7_fit <- glance(m_p2)
+
+kable(s7_p2, caption = "Table S4. Pilot 2 full OLS regression (Outcome: Worry 0-100)")
+kable(
+  tibble::tibble(
+    N = nrow(p2),
+    `R-squared` = round(s7_fit$r.squared, 3),
+    `Adjusted R-squared` = round(s7_fit$adj.r.squared, 3),
+    Sigma = round(s7_fit$sigma, 3)
+  ),
+  caption = "Table S4 model fit"
+)
+```
+
+## 11) SI Tables S5-S7 (Outcome-Specific Full Regressions via Stargazer)
+
+To assess robustness beyond the composite index, we report separate full regressions for each main-study item-level outcome using stargazer exports.
+
+```{r}
+s8_fit <- lm(QID5_1 ~ temp_numeric_c, data = v1)
+s9_fit <- lm(Q17_1 ~ temp_numeric_c, data = v1)
+s10_fit <- lm(Q18_1 ~ temp_numeric_c, data = v1)
+
+dir.create(file.path("outputs", "tables"), recursive = TRUE, showWarnings = FALSE)
+
+stargazer(
+  s8_fit,
+  type = "text",
+  title = "Table S5. Main Study Item-Level Regression: Worry Assigned Temperature",
+  dep.var.labels = "Worry assigned temperature",
+  covariate.labels = c("Projected warming (C)", "Constant"),
+  digits = 3,
+  star.cutoffs = c(0.05, 0.01, 0.001)
+)
+stargazer(
+  s8_fit,
+  type = "latex",
+  out = file.path("outputs", "tables", "table_s5_stargazer.tex"),
+  title = "Supplementary Table S5. Main Study Item-Level Regression: Worry Assigned Temperature",
+  label = "tab:s5_main_item_worry",
+  dep.var.labels = "Worry assigned temperature",
+  covariate.labels = c("Projected warming (C)", "Constant"),
+  digits = 3,
+  star.cutoffs = c(0.05, 0.01, 0.001)
+)
+
+stargazer(
+  s9_fit,
+  type = "text",
+  title = "Table S6. Main Study Item-Level Regression: Harm to US People",
+  dep.var.labels = "Perceived harm to US people",
+  covariate.labels = c("Projected warming (C)", "Constant"),
+  digits = 3,
+  star.cutoffs = c(0.05, 0.01, 0.001)
+)
+stargazer(
+  s9_fit,
+  type = "latex",
+  out = file.path("outputs", "tables", "table_s6_stargazer.tex"),
+  title = "Supplementary Table S6. Main Study Item-Level Regression: Harm to US People",
+  label = "tab:s6_main_item_harm_us",
+  dep.var.labels = "Perceived harm to US people",
+  covariate.labels = c("Projected warming (C)", "Constant"),
+  digits = 3,
+  star.cutoffs = c(0.05, 0.01, 0.001)
+)
+
+stargazer(
+  s10_fit,
+  type = "text",
+  title = "Table S7. Main Study Item-Level Regression: Personal Harm",
+  dep.var.labels = "Perceived personal harm",
+  covariate.labels = c("Projected warming (C)", "Constant"),
+  digits = 3,
+  star.cutoffs = c(0.05, 0.01, 0.001)
+)
+stargazer(
+  s10_fit,
+  type = "latex",
+  out = file.path("outputs", "tables", "table_s7_stargazer.tex"),
+  title = "Supplementary Table S7. Main Study Item-Level Regression: Personal Harm",
+  label = "tab:s7_main_item_personal",
+  dep.var.labels = "Perceived personal harm",
+  covariate.labels = c("Projected warming (C)", "Constant"),
+  digits = 3,
+  star.cutoffs = c(0.05, 0.01, 0.001)
+)
+```
+
+## 12) SI Table S9 (Within-Party Regressions)
+
+```{r}
+s11_models <- party_binary_df |>
+  group_by(party_binary) |>
+  group_map(~ lm(worry_index ~ temp_numeric_c, data = .x), .keep = TRUE)
+names(s11_models) <- levels(party_binary_df$party_binary)
+
+s11 <- bind_rows(lapply(names(s11_models), function(group_name) {
+  model <- s11_models[[group_name]]
+  slope <- tidy(model, conf.int = TRUE) |> filter(term == "temp_numeric_c")
+  intercept <- tidy(model, conf.int = TRUE) |> filter(term == "(Intercept)")
+  fit <- glance(model)
+  tibble(
+    Party = group_name,
+    N = nobs(model),
+    Intercept = intercept$estimate,
+    `Intercept SE` = intercept$std.error,
+    `Intercept CI low` = intercept$conf.low,
+    `Intercept CI high` = intercept$conf.high,
+    `Projected warming` = slope$estimate,
+    `Projected warming SE` = slope$std.error,
+    `Projected warming CI low` = slope$conf.low,
+    `Projected warming CI high` = slope$conf.high,
+    `p-value` = slope$p.value,
+    `R-squared` = fit$r.squared,
+    `Adjusted R-squared` = fit$adj.r.squared
+  )
+}))
+
+kable(
+  s11 |> mutate(across(where(is.numeric), ~ round(.x, 3))),
+  caption = "Table S9. Within-party linear regressions of worry index on projected warming"
+)
+```
+
+## 13) SI Table S13 (Post Hoc LLM-Check Sensitivity)
+
+Table S13 contains aggregate results after excluding 19 responses matched to
+Prolific's post hoc LLM-check export. Reproducing this exclusion requires the
+nonpublic participant-level classification; see `sensitivity/README.md`.
+
+```{r}
+s13 <- read_csv(
+  file.path("outputs", "tables", "table_s13.csv"),
+  show_col_types = FALSE
+)
+
+kable(
+  s13,
+  digits = 6,
+  caption = "Table S13. Sensitivity analyses excluding 19 accounts matched from Prolific's post hoc LLM-check export"
+)
+```
+
+## 14) Machine-Readable Output Tables
+
+The CSV files below contain the analysis results. Their numbering is mapped to
+the statistical PDF tables in `extended_analysis/README.md`.
+
+```{r}
+dir.create(file.path("outputs", "tables"), recursive = TRUE, showWarnings = FALSE)
+
+model_export <- function(model) {
+  fit <- glance(model)
+  tidy(model, conf.int = TRUE) |>
+    mutate(
+      N = nobs(model),
+      R_squared = fit$r.squared,
+      adjusted_R_squared = fit$adj.r.squared
+    )
+}
+
+write_csv(s1_flow, file.path("outputs", "tables", "table_s1.csv"))
+write_csv(model_export(s1_model), file.path("outputs", "tables", "table_s2.csv"))
+write_csv(model_export(m_p1), file.path("outputs", "tables", "table_s3.csv"))
+write_csv(model_export(m_p2), file.path("outputs", "tables", "table_s4.csv"))
+write_csv(model_export(s8_fit), file.path("outputs", "tables", "table_s5.csv"))
+write_csv(model_export(s9_fit), file.path("outputs", "tables", "table_s6.csv"))
+write_csv(model_export(s10_fit), file.path("outputs", "tables", "table_s7.csv"))
+write_csv(s2_pairs, file.path("outputs", "tables", "table_s8.csv"))
+write_csv(s11, file.path("outputs", "tables", "table_s9.csv"))
+write_csv(model_export(s5_interaction_model), file.path("outputs", "tables", "table_s10.csv"))
+write_csv(model_export(s3_model), file.path("outputs", "tables", "table_s11.csv"))
+# Table S12 is generated by text_embedding/run_text_embedding.py;
+# Table S13 contains archived aggregate sensitivity results.
+
+kable(
+  tibble(
+    Output = paste0("Table S", 1:13),
+    File = file.path("outputs", "tables", paste0("table_s", 1:13, ".csv"))
+  ),
+  caption = "Machine-readable SI table outputs"
+)
+```
