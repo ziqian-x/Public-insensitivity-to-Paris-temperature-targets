@@ -1570,19 +1570,11 @@ pairwise_cohens_d &lt;- function(data, outcome, group_var) {
     s2 &lt;- sd(x2, na.rm = TRUE)
     pooled_sd &lt;- sqrt(((n1 - 1) * s1^2 + (n2 - 1) * s2^2) / (n1 + n2 - 2))
     d &lt;- (mean(x1, na.rm = TRUE) - mean(x2, na.rm = TRUE)) / pooled_sd
-    d_abs &lt;- abs(d)
-
+    test &lt;- t.test(x1, x2, var.equal = FALSE)
     tibble::tibble(
-      group1 = g[1],
-      group2 = g[2],
-      cohen_d = d,
-      abs_cohen_d = d_abs,
-      effect_size = dplyr::case_when(
-        d_abs &lt; 0.2 ~ &quot;Trivial&quot;,
-        d_abs &lt; 0.5 ~ &quot;Small&quot;,
-        d_abs &lt; 0.8 ~ &quot;Medium&quot;,
-        TRUE ~ &quot;Large&quot;
-      )
+      group1 = g[1], group2 = g[2], n1 = n1, n2 = n2,
+      statistic = unname(test$statistic), df = unname(test$parameter),
+      p = test$p.value, cohen_d = d
     )
   })
 
@@ -1720,7 +1712,7 @@ party_three &lt;- v1 |&gt;
     )
   )
 
-# Tables S9 and S10 use two-party coding, including leaners (N=845).
+# Tables 11 and 5 use two-party coding, including leaners (N=845).
 party_binary_df &lt;- v1 |&gt;
   mutate(
     party_binary = case_when(
@@ -1770,9 +1762,9 @@ fig1</code></pre>
 <pre class="r"><code>dir.create(file.path(&quot;outputs&quot;, &quot;figures&quot;), recursive = TRUE, showWarnings = FALSE)
 ggsave(file.path(&quot;outputs&quot;, &quot;figures&quot;, &quot;Figure1.pdf&quot;), fig1, width = 12, height = 9.5)</code></pre>
 </div>
-<div id="si-table-s1-study-chronology-and-participant-flow" class="section level2" number="3">
-<h2><span class="header-section-number">3</span> 3) SI Table S1 (Study
-Chronology and Participant Flow)</h2>
+<div id="study-chronology-and-participant-flow" class="section level2" number="3">
+<h2><span class="header-section-number">3</span> 3) Study Chronology and
+Participant Flow</h2>
 <p>The public data exclude collection timestamps and direct participant
 identifiers. The dates and exclusion counts below reproduce the
 participant-flow table in the final SI.</p>
@@ -1783,9 +1775,9 @@ participant-flow table in the final SI.</p>
   &quot;Main study&quot;, &quot;Oct. 11-13, 2025&quot;, 1005, 1, 6, 12, 986
 )
 
-kable(s1_flow, caption = &quot;Table S1. Study chronology and participant flow&quot;)</code></pre>
+kable(s1_flow, caption = &quot;Participant flow&quot;)</code></pre>
 <table>
-<caption>Table S1. Study chronology and participant flow</caption>
+<caption>Participant flow</caption>
 <colgroup>
 <col width="10%" />
 <col width="16%" />
@@ -1837,9 +1829,8 @@ kable(s1_flow, caption = &quot;Table S1. Study chronology and participant flow&q
 </tbody>
 </table>
 </div>
-<div id="si-table-s2-main-ols" class="section level2" number="4">
-<h2><span class="header-section-number">4</span> 4) SI Table S2 (Main
-OLS)</h2>
+<div id="main-ols" class="section level2" number="4">
+<h2><span class="header-section-number">4</span> 4) Main OLS</h2>
 <pre class="r"><code>s1_model &lt;- lm(worry_index ~ temp_numeric_c, data = v1)
 s1_tidy &lt;- tidy(s1_model, conf.int = TRUE) |&gt;
   transmute(
@@ -1854,9 +1845,9 @@ s1_tidy &lt;- tidy(s1_model, conf.int = TRUE) |&gt;
 
 s1_fit &lt;- glance(s1_model)
 
-kable(s1_tidy, caption = &quot;Table S2. Linear regression model predicting worry index&quot;)</code></pre>
+kable(s1_tidy, caption = &quot;Table 1. Linear regression model predicting worry index&quot;)</code></pre>
 <table>
-<caption>Table S2. Linear regression model predicting worry
+<caption>Table 1. Linear regression model predicting worry
 index</caption>
 <colgroup>
 <col width="31%" />
@@ -1897,10 +1888,10 @@ index</caption>
     `R-squared` = round(s1_fit$r.squared, 3),
     `Adjusted R-squared` = round(s1_fit$adj.r.squared, 3)
   ),
-  caption = &quot;Table S2 model fit&quot;
+  caption = &quot;Table 1 model fit&quot;
 )</code></pre>
 <table>
-<caption>Table S2 model fit</caption>
+<caption>Table 1 model fit</caption>
 <thead>
 <tr class="header">
 <th align="right">N</th>
@@ -1917,60 +1908,23 @@ index</caption>
 </tbody>
 </table>
 </div>
-<div id="si-table-s8-holm-corrected-pairwise-comparisons" class="section level2" number="5">
-<h2><span class="header-section-number">5</span> 5) SI Table S8
-(Holm-Corrected Pairwise Comparisons)</h2>
+<div id="holm-corrected-pairwise-comparisons" class="section level2" number="5">
+<h2><span class="header-section-number">5</span> 5) Holm-Corrected
+Pairwise Comparisons</h2>
 <pre class="r"><code>cohen_d_pairs &lt;- pairwise_cohens_d(v1, &quot;worry_index&quot;, &quot;temp_condition&quot;)
 
-s2_pairs &lt;- pairwise_t_test(v1, worry_index ~ temp_condition, pool.sd = FALSE, p.adjust.method = &quot;holm&quot;) |&gt;
-  left_join(cohen_d_pairs, by = c(&quot;group1&quot;, &quot;group2&quot;)) |&gt;
+s2_pairs &lt;- cohen_d_pairs |&gt;
+  mutate(p.adj = p.adjust(p, method = &quot;holm&quot;)) |&gt;
   transmute(
-    Group1 = group1,
-    Group2 = group2,
-    N1 = n1,
-    N2 = n2,
-    t = round(statistic, 4),
-    df = round(df, 4),
-    p = signif(p, 3),
-    p_adj = signif(p.adj, 3),
-    Sig_unadj = dplyr::case_when(
-      p &lt; 0.001 ~ &quot;***&quot;,
-      p &lt; 0.01 ~ &quot;**&quot;,
-      p &lt; 0.05 ~ &quot;*&quot;,
-      p &lt; 0.1 ~ &quot;.&quot;,
-      TRUE ~ &quot;ns&quot;
-    ),
-    Sig_holm = dplyr::case_when(
-      p.adj &lt; 0.001 ~ &quot;***&quot;,
-      p.adj &lt; 0.01 ~ &quot;**&quot;,
-      p.adj &lt; 0.05 ~ &quot;*&quot;,
-      p.adj &lt; 0.1 ~ &quot;.&quot;,
-      TRUE ~ &quot;ns&quot;
-    ),
-    `Cohen&#39;s d` = round(cohen_d, 3),
-    `|d|` = round(abs_cohen_d, 3),
-    Magnitude = effect_size
+    Group1 = group1, Group2 = group2, N1 = n1, N2 = n2,
+    t = statistic, df = df, p = p, p_adj = p.adj,
+    `Cohen&#39;s d` = cohen_d
   )
 
-kable(s2_pairs, caption = &quot;Table S8. Pairwise contrasts across warming conditions with Holm correction and Cohen&#39;s d&quot;)</code></pre>
+kable(s2_pairs |&gt; select(-`Cohen&#39;s d`), digits = 4, caption = &quot;Table 2. Pairwise contrasts across warming conditions with Holm correction&quot;)</code></pre>
 <table>
-<caption>Table S8. Pairwise contrasts across warming conditions with
-Holm correction and Cohen’s d</caption>
-<colgroup>
-<col width="6%" />
-<col width="6%" />
-<col width="3%" />
-<col width="3%" />
-<col width="7%" />
-<col width="8%" />
-<col width="5%" />
-<col width="5%" />
-<col width="9%" />
-<col width="8%" />
-<col width="9%" />
-<col width="13%" />
-<col width="9%" />
-</colgroup>
+<caption>Table 2. Pairwise contrasts across warming conditions with Holm
+correction</caption>
 <thead>
 <tr class="header">
 <th align="left">Group1</th>
@@ -1981,11 +1935,6 @@ Holm correction and Cohen’s d</caption>
 <th align="right">df</th>
 <th align="right">p</th>
 <th align="right">p_adj</th>
-<th align="left">Sig_unadj</th>
-<th align="left">Sig_holm</th>
-<th align="right">Cohen’s d</th>
-<th align="right">|d|</th>
-<th align="left">Magnitude</th>
 </tr>
 </thead>
 <tbody>
@@ -1996,13 +1945,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">113</td>
 <td align="right">-0.1643</td>
 <td align="right">210.7023</td>
-<td align="right">0.870</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.022</td>
-<td align="right">0.022</td>
-<td align="left">Trivial</td>
+<td align="right">0.8696</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">1.5</td>
@@ -2011,13 +1955,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">102</td>
 <td align="right">-1.5633</td>
 <td align="right">200.2496</td>
-<td align="right">0.120</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.220</td>
-<td align="right">0.220</td>
-<td align="left">Small</td>
+<td align="right">0.1196</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">1.5</td>
@@ -2026,13 +1965,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">73</td>
 <td align="right">-0.6723</td>
 <td align="right">153.3969</td>
-<td align="right">0.502</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.104</td>
-<td align="right">0.104</td>
-<td align="left">Trivial</td>
+<td align="right">0.5024</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">1.5</td>
@@ -2041,13 +1975,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">109</td>
 <td align="right">-1.3659</td>
 <td align="right">206.7954</td>
-<td align="right">0.173</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.189</td>
-<td align="right">0.189</td>
-<td align="left">Trivial</td>
+<td align="right">0.1735</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">1.5</td>
@@ -2056,13 +1985,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">115</td>
 <td align="right">-1.6152</td>
 <td align="right">208.3519</td>
-<td align="right">0.108</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.221</td>
-<td align="right">0.221</td>
-<td align="left">Small</td>
+<td align="right">0.1078</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">1.5</td>
@@ -2071,13 +1995,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">102</td>
 <td align="right">-2.2450</td>
 <td align="right">200.0718</td>
-<td align="right">0.026</td>
-<td align="right">1.000</td>
-<td align="left">*</td>
-<td align="left">ns</td>
-<td align="right">-0.315</td>
-<td align="right">0.315</td>
-<td align="left">Small</td>
+<td align="right">0.0259</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">1.5</td>
@@ -2086,13 +2005,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">86</td>
 <td align="right">-2.1474</td>
 <td align="right">180.0185</td>
-<td align="right">0.033</td>
-<td align="right">1.000</td>
-<td align="left">*</td>
-<td align="left">ns</td>
-<td align="right">-0.315</td>
-<td align="right">0.315</td>
-<td align="left">Small</td>
+<td align="right">0.0331</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">1.5</td>
@@ -2101,13 +2015,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">89</td>
 <td align="right">-3.3078</td>
 <td align="right">186.7379</td>
-<td align="right">0.001</td>
-<td align="right">0.051</td>
-<td align="left">**</td>
-<td align="left">.</td>
-<td align="right">-0.480</td>
-<td align="right">0.480</td>
-<td align="left">Small</td>
+<td align="right">0.0011</td>
+<td align="right">0.0508</td>
 </tr>
 <tr class="odd">
 <td align="left">1.5</td>
@@ -2116,13 +2025,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">96</td>
 <td align="right">-2.9112</td>
 <td align="right">193.2765</td>
-<td align="right">0.004</td>
-<td align="right">0.173</td>
-<td align="left">**</td>
-<td align="left">ns</td>
-<td align="right">-0.415</td>
-<td align="right">0.415</td>
-<td align="left">Small</td>
+<td align="right">0.0040</td>
+<td align="right">0.1730</td>
 </tr>
 <tr class="even">
 <td align="left">2</td>
@@ -2131,13 +2035,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">102</td>
 <td align="right">-1.4122</td>
 <td align="right">212.9375</td>
-<td align="right">0.159</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.192</td>
-<td align="right">0.192</td>
-<td align="left">Trivial</td>
+<td align="right">0.1594</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">2</td>
@@ -2146,13 +2045,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">73</td>
 <td align="right">-0.5298</td>
 <td align="right">155.3519</td>
-<td align="right">0.597</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.079</td>
-<td align="right">0.079</td>
-<td align="left">Trivial</td>
+<td align="right">0.5970</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">2</td>
@@ -2161,13 +2055,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">109</td>
 <td align="right">-1.2138</td>
 <td align="right">219.9990</td>
-<td align="right">0.226</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.163</td>
-<td align="right">0.163</td>
-<td align="left">Trivial</td>
+<td align="right">0.2261</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">2</td>
@@ -2176,13 +2065,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">115</td>
 <td align="right">-1.4620</td>
 <td align="right">224.3353</td>
-<td align="right">0.145</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.194</td>
-<td align="right">0.194</td>
-<td align="left">Trivial</td>
+<td align="right">0.1451</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">2</td>
@@ -2191,13 +2075,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">102</td>
 <td align="right">-2.1013</td>
 <td align="right">212.9778</td>
-<td align="right">0.037</td>
-<td align="right">1.000</td>
-<td align="left">*</td>
-<td align="left">ns</td>
-<td align="right">-0.286</td>
-<td align="right">0.286</td>
-<td align="left">Small</td>
+<td align="right">0.0368</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">2</td>
@@ -2206,13 +2085,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">86</td>
 <td align="right">-2.0115</td>
 <td align="right">185.7889</td>
-<td align="right">0.046</td>
-<td align="right">1.000</td>
-<td align="left">*</td>
-<td align="left">ns</td>
-<td align="right">-0.287</td>
-<td align="right">0.287</td>
-<td align="left">Small</td>
+<td align="right">0.0457</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">2</td>
@@ -2221,13 +2095,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">89</td>
 <td align="right">-3.1801</td>
 <td align="right">194.9398</td>
-<td align="right">0.002</td>
-<td align="right">0.075</td>
-<td align="left">**</td>
-<td align="left">.</td>
-<td align="right">-0.446</td>
-<td align="right">0.446</td>
-<td align="left">Small</td>
+<td align="right">0.0017</td>
+<td align="right">0.0754</td>
 </tr>
 <tr class="odd">
 <td align="left">2</td>
@@ -2236,13 +2105,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">96</td>
 <td align="right">-2.7820</td>
 <td align="right">200.9790</td>
-<td align="right">0.006</td>
-<td align="right">0.249</td>
-<td align="left">**</td>
-<td align="left">ns</td>
-<td align="right">-0.386</td>
-<td align="right">0.386</td>
-<td align="left">Small</td>
+<td align="right">0.0059</td>
+<td align="right">0.2485</td>
 </tr>
 <tr class="even">
 <td align="left">2.5</td>
@@ -2251,13 +2115,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">73</td>
 <td align="right">0.7203</td>
 <td align="right">148.3048</td>
-<td align="right">0.472</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">0.112</td>
-<td align="right">0.112</td>
-<td align="left">Trivial</td>
+<td align="right">0.4725</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">2.5</td>
@@ -2266,13 +2125,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">109</td>
 <td align="right">0.1890</td>
 <td align="right">208.9528</td>
-<td align="right">0.850</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">0.026</td>
-<td align="right">0.026</td>
-<td align="left">Trivial</td>
+<td align="right">0.8503</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">2.5</td>
@@ -2281,13 +2135,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">115</td>
 <td align="right">-0.0213</td>
 <td align="right">212.7201</td>
-<td align="right">0.983</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.003</td>
-<td align="right">0.003</td>
-<td align="left">Trivial</td>
+<td align="right">0.9830</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">2.5</td>
@@ -2296,13 +2145,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">102</td>
 <td align="right">-0.6966</td>
 <td align="right">201.9903</td>
-<td align="right">0.487</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.098</td>
-<td align="right">0.098</td>
-<td align="left">Trivial</td>
+<td align="right">0.4868</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">2.5</td>
@@ -2311,13 +2155,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">86</td>
 <td align="right">-0.7096</td>
 <td align="right">176.8736</td>
-<td align="right">0.479</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.104</td>
-<td align="right">0.104</td>
-<td align="left">Trivial</td>
+<td align="right">0.4789</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">2.5</td>
@@ -2326,13 +2165,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">89</td>
 <td align="right">-1.8496</td>
 <td align="right">185.1866</td>
-<td align="right">0.066</td>
-<td align="right">1.000</td>
-<td align="left">.</td>
-<td align="left">ns</td>
-<td align="right">-0.268</td>
-<td align="right">0.268</td>
-<td align="left">Small</td>
+<td align="right">0.0660</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">2.5</td>
@@ -2341,13 +2175,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">96</td>
 <td align="right">-1.4804</td>
 <td align="right">191.3900</td>
-<td align="right">0.140</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.211</td>
-<td align="right">0.211</td>
-<td align="left">Small</td>
+<td align="right">0.1404</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">3</td>
@@ -2356,13 +2185,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">109</td>
 <td align="right">-0.5495</td>
 <td align="right">152.3814</td>
-<td align="right">0.583</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.083</td>
-<td align="right">0.083</td>
-<td align="left">Trivial</td>
+<td align="right">0.5835</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">3</td>
@@ -2371,13 +2195,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">115</td>
 <td align="right">-0.7505</td>
 <td align="right">147.1473</td>
-<td align="right">0.454</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.114</td>
-<td align="right">0.114</td>
-<td align="left">Trivial</td>
+<td align="right">0.4542</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">3</td>
@@ -2386,13 +2205,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">102</td>
 <td align="right">-1.3312</td>
 <td align="right">147.6148</td>
-<td align="right">0.185</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.207</td>
-<td align="right">0.207</td>
-<td align="left">Small</td>
+<td align="right">0.1852</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">3</td>
@@ -2401,13 +2215,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">86</td>
 <td align="right">-1.3104</td>
 <td align="right">152.0193</td>
-<td align="right">0.192</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.209</td>
-<td align="right">0.209</td>
-<td align="left">Small</td>
+<td align="right">0.1920</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">3</td>
@@ -2416,13 +2225,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">89</td>
 <td align="right">-2.3315</td>
 <td align="right">149.5415</td>
-<td align="right">0.021</td>
-<td align="right">0.865</td>
-<td align="left">*</td>
-<td align="left">ns</td>
-<td align="right">-0.371</td>
-<td align="right">0.371</td>
-<td align="left">Small</td>
+<td align="right">0.0211</td>
+<td align="right">0.8635</td>
 </tr>
 <tr class="even">
 <td align="left">3</td>
@@ -2431,13 +2235,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">96</td>
 <td align="right">-1.9985</td>
 <td align="right">156.9086</td>
-<td align="right">0.047</td>
-<td align="right">1.000</td>
-<td align="left">*</td>
-<td align="left">ns</td>
-<td align="right">-0.309</td>
-<td align="right">0.309</td>
-<td align="left">Small</td>
+<td align="right">0.0474</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">3.5</td>
@@ -2446,13 +2245,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">115</td>
 <td align="right">-0.2141</td>
 <td align="right">220.2803</td>
-<td align="right">0.831</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.029</td>
-<td align="right">0.029</td>
-<td align="left">Trivial</td>
+<td align="right">0.8307</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">3.5</td>
@@ -2461,13 +2255,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">102</td>
 <td align="right">-0.8798</td>
 <td align="right">208.9863</td>
-<td align="right">0.380</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.121</td>
-<td align="right">0.121</td>
-<td align="left">Trivial</td>
+<td align="right">0.3800</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">3.5</td>
@@ -2476,13 +2265,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">86</td>
 <td align="right">-0.8794</td>
 <td align="right">182.2359</td>
-<td align="right">0.380</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.127</td>
-<td align="right">0.127</td>
-<td align="left">Trivial</td>
+<td align="right">0.3803</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">3.5</td>
@@ -2491,13 +2275,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">89</td>
 <td align="right">-2.0156</td>
 <td align="right">191.1759</td>
-<td align="right">0.045</td>
-<td align="right">1.000</td>
-<td align="left">*</td>
-<td align="left">ns</td>
-<td align="right">-0.287</td>
-<td align="right">0.287</td>
-<td align="left">Small</td>
+<td align="right">0.0452</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">3.5</td>
@@ -2506,13 +2285,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">96</td>
 <td align="right">-1.6454</td>
 <td align="right">197.2539</td>
-<td align="right">0.101</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.231</td>
-<td align="right">0.231</td>
-<td align="left">Small</td>
+<td align="right">0.1015</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">4</td>
@@ -2521,13 +2295,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">102</td>
 <td align="right">-0.6901</td>
 <td align="right">213.0122</td>
-<td align="right">0.491</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.094</td>
-<td align="right">0.094</td>
-<td align="left">Trivial</td>
+<td align="right">0.4909</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">4</td>
@@ -2536,13 +2305,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">86</td>
 <td align="right">-0.7028</td>
 <td align="right">179.3145</td>
-<td align="right">0.483</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.101</td>
-<td align="right">0.101</td>
-<td align="left">Trivial</td>
+<td align="right">0.4831</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">4</td>
@@ -2551,13 +2315,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">89</td>
 <td align="right">-1.8653</td>
 <td align="right">190.3271</td>
-<td align="right">0.064</td>
-<td align="right">1.000</td>
-<td align="left">.</td>
-<td align="left">ns</td>
-<td align="right">-0.263</td>
-<td align="right">0.263</td>
-<td align="left">Small</td>
+<td align="right">0.0637</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">4</td>
@@ -2566,13 +2325,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">96</td>
 <td align="right">-1.4879</td>
 <td align="right">195.9109</td>
-<td align="right">0.138</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.207</td>
-<td align="right">0.207</td>
-<td align="left">Small</td>
+<td align="right">0.1384</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">4.5</td>
@@ -2581,13 +2335,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">86</td>
 <td align="right">-0.0661</td>
 <td align="right">176.3472</td>
-<td align="right">0.947</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.010</td>
-<td align="right">0.010</td>
-<td align="left">Trivial</td>
+<td align="right">0.9474</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">4.5</td>
@@ -2596,13 +2345,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">89</td>
 <td align="right">-1.1854</td>
 <td align="right">184.8194</td>
-<td align="right">0.237</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.172</td>
-<td align="right">0.172</td>
-<td align="left">Trivial</td>
+<td align="right">0.2374</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">4.5</td>
@@ -2611,13 +2355,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">96</td>
 <td align="right">-0.8334</td>
 <td align="right">190.9868</td>
-<td align="right">0.406</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.119</td>
-<td align="right">0.119</td>
-<td align="left">Trivial</td>
+<td align="right">0.4057</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">5</td>
@@ -2626,13 +2365,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">89</td>
 <td align="right">-1.0376</td>
 <td align="right">171.7890</td>
-<td align="right">0.301</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.157</td>
-<td align="right">0.157</td>
-<td align="left">Trivial</td>
+<td align="right">0.3009</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
 <td align="left">5</td>
@@ -2641,13 +2375,8 @@ Holm correction and Cohen’s d</caption>
 <td align="right">96</td>
 <td align="right">-0.7150</td>
 <td align="right">179.0788</td>
-<td align="right">0.476</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">-0.106</td>
-<td align="right">0.106</td>
-<td align="left">Trivial</td>
+<td align="right">0.4756</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="odd">
 <td align="left">5.5</td>
@@ -2656,20 +2385,15 @@ Holm correction and Cohen’s d</caption>
 <td align="right">96</td>
 <td align="right">0.3077</td>
 <td align="right">182.9720</td>
-<td align="right">0.759</td>
-<td align="right">1.000</td>
-<td align="left">ns</td>
-<td align="left">ns</td>
-<td align="right">0.045</td>
-<td align="right">0.045</td>
-<td align="left">Trivial</td>
+<td align="right">0.7587</td>
+<td align="right">1.0000</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div id="si-table-s11-unit-framing-interaction" class="section level2" number="6">
-<h2><span class="header-section-number">6</span> 6) SI Table S11 (Unit
-Framing Interaction)</h2>
+<div id="unit-framing-interaction" class="section level2" number="6">
+<h2><span class="header-section-number">6</span> 6) Unit Framing
+Interaction</h2>
 <pre class="r"><code>s3_model &lt;- lm(worry_index ~ temp_centered_c * unit_condition, data = v1)
 s3_tidy &lt;- tidy(s3_model, conf.int = TRUE) |&gt;
   transmute(
@@ -2686,9 +2410,9 @@ s3_tidy &lt;- tidy(s3_model, conf.int = TRUE) |&gt;
 
 s3_fit &lt;- glance(s3_model)
 
-kable(s3_tidy, caption = &quot;Table S11. Interaction model: warming x unit framing&quot;)</code></pre>
+kable(s3_tidy, caption = &quot;Table 3. Interaction model: warming x unit framing&quot;)</code></pre>
 <table style="width:100%;">
-<caption>Table S11. Interaction model: warming x unit framing</caption>
+<caption>Table 3. Interaction model: warming x unit framing</caption>
 <colgroup>
 <col width="45%" />
 <col width="13%" />
@@ -2742,10 +2466,10 @@ kable(s3_tidy, caption = &quot;Table S11. Interaction model: warming x unit fram
     `R-squared` = round(s3_fit$r.squared, 3),
     `Adjusted R-squared` = round(s3_fit$adj.r.squared, 3)
   ),
-  caption = &quot;Table S11 model fit&quot;
+  caption = &quot;Table 3 model fit&quot;
 )</code></pre>
 <table>
-<caption>Table S11 model fit</caption>
+<caption>Table 3 model fit</caption>
 <thead>
 <tr class="header">
 <th align="right">N</th>
@@ -2762,20 +2486,20 @@ kable(s3_tidy, caption = &quot;Table S11. Interaction model: warming x unit fram
 </tbody>
 </table>
 </div>
-<div id="si-table-s12-text-embedding-results" class="section level2" number="7">
-<h2><span class="header-section-number">7</span> 7) SI Table S12 (Text
-Embedding Results)</h2>
-<p>Run this first from <code>text_embedding/</code> if needed:</p>
+<div id="text-embedding-results" class="section level2" number="7">
+<h2><span class="header-section-number">7</span> 7) Text Embedding
+Results</h2>
+<p>Run this from the repository root if needed:</p>
 <pre class="bash"><code>python3 text_embedding/run_text_embedding.py</code></pre>
 <pre class="r"><code>path_s4 &lt;- file.path(&quot;outputs&quot;, &quot;tables&quot;, &quot;table_s12.csv&quot;)
 if (file.exists(path_s4)) {
   s4 &lt;- read_csv(path_s4, show_col_types = FALSE)
-  kable(s4, caption = &quot;Table S12. Embedding model results&quot;)
+  kable(s4, caption = &quot;Table 4. Embedding model results&quot;)
 } else {
-  cat(&quot;Table S12 file not found. Run: python3 text_embedding/run_text_embedding.py\n&quot;)
+  cat(&quot;Embedding results file not found. Run: python3 text_embedding/run_text_embedding.py\n&quot;)
 }</code></pre>
 <table style="width:100%;">
-<caption>Table S12. Embedding model results</caption>
+<caption>Table 4. Embedding model results</caption>
 <colgroup>
 <col width="15%" />
 <col width="10%" />
@@ -2890,9 +2614,9 @@ if (file.exists(path_s4)) {
 </tbody>
 </table>
 </div>
-<div id="si-table-s10-party-x-temperature-model" class="section level2" number="8">
-<h2><span class="header-section-number">8</span> 8) SI Table S10 (Party
-x Temperature Model)</h2>
+<div id="party-x-temperature-model" class="section level2" number="8">
+<h2><span class="header-section-number">8</span> 8) Party x Temperature
+Model</h2>
 <p>The interaction term for projected warming by party is not
 statistically significant (<code>p = 0.938</code> for Republican vs
 Democrat slope difference), indicating little evidence that warming
@@ -2910,9 +2634,9 @@ s5_interaction &lt;- tidy(s5_interaction_model, conf.int = TRUE) |&gt;
 
 s5_fit &lt;- glance(s5_interaction_model)
 
-kable(s5_interaction, caption = &quot;Table S10. Interaction model for party-specific sensitivity to projected warming&quot;)</code></pre>
+kable(s5_interaction, caption = &quot;Table 5. Interaction model for party-specific sensitivity to projected warming&quot;)</code></pre>
 <table style="width:100%;">
-<caption>Table S10. Interaction model for party-specific sensitivity to
+<caption>Table 5. Interaction model for party-specific sensitivity to
 projected warming</caption>
 <colgroup>
 <col width="43%" />
@@ -2967,10 +2691,10 @@ projected warming</caption>
     `R-squared` = round(s5_fit$r.squared, 3),
     `Adjusted R-squared` = round(s5_fit$adj.r.squared, 3)
   ),
-  caption = &quot;Table S10 model fit&quot;
+  caption = &quot;Table 5 model fit&quot;
 )</code></pre>
 <table>
-<caption>Table S10 model fit</caption>
+<caption>Table 5 model fit</caption>
 <thead>
 <tr class="header">
 <th align="right">N</th>
@@ -2987,9 +2711,9 @@ projected warming</caption>
 </tbody>
 </table>
 </div>
-<div id="si-table-s3-pilot-1-full-regression-results" class="section level2" number="9">
-<h2><span class="header-section-number">9</span> 9) SI Table S3 (Pilot 1
-Full Regression Results)</h2>
+<div id="pilot-1-full-regression-results" class="section level2" number="9">
+<h2><span class="header-section-number">9</span> 9) Pilot 1 Full
+Regression Results</h2>
 <p>Pilot analyses use the same linear trend specification as the main
 model, regressing each pilot outcome on projected warming magnitude (in
 C).</p>
@@ -3005,9 +2729,9 @@ C).</p>
 
 s6_fit &lt;- glance(m_p1)
 
-kable(s6_p1, caption = &quot;Table S3. Pilot 1 full OLS regression (Outcome: Worry 1-7)&quot;)</code></pre>
+kable(s6_p1, caption = &quot;Table 6. Pilot 1 full OLS regression (Outcome: Worry 1-7)&quot;)</code></pre>
 <table>
-<caption>Table S3. Pilot 1 full OLS regression (Outcome: Worry
+<caption>Table 6. Pilot 1 full OLS regression (Outcome: Worry
 1-7)</caption>
 <colgroup>
 <col width="30%" />
@@ -3053,10 +2777,10 @@ kable(s6_p1, caption = &quot;Table S3. Pilot 1 full OLS regression (Outcome: Wor
     `Adjusted R-squared` = round(s6_fit$adj.r.squared, 3),
     Sigma = round(s6_fit$sigma, 3)
   ),
-  caption = &quot;Table S3 model fit&quot;
+  caption = &quot;Table 6 model fit&quot;
 )</code></pre>
 <table>
-<caption>Table S3 model fit</caption>
+<caption>Table 6 model fit</caption>
 <thead>
 <tr class="header">
 <th align="right">N</th>
@@ -3075,9 +2799,9 @@ kable(s6_p1, caption = &quot;Table S3. Pilot 1 full OLS regression (Outcome: Wor
 </tbody>
 </table>
 </div>
-<div id="si-table-s4-pilot-2-full-regression-results" class="section level2" number="10">
-<h2><span class="header-section-number">10</span> 10) SI Table S4 (Pilot
-2 Full Regression Results)</h2>
+<div id="pilot-2-full-regression-results" class="section level2" number="10">
+<h2><span class="header-section-number">10</span> 10) Pilot 2 Full
+Regression Results</h2>
 <pre class="r"><code>s7_p2 &lt;- tidy(m_p2, conf.int = TRUE) |&gt;
   transmute(
     Predictor = dplyr::recode(term, `(Intercept)` = &quot;(Intercept)&quot;, temp_numeric = &quot;Projected warming (C)&quot;),
@@ -3090,9 +2814,9 @@ kable(s6_p1, caption = &quot;Table S3. Pilot 1 full OLS regression (Outcome: Wor
 
 s7_fit &lt;- glance(m_p2)
 
-kable(s7_p2, caption = &quot;Table S4. Pilot 2 full OLS regression (Outcome: Worry 0-100)&quot;)</code></pre>
+kable(s7_p2, caption = &quot;Table 7. Pilot 2 full OLS regression (Outcome: Worry 0-100)&quot;)</code></pre>
 <table style="width:100%;">
-<caption>Table S4. Pilot 2 full OLS regression (Outcome: Worry
+<caption>Table 7. Pilot 2 full OLS regression (Outcome: Worry
 0-100)</caption>
 <colgroup>
 <col width="29%" />
@@ -3138,10 +2862,10 @@ kable(s7_p2, caption = &quot;Table S4. Pilot 2 full OLS regression (Outcome: Wor
     `Adjusted R-squared` = round(s7_fit$adj.r.squared, 3),
     Sigma = round(s7_fit$sigma, 3)
   ),
-  caption = &quot;Table S4 model fit&quot;
+  caption = &quot;Table 7 model fit&quot;
 )</code></pre>
 <table>
-<caption>Table S4 model fit</caption>
+<caption>Table 7 model fit</caption>
 <thead>
 <tr class="header">
 <th align="right">N</th>
@@ -3160,235 +2884,207 @@ kable(s7_p2, caption = &quot;Table S4. Pilot 2 full OLS regression (Outcome: Wor
 </tbody>
 </table>
 </div>
-<div id="si-tables-s5-s7-outcome-specific-full-regressions-via-stargazer" class="section level2" number="11">
-<h2><span class="header-section-number">11</span> 11) SI Tables S5-S7
-(Outcome-Specific Full Regressions via Stargazer)</h2>
-<p>To assess robustness beyond the composite index, we report separate
-full regressions for each main-study item-level outcome using stargazer
-exports.</p>
+<div id="item-level-regressions" class="section level2" number="11">
+<h2><span class="header-section-number">11</span> 11) Item-Level
+Regressions</h2>
+<p>Each main-study item is regressed separately on assigned warming.
+Pilot regressions report the single worry item collected in each
+pilot.</p>
 <pre class="r"><code>s8_fit &lt;- lm(QID5_1 ~ temp_numeric_c, data = v1)
 s9_fit &lt;- lm(Q17_1 ~ temp_numeric_c, data = v1)
 s10_fit &lt;- lm(Q18_1 ~ temp_numeric_c, data = v1)
-
-dir.create(file.path(&quot;outputs&quot;, &quot;tables&quot;), recursive = TRUE, showWarnings = FALSE)
-
-stargazer(
-  s8_fit,
-  type = &quot;text&quot;,
-  title = &quot;Table S5. Main Study Item-Level Regression: Worry Assigned Temperature&quot;,
-  dep.var.labels = &quot;Worry assigned temperature&quot;,
-  covariate.labels = c(&quot;Projected warming (C)&quot;, &quot;Constant&quot;),
-  digits = 3,
-  star.cutoffs = c(0.05, 0.01, 0.001)
-)</code></pre>
-<pre><code>##
-## Table S5. Main Study Item-Level Regression: Worry Assigned Temperature
-## ===================================================
-##                            Dependent variable:
-##                       -----------------------------
-##                        Worry assigned temperature
-## ---------------------------------------------------
-## Projected warming (C)           2.591***
-##                                  (0.662)
-##
-## Constant                        56.651***
-##                                  (2.626)
-##
-## ---------------------------------------------------
-## Observations                       986
-## R2                                0.015
-## Adjusted R2                       0.014
-## Residual Std. Error         29.756 (df = 984)
-## F Statistic              15.308*** (df = 1; 984)
-## ===================================================
-## Note:                 *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</code></pre>
-<pre class="r"><code>stargazer(
-  s8_fit,
-  type = &quot;latex&quot;,
-  out = file.path(&quot;outputs&quot;, &quot;tables&quot;, &quot;table_s5_stargazer.tex&quot;),
-  title = &quot;Supplementary Table S5. Main Study Item-Level Regression: Worry Assigned Temperature&quot;,
-  label = &quot;tab:s5_main_item_worry&quot;,
-  dep.var.labels = &quot;Worry assigned temperature&quot;,
-  covariate.labels = c(&quot;Projected warming (C)&quot;, &quot;Constant&quot;),
-  digits = 3,
-  star.cutoffs = c(0.05, 0.01, 0.001)
-)</code></pre>
-<pre><code>##
-## % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-## % Date and time: Mon, Oct 26, 2026 - 15:17:32
-## \begin{table}[!htbp] \centering
-##   \caption{Supplementary Table S5. Main Study Item-Level Regression: Worry Assigned Temperature}
-##   \label{tab:s5_main_item_worry}
-## \begin{tabular}{@{\extracolsep{5pt}}lc}
-## \\[-1.8ex]\hline
-## \hline \\[-1.8ex]
-##  &amp; \multicolumn{1}{c}{\textit{Dependent variable:}} \\
-## \cline{2-2}
-## \\[-1.8ex] &amp; Worry assigned temperature \\
-## \hline \\[-1.8ex]
-##  Projected warming (C) &amp; 2.591$^{***}$ \\
-##   &amp; (0.662) \\
-##   &amp; \\
-##  Constant &amp; 56.651$^{***}$ \\
-##   &amp; (2.626) \\
-##   &amp; \\
-## \hline \\[-1.8ex]
-## Observations &amp; 986 \\
-## R$^{2}$ &amp; 0.015 \\
-## Adjusted R$^{2}$ &amp; 0.014 \\
-## Residual Std. Error &amp; 29.756 (df = 984) \\
-## F Statistic &amp; 15.308$^{***}$ (df = 1; 984) \\
-## \hline
-## \hline \\[-1.8ex]
-## \textit{Note:}  &amp; \multicolumn{1}{r}{$^{*}$p$&lt;$0.05; $^{**}$p$&lt;$0.01; $^{***}$p$&lt;$0.001} \\
-## \end{tabular}
-## \end{table}</code></pre>
-<pre class="r"><code>stargazer(
-  s9_fit,
-  type = &quot;text&quot;,
-  title = &quot;Table S6. Main Study Item-Level Regression: Harm to US People&quot;,
-  dep.var.labels = &quot;Perceived harm to US people&quot;,
-  covariate.labels = c(&quot;Projected warming (C)&quot;, &quot;Constant&quot;),
-  digits = 3,
-  star.cutoffs = c(0.05, 0.01, 0.001)
-)</code></pre>
-<pre><code>##
-## Table S6. Main Study Item-Level Regression: Harm to US People
-## ===================================================
-##                            Dependent variable:
-##                       -----------------------------
-##                        Perceived harm to US people
-## ---------------------------------------------------
-## Projected warming (C)           2.519***
-##                                  (0.631)
-##
-## Constant                        57.237***
-##                                  (2.504)
-##
-## ---------------------------------------------------
-## Observations                       986
-## R2                                0.016
-## Adjusted R2                       0.015
-## Residual Std. Error         28.369 (df = 984)
-## F Statistic              15.922*** (df = 1; 984)
-## ===================================================
-## Note:                 *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</code></pre>
-<pre class="r"><code>stargazer(
-  s9_fit,
-  type = &quot;latex&quot;,
-  out = file.path(&quot;outputs&quot;, &quot;tables&quot;, &quot;table_s6_stargazer.tex&quot;),
-  title = &quot;Supplementary Table S6. Main Study Item-Level Regression: Harm to US People&quot;,
-  label = &quot;tab:s6_main_item_harm_us&quot;,
-  dep.var.labels = &quot;Perceived harm to US people&quot;,
-  covariate.labels = c(&quot;Projected warming (C)&quot;, &quot;Constant&quot;),
-  digits = 3,
-  star.cutoffs = c(0.05, 0.01, 0.001)
-)</code></pre>
-<pre><code>##
-## % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-## % Date and time: Mon, Oct 26, 2026 - 15:17:32
-## \begin{table}[!htbp] \centering
-##   \caption{Supplementary Table S6. Main Study Item-Level Regression: Harm to US People}
-##   \label{tab:s6_main_item_harm_us}
-## \begin{tabular}{@{\extracolsep{5pt}}lc}
-## \\[-1.8ex]\hline
-## \hline \\[-1.8ex]
-##  &amp; \multicolumn{1}{c}{\textit{Dependent variable:}} \\
-## \cline{2-2}
-## \\[-1.8ex] &amp; Perceived harm to US people \\
-## \hline \\[-1.8ex]
-##  Projected warming (C) &amp; 2.519$^{***}$ \\
-##   &amp; (0.631) \\
-##   &amp; \\
-##  Constant &amp; 57.237$^{***}$ \\
-##   &amp; (2.504) \\
-##   &amp; \\
-## \hline \\[-1.8ex]
-## Observations &amp; 986 \\
-## R$^{2}$ &amp; 0.016 \\
-## Adjusted R$^{2}$ &amp; 0.015 \\
-## Residual Std. Error &amp; 28.369 (df = 984) \\
-## F Statistic &amp; 15.922$^{***}$ (df = 1; 984) \\
-## \hline
-## \hline \\[-1.8ex]
-## \textit{Note:}  &amp; \multicolumn{1}{r}{$^{*}$p$&lt;$0.05; $^{**}$p$&lt;$0.01; $^{***}$p$&lt;$0.001} \\
-## \end{tabular}
-## \end{table}</code></pre>
-<pre class="r"><code>stargazer(
-  s10_fit,
-  type = &quot;text&quot;,
-  title = &quot;Table S7. Main Study Item-Level Regression: Personal Harm&quot;,
-  dep.var.labels = &quot;Perceived personal harm&quot;,
-  covariate.labels = c(&quot;Projected warming (C)&quot;, &quot;Constant&quot;),
-  digits = 3,
-  star.cutoffs = c(0.05, 0.01, 0.001)
-)</code></pre>
-<pre><code>##
-## Table S7. Main Study Item-Level Regression: Personal Harm
-## ===================================================
-##                            Dependent variable:
-##                       -----------------------------
-##                          Perceived personal harm
-## ---------------------------------------------------
-## Projected warming (C)           3.191***
-##                                  (0.726)
-##
-## Constant                        41.266***
-##                                  (2.881)
-##
-## ---------------------------------------------------
-## Observations                       986
-## R2                                0.019
-## Adjusted R2                       0.018
-## Residual Std. Error         32.638 (df = 984)
-## F Statistic              19.310*** (df = 1; 984)
-## ===================================================
-## Note:                 *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</code></pre>
-<pre class="r"><code>stargazer(
-  s10_fit,
-  type = &quot;latex&quot;,
-  out = file.path(&quot;outputs&quot;, &quot;tables&quot;, &quot;table_s7_stargazer.tex&quot;),
-  title = &quot;Supplementary Table S7. Main Study Item-Level Regression: Personal Harm&quot;,
-  label = &quot;tab:s7_main_item_personal&quot;,
-  dep.var.labels = &quot;Perceived personal harm&quot;,
-  covariate.labels = c(&quot;Projected warming (C)&quot;, &quot;Constant&quot;),
-  digits = 3,
-  star.cutoffs = c(0.05, 0.01, 0.001)
-)</code></pre>
-<pre><code>##
-## % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-## % Date and time: Mon, Oct 26, 2026 - 15:17:33
-## \begin{table}[!htbp] \centering
-##   \caption{Supplementary Table S7. Main Study Item-Level Regression: Personal Harm}
-##   \label{tab:s7_main_item_personal}
-## \begin{tabular}{@{\extracolsep{5pt}}lc}
-## \\[-1.8ex]\hline
-## \hline \\[-1.8ex]
-##  &amp; \multicolumn{1}{c}{\textit{Dependent variable:}} \\
-## \cline{2-2}
-## \\[-1.8ex] &amp; Perceived personal harm \\
-## \hline \\[-1.8ex]
-##  Projected warming (C) &amp; 3.191$^{***}$ \\
-##   &amp; (0.726) \\
-##   &amp; \\
-##  Constant &amp; 41.266$^{***}$ \\
-##   &amp; (2.881) \\
-##   &amp; \\
-## \hline \\[-1.8ex]
-## Observations &amp; 986 \\
-## R$^{2}$ &amp; 0.019 \\
-## Adjusted R$^{2}$ &amp; 0.018 \\
-## Residual Std. Error &amp; 32.638 (df = 984) \\
-## F Statistic &amp; 19.310$^{***}$ (df = 1; 984) \\
-## \hline
-## \hline \\[-1.8ex]
-## \textit{Note:}  &amp; \multicolumn{1}{r}{$^{*}$p$&lt;$0.05; $^{**}$p$&lt;$0.01; $^{***}$p$&lt;$0.001} \\
-## \end{tabular}
-## \end{table}</code></pre>
+for (entry in list(list(s8_fit, &quot;8. Worry assigned temperature&quot;),
+                   list(s9_fit, &quot;9. Harm to US people&quot;),
+                   list(s10_fit, &quot;10. Personal harm&quot;))) {
+  print(kable(tidy(entry[[1]], conf.int = TRUE), digits = 3,
+              caption = paste(&quot;Table&quot;, entry[[2]])))
+  print(kable(glance(entry[[1]]) |&gt; select(nobs, r.squared, adj.r.squared),
+              digits = 3, caption = paste(&quot;Model fit:&quot;, entry[[2]])))
+}</code></pre>
+<table>
+<caption>Table 8. Worry assigned temperature</caption>
+<colgroup>
+<col width="21%" />
+<col width="12%" />
+<col width="14%" />
+<col width="14%" />
+<col width="11%" />
+<col width="12%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">56.651</td>
+<td align="right">2.626</td>
+<td align="right">21.570</td>
+<td align="right">0</td>
+<td align="right">51.497</td>
+<td align="right">61.805</td>
+</tr>
+<tr class="even">
+<td align="left">temp_numeric_c</td>
+<td align="right">2.591</td>
+<td align="right">0.662</td>
+<td align="right">3.913</td>
+<td align="right">0</td>
+<td align="right">1.291</td>
+<td align="right">3.890</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Model fit: 8. Worry assigned temperature</caption>
+<thead>
+<tr class="header">
+<th align="right">nobs</th>
+<th align="right">r.squared</th>
+<th align="right">adj.r.squared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">986</td>
+<td align="right">0.015</td>
+<td align="right">0.014</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table 9. Harm to US people</caption>
+<colgroup>
+<col width="21%" />
+<col width="12%" />
+<col width="14%" />
+<col width="14%" />
+<col width="11%" />
+<col width="12%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">57.237</td>
+<td align="right">2.504</td>
+<td align="right">22.859</td>
+<td align="right">0</td>
+<td align="right">52.323</td>
+<td align="right">62.150</td>
+</tr>
+<tr class="even">
+<td align="left">temp_numeric_c</td>
+<td align="right">2.519</td>
+<td align="right">0.631</td>
+<td align="right">3.990</td>
+<td align="right">0</td>
+<td align="right">1.280</td>
+<td align="right">3.758</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Model fit: 9. Harm to US people</caption>
+<thead>
+<tr class="header">
+<th align="right">nobs</th>
+<th align="right">r.squared</th>
+<th align="right">adj.r.squared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">986</td>
+<td align="right">0.016</td>
+<td align="right">0.015</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table 10. Personal harm</caption>
+<colgroup>
+<col width="21%" />
+<col width="12%" />
+<col width="14%" />
+<col width="14%" />
+<col width="11%" />
+<col width="12%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">41.266</td>
+<td align="right">2.881</td>
+<td align="right">14.325</td>
+<td align="right">0</td>
+<td align="right">35.613</td>
+<td align="right">46.919</td>
+</tr>
+<tr class="even">
+<td align="left">temp_numeric_c</td>
+<td align="right">3.191</td>
+<td align="right">0.726</td>
+<td align="right">4.394</td>
+<td align="right">0</td>
+<td align="right">1.766</td>
+<td align="right">4.617</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Model fit: 10. Personal harm</caption>
+<thead>
+<tr class="header">
+<th align="right">nobs</th>
+<th align="right">r.squared</th>
+<th align="right">adj.r.squared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">986</td>
+<td align="right">0.019</td>
+<td align="right">0.018</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="si-table-s9-within-party-regressions" class="section level2" number="12">
-<h2><span class="header-section-number">12</span> 12) SI Table S9
-(Within-Party Regressions)</h2>
+<div id="within-party-regressions" class="section level2" number="12">
+<h2><span class="header-section-number">12</span> 12) Within-Party
+Regressions</h2>
 <pre class="r"><code>s11_models &lt;- party_binary_df |&gt;
   group_by(party_binary) |&gt;
   group_map(~ lm(worry_index ~ temp_numeric_c, data = .x), .keep = TRUE)
@@ -3404,10 +3100,13 @@ s11 &lt;- bind_rows(lapply(names(s11_models), function(group_name) {
     N = nobs(model),
     Intercept = intercept$estimate,
     `Intercept SE` = intercept$std.error,
+    `Intercept t` = intercept$statistic,
+    `Intercept p` = intercept$p.value,
     `Intercept CI low` = intercept$conf.low,
     `Intercept CI high` = intercept$conf.high,
     `Projected warming` = slope$estimate,
     `Projected warming SE` = slope$std.error,
+    `Projected warming t` = slope$statistic,
     `Projected warming CI low` = slope$conf.low,
     `Projected warming CI high` = slope$conf.high,
     `p-value` = slope$p.value,
@@ -3418,25 +3117,28 @@ s11 &lt;- bind_rows(lapply(names(s11_models), function(group_name) {
 
 kable(
   s11 |&gt; mutate(across(where(is.numeric), ~ round(.x, 3))),
-  caption = &quot;Table S9. Within-party linear regressions of worry index on projected warming&quot;
+  caption = &quot;Table 11. Within-party linear regressions of worry index on projected warming&quot;
 )</code></pre>
 <table>
-<caption>Table S9. Within-party linear regressions of worry index on
+<caption>Table 11. Within-party linear regressions of worry index on
 projected warming</caption>
 <colgroup>
-<col width="5%" />
-<col width="2%" />
-<col width="5%" />
-<col width="6%" />
-<col width="8%" />
-<col width="9%" />
-<col width="9%" />
-<col width="10%" />
-<col width="12%" />
-<col width="13%" />
+<col width="4%" />
+<col width="1%" />
 <col width="4%" />
 <col width="5%" />
-<col width="9%" />
+<col width="4%" />
+<col width="4%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="10%" />
+<col width="10%" />
+<col width="3%" />
+<col width="4%" />
+<col width="7%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3444,10 +3146,13 @@ projected warming</caption>
 <th align="right">N</th>
 <th align="right">Intercept</th>
 <th align="right">Intercept SE</th>
+<th align="right">Intercept t</th>
+<th align="right">Intercept p</th>
 <th align="right">Intercept CI low</th>
 <th align="right">Intercept CI high</th>
 <th align="right">Projected warming</th>
 <th align="right">Projected warming SE</th>
+<th align="right">Projected warming t</th>
 <th align="right">Projected warming CI low</th>
 <th align="right">Projected warming CI high</th>
 <th align="right">p-value</th>
@@ -3461,10 +3166,13 @@ projected warming</caption>
 <td align="right">491</td>
 <td align="right">62.864</td>
 <td align="right">2.687</td>
+<td align="right">23.396</td>
+<td align="right">0</td>
 <td align="right">57.584</td>
 <td align="right">68.143</td>
 <td align="right">2.746</td>
 <td align="right">0.674</td>
+<td align="right">4.077</td>
 <td align="right">1.423</td>
 <td align="right">4.070</td>
 <td align="right">0.00</td>
@@ -3476,10 +3184,13 @@ projected warming</caption>
 <td align="right">354</td>
 <td align="right">39.629</td>
 <td align="right">4.330</td>
+<td align="right">9.151</td>
+<td align="right">0</td>
 <td align="right">31.112</td>
 <td align="right">48.146</td>
 <td align="right">2.841</td>
 <td align="right">1.094</td>
+<td align="right">2.596</td>
 <td align="right">0.688</td>
 <td align="right">4.993</td>
 <td align="right">0.01</td>
@@ -3489,12 +3200,13 @@ projected warming</caption>
 </tbody>
 </table>
 </div>
-<div id="si-table-s13-post-hoc-llm-check-sensitivity" class="section level2" number="13">
-<h2><span class="header-section-number">13</span> 13) SI Table S13 (Post
-Hoc LLM-Check Sensitivity)</h2>
-<p>Table S13 contains aggregate results after excluding 19 responses
-matched to Prolific’s post hoc LLM-check export. Reproducing this
-exclusion requires the nonpublic participant-level classification; see
+<div id="post-hoc-llm-check-sensitivity" class="section level2" number="13">
+<h2><span class="header-section-number">13</span> 13) Post Hoc LLM-Check
+Sensitivity</h2>
+<p><code>outputs/tables/table_s13.csv</code> contains aggregate results
+after excluding 19 responses matched to Prolific’s post hoc LLM-check
+export. Reproducing this exclusion requires the nonpublic
+participant-level classification; see
 <code>sensitivity/README.md</code>.</p>
 <pre class="r"><code>s13 &lt;- read_csv(
   file.path(&quot;outputs&quot;, &quot;tables&quot;, &quot;table_s13.csv&quot;),
@@ -3504,10 +3216,10 @@ exclusion requires the nonpublic participant-level classification; see
 kable(
   s13,
   digits = 6,
-  caption = &quot;Table S13. Sensitivity analyses excluding 19 accounts matched from Prolific&#39;s post hoc LLM-check export&quot;
+  caption = &quot;Table 12. Sensitivity analyses excluding 19 accounts matched from Prolific&#39;s post hoc LLM-check export&quot;
 )</code></pre>
 <table style="width:100%;">
-<caption>Table S13. Sensitivity analyses excluding 19 accounts matched
+<caption>Table 12. Sensitivity analyses excluding 19 accounts matched
 from Prolific’s post hoc LLM-check export</caption>
 <colgroup>
 <col width="3%" />
@@ -3738,13 +3450,15 @@ write_csv(model_export(s10_fit), file.path(&quot;outputs&quot;, &quot;tables&quo
 write_csv(s2_pairs, file.path(&quot;outputs&quot;, &quot;tables&quot;, &quot;table_s8.csv&quot;))
 write_csv(s11, file.path(&quot;outputs&quot;, &quot;tables&quot;, &quot;table_s9.csv&quot;))
 write_csv(model_export(s5_interaction_model), file.path(&quot;outputs&quot;, &quot;tables&quot;, &quot;table_s10.csv&quot;))
-write_csv(model_export(s3_model), file.path(&quot;outputs&quot;, &quot;tables&quot;, &quot;table_s11.csv&quot;))
-# Table S12 is generated by text_embedding/run_text_embedding.py;
-# Table S13 contains archived aggregate sensitivity results.
+write_csv(model_export(s3_model) |&gt; mutate(centering_value = mean(v1$temp_numeric_c)),
+          file.path(&quot;outputs&quot;, &quot;tables&quot;, &quot;table_s11.csv&quot;))
+# table_s12.csv is generated by text_embedding/run_text_embedding.py;
+# table_s13.csv contains archived aggregate sensitivity results.
 
 kable(
   tibble(
-    Output = paste0(&quot;Table S&quot;, 1:13),
+    Output = c(&quot;Participant flow&quot;, &quot;1&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;10&quot;,
+               &quot;2&quot;, &quot;11&quot;, &quot;5&quot;, &quot;3&quot;, &quot;4&quot;, &quot;12&quot;),
     File = file.path(&quot;outputs&quot;, &quot;tables&quot;, paste0(&quot;table_s&quot;, 1:13, &quot;.csv&quot;))
   ),
   caption = &quot;Machine-readable SI table outputs&quot;
@@ -3759,55 +3473,55 @@ kable(
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Table S1</td>
+<td align="left">Participant flow</td>
 <td align="left">outputs/tables/table_s1.csv</td>
 </tr>
 <tr class="even">
-<td align="left">Table S2</td>
+<td align="left">1</td>
 <td align="left">outputs/tables/table_s2.csv</td>
 </tr>
 <tr class="odd">
-<td align="left">Table S3</td>
+<td align="left">6</td>
 <td align="left">outputs/tables/table_s3.csv</td>
 </tr>
 <tr class="even">
-<td align="left">Table S4</td>
+<td align="left">7</td>
 <td align="left">outputs/tables/table_s4.csv</td>
 </tr>
 <tr class="odd">
-<td align="left">Table S5</td>
+<td align="left">8</td>
 <td align="left">outputs/tables/table_s5.csv</td>
 </tr>
 <tr class="even">
-<td align="left">Table S6</td>
+<td align="left">9</td>
 <td align="left">outputs/tables/table_s6.csv</td>
 </tr>
 <tr class="odd">
-<td align="left">Table S7</td>
+<td align="left">10</td>
 <td align="left">outputs/tables/table_s7.csv</td>
 </tr>
 <tr class="even">
-<td align="left">Table S8</td>
+<td align="left">2</td>
 <td align="left">outputs/tables/table_s8.csv</td>
 </tr>
 <tr class="odd">
-<td align="left">Table S9</td>
+<td align="left">11</td>
 <td align="left">outputs/tables/table_s9.csv</td>
 </tr>
 <tr class="even">
-<td align="left">Table S10</td>
+<td align="left">5</td>
 <td align="left">outputs/tables/table_s10.csv</td>
 </tr>
 <tr class="odd">
-<td align="left">Table S11</td>
+<td align="left">3</td>
 <td align="left">outputs/tables/table_s11.csv</td>
 </tr>
 <tr class="even">
-<td align="left">Table S12</td>
+<td align="left">4</td>
 <td align="left">outputs/tables/table_s12.csv</td>
 </tr>
 <tr class="odd">
-<td align="left">Table S13</td>
+<td align="left">12</td>
 <td align="left">outputs/tables/table_s13.csv</td>
 </tr>
 </tbody>

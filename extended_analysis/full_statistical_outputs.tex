@@ -1,458 +1,279 @@
-\documentclass[11pt, a4paper]{article}
-
-
+\documentclass[11pt,a4paper]{article}
 \usepackage[margin=1in]{geometry}
-\usepackage{times} %  Times New Roman 
 \usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
+\usepackage{times,booktabs,tabularx,longtable,caption,hyperref}
 \usepackage{setspace}
-\setstretch{1.2} % 
-
-
-\usepackage{booktabs}   
-\usepackage{array}      
-\usepackage{longtable}  
-\usepackage{tabularx}   
-\usepackage{threeparttable} 
-\usepackage{threeparttablex} 
-\usepackage{graphicx}   
-\usepackage{siunitx}    
-\usepackage{dcolumn}    
-\usepackage{hyperref}
-
-
-\usepackage[labelfont={bf}, textfont={rm}, labelsep=space]{caption} 
-
-
-\renewcommand{\thefigure}{S\arabic{figure}}
-\renewcommand{\thetable}{S\arabic{table}}
-\setcounter{figure}{0}
-\setcounter{table}{0}
-
-
-\sisetup{
-  input-symbols = {()}, 
-  group-digits = false, 
-  detect-all            
-}
-
+\setstretch{1.1}
+\captionsetup{labelfont=bf,textfont=rm,labelsep=period,justification=raggedright,singlelinecheck=false}
+\renewcommand{\thetable}{\arabic{table}}
+\setlength{\tabcolsep}{4pt}
+\setlength{\parindent}{0pt}
 \begin{document}
 \begin{center}
-{\Large\bfseries Statistical tables}\\[0.5em]
+{\Large\bfseries Statistical Tables}\\[0.5em]
 Public Insensitivity to the Paris Temperature Targets\\[0.5em]
 Ziqian Xia, Rachit Dubey, and Sara M. Constantino
 \end{center}
-Tables S1--S12.
+\bigskip
+\captionof{table}{Main-study regression of the Worry Index on projected warming.}\label{tab:1}
+\begingroup\small
+\begin{tabularx}{\textwidth}{@{}Xrrrrr@{}}
+\toprule
+Predictor & $b$ & SE & $t$ & 95\% CI & $p$ \\
+\midrule
+Intercept & 51.718 & 2.478 & 20.873 & [46.86, 56.58] & $<0.001$ \\
+Projected warming ($^\circ$C) & 2.767 & 0.625 & 4.430 & [1.54, 3.99] & $<0.001$ \\
+Observations & 986 &  &  &  &  \\
+$R^2$ & 0.020 &  &  &  &  \\
+Adjusted $R^2$ & 0.019 &  &  &  &  \\
+\bottomrule\end{tabularx}
+\par\smallskip
+{\footnotesize\textit{Note.} Unstandardized OLS coefficients; two-sided tests and 95\% confidence intervals. The Worry Index averages three 0--100 items. Warming is in Celsius-equivalent units.\par}
+\endgroup\bigskip
 \clearpage
-\begin{table}[htbp]
-\centering
-\begin{threeparttable}
-\caption{\textbf{Linear Regression Model predicting Worry Index.}}
-\label{tab:s1_linear_model}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l S[table-format=2.3] S[table-format=1.3] c @{}}
+\captionof{table}{Pairwise comparisons across warming levels with Holm correction.}\label{tab:2}
+\begingroup\small\setstretch{1.0}
+\setlength{\LTleft}{\fill}\setlength{\LTright}{\fill}
+\begin{longtable}{@{}rrrrrrrr@{}}
 \toprule
- & \multicolumn{3}{c}{\textbf{Dependent Variable: Worry Index}} \\
-\cmidrule{2-4}
-\textbf{Predictor} & {\textbf{Coefficient} ($\beta$)} & {\textbf{Std. Error}} & \textbf{95\% CI} \\ 
-\midrule
-(Intercept) & 51.718*** & 2.478 & $[46.86, 56.58]$ \\
-Projected Warming ($^\circ$C) & 2.767*** & 0.625 & $[1.54, 3.99]$ \\
-\midrule
-Observations & {986} & & \\
-$R^2$ & {0.020} & & \\
-Adjusted $R^2$ & {0.019} & & \\
-\bottomrule
-\end{tabular*}
-\begin{tablenotes}
-    \footnotesize
-    \item \textit{Note:} Unstandardized OLS regression coefficients. Confidence intervals (CI) are 95\%.
-    \item Significance levels: * $p<0.05$, ** $p<0.01$, *** $p<0.001$.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-\vspace{2em}
-
-\begin{ThreePartTable}
-\begin{TableNotes}
-    \footnotesize
-    \item \textit{Note:} Pairwise comparisons using Welch's t-tests. P-values are adjusted using the Holm step-down method. Cohen's $d$ is reported for each comparison.
-\end{TableNotes}
-\setlength\tabcolsep{3pt}
-\begin{longtable}{
-    l
-    l
-    S[table-format=3.0]
-    S[table-format=3.0]
-    S[table-format=-1.4]
-    S[table-format=3.4]
-    c
-    c
-    S[table-format=-1.3]
-    c
-}
-\caption{\textbf{Pairwise Comparisons of Risk Perception across Temperature Conditions (Holm-corrected) with Cohen's $d$.}} \label{tab:s2_pairwise} \\
+Group 1 & Group 2 & $N_1$ & $N_2$ & $t$ & df & $p$ & $p_{\mathrm{Holm}}$\\
+\midrule\endfirsthead
+\multicolumn{8}{l}{Table 2 (continued)}\\
 \toprule
-\textbf{Group 1} & \textbf{Group 2} & {\textbf{$N_1$}} & {\textbf{$N_2$}} & {\textbf{Statistic ($t$)}} & {\textbf{df}} & {\textbf{$p$}} & {\textbf{$p_{adj}$}} & {\textbf{Cohen's $d$}} & \textbf{Sig.} \\
-\midrule
-\endfirsthead
-
-\multicolumn{10}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-\toprule
-\textbf{Group 1} & \textbf{Group 2} & {\textbf{$N_1$}} & {\textbf{$N_2$}} & {\textbf{Statistic ($t$)}} & {\textbf{df}} & {\textbf{$p$}} & {\textbf{$p_{adj}$}} & {\textbf{Cohen's $d$}} & \textbf{Sig.} \\
-\midrule
-\endhead
-
-\midrule
-\multicolumn{10}{r}{{Continued on next page...}} \\
-\bottomrule
-\endfoot
-
-\bottomrule
-\insertTableNotes
-\endlastfoot
-
-1.5 & 2 & 101 & 113 & -0.1643 & 210.7023 & 0.870 & 1.000  & -0.022 & ns \\
-1.5 & 2.5 & 101 & 102 & -1.5633 & 200.2496 & 0.120 & 1.000  & -0.220 & ns \\
-1.5 & 3 & 101 & 73 & -0.6723 & 153.3969 & 0.502 & 1.000  & -0.104 & ns \\
-1.5 & 3.5 & 101 & 109 & -1.3659 & 206.7954 & 0.173 & 1.000  & -0.189 & ns \\
-1.5 & 4 & 101 & 115 & -1.6152 & 208.3519 & 0.108 & 1.000  & -0.221 & ns \\
-1.5 & 4.5 & 101 & 102 & -2.2450 & 200.0718 & 0.026 & 1.000  & -0.315 & ns \\
-1.5 & 5 & 101 & 86 & -2.1474 & 180.0185 & 0.033 & 1.000  & -0.315 & ns \\
-1.5 & 5.5 & 101 & 89 & -3.3078 & 186.7379 & 0.001 & 0.051  & -0.480 & ns \\
-1.5 & 6 & 101 & 96 & -2.9112 & 193.2765 & 0.004 & 0.173  & -0.415 & ns \\
-2 & 2.5 & 113 & 102 & -1.4122 & 212.9375 & 0.159 & 1.000  & -0.192 & ns \\
-2 & 3 & 113 & 73 & -0.5298 & 155.3519 & 0.597 & 1.000  & -0.079 & ns \\
-2 & 3.5 & 113 & 109 & -1.2138 & 219.9990 & 0.226 & 1.000  & -0.163 & ns \\
-2 & 4 & 113 & 115 & -1.4620 & 224.3353 & 0.145 & 1.000  & -0.194 & ns \\
-2 & 4.5 & 113 & 102 & -2.1013 & 212.9778 & 0.037 & 1.000  & -0.286 & ns \\
-2 & 5 & 113 & 86 & -2.0115 & 185.7889 & 0.046 & 1.000  & -0.287 & ns \\
-2 & 5.5 & 113 & 89 & -3.1801 & 194.9398 & 0.002 & 0.075  & -0.446 & ns \\
-2 & 6 & 113 & 96 & -2.7820 & 200.9790 & 0.006 & 0.249  & -0.386 & ns \\
-2.5 & 3 & 102 & 73 & 0.7203 & 148.3048 & 0.472 & 1.000  & 0.112 & ns \\
-2.5 & 3.5 & 102 & 109 & 0.1890 & 208.9528 & 0.850 & 1.000  & 0.026 & ns \\
-2.5 & 4 & 102 & 115 & -0.0213 & 212.7201 & 0.983 & 1.000  & -0.003 & ns \\
-2.5 & 4.5 & 102 & 102 & -0.6966 & 201.9903 & 0.487 & 1.000  & -0.098 & ns \\
-2.5 & 5 & 102 & 86 & -0.7096 & 176.8736 & 0.479 & 1.000  & -0.104 & ns \\
-2.5 & 5.5 & 102 & 89 & -1.8496 & 185.1866 & 0.066 & 1.000  & -0.268 & ns \\
-2.5 & 6 & 102 & 96 & -1.4804 & 191.3900 & 0.140 & 1.000  & -0.211 & ns \\
-3 & 3.5 & 73 & 109 & -0.5495 & 152.3814 & 0.583 & 1.000  & -0.083 & ns \\
-3 & 4 & 73 & 115 & -0.7505 & 147.1473 & 0.454 & 1.000  & -0.114 & ns \\
-3 & 4.5 & 73 & 102 & -1.3312 & 147.6148 & 0.185 & 1.000  & -0.207 & ns \\
-3 & 5 & 73 & 86 & -1.3104 & 152.0193 & 0.192 & 1.000  & -0.209 & ns \\
-3 & 5.5 & 73 & 89 & -2.3315 & 149.5415 & 0.021 & 0.865  & -0.371 & ns \\
-3 & 6 & 73 & 96 & -1.9985 & 156.9086 & 0.047 & 1.000  & -0.309 & ns \\
-3.5 & 4 & 109 & 115 & -0.2141 & 220.2803 & 0.831 & 1.000  & -0.029 & ns \\
-3.5 & 4.5 & 109 & 102 & -0.8798 & 208.9863 & 0.380 & 1.000  & -0.121 & ns \\
-3.5 & 5 & 109 & 86 & -0.8794 & 182.2359 & 0.380 & 1.000  & -0.127 & ns \\
-3.5 & 5.5 & 109 & 89 & -2.0156 & 191.1759 & 0.045 & 1.000  & -0.287 & ns \\
-3.5 & 6 & 109 & 96 & -1.6454 & 197.2539 & 0.101 & 1.000  & -0.231 & ns \\
-4 & 4.5 & 115 & 102 & -0.6901 & 213.0122 & 0.491 & 1.000  & -0.094 & ns \\
-4 & 5 & 115 & 86 & -0.7028 & 179.3145 & 0.483 & 1.000  & -0.101 & ns \\
-4 & 5.5 & 115 & 89 & -1.8653 & 190.3271 & 0.064 & 1.000  & -0.263 & ns \\
-4 & 6 & 115 & 96 & -1.4879 & 195.9109 & 0.138 & 1.000  & -0.207 & ns \\
-4.5 & 5 & 102 & 86 & -0.0661 & 176.3472 & 0.947 & 1.000  & -0.010 & ns \\
-4.5 & 5.5 & 102 & 89 & -1.1854 & 184.8194 & 0.237 & 1.000  & -0.172 & ns \\
-4.5 & 6 & 102 & 96 & -0.8334 & 190.9868 & 0.406 & 1.000  & -0.119 & ns \\
-5 & 5.5 & 86 & 89 & -1.0376 & 171.7890 & 0.301 & 1.000  & -0.157 & ns \\
-5 & 6 & 86 & 96 & -0.7150 & 179.0788 & 0.476 & 1.000  & -0.106 & ns \\
-5.5 & 6 & 89 & 96 & 0.3077 & 182.9720 & 0.759 & 1.000  & 0.045 & ns \\
+Group 1 & Group 2 & $N_1$ & $N_2$ & $t$ & df & $p$ & $p_{\mathrm{Holm}}$\\
+\midrule\endhead
+\bottomrule\endfoot
+1.5 & 2 & 101 & 113 & -0.1643 & 210.7023 & 0.870 & 1.000 \\
+1.5 & 2.5 & 101 & 102 & -1.5633 & 200.2496 & 0.120 & 1.000 \\
+1.5 & 3 & 101 & 73 & -0.6723 & 153.3969 & 0.502 & 1.000 \\
+1.5 & 3.5 & 101 & 109 & -1.3659 & 206.7954 & 0.173 & 1.000 \\
+1.5 & 4 & 101 & 115 & -1.6152 & 208.3519 & 0.108 & 1.000 \\
+1.5 & 4.5 & 101 & 102 & -2.2450 & 200.0718 & 0.026 & 1.000 \\
+1.5 & 5 & 101 & 86 & -2.1474 & 180.0185 & 0.033 & 1.000 \\
+1.5 & 5.5 & 101 & 89 & -3.3078 & 186.7379 & 0.001 & 0.051 \\
+1.5 & 6 & 101 & 96 & -2.9112 & 193.2765 & 0.004 & 0.173 \\
+2 & 2.5 & 113 & 102 & -1.4122 & 212.9375 & 0.159 & 1.000 \\
+2 & 3 & 113 & 73 & -0.5298 & 155.3519 & 0.597 & 1.000 \\
+2 & 3.5 & 113 & 109 & -1.2138 & 219.9990 & 0.226 & 1.000 \\
+2 & 4 & 113 & 115 & -1.4620 & 224.3353 & 0.145 & 1.000 \\
+2 & 4.5 & 113 & 102 & -2.1013 & 212.9778 & 0.037 & 1.000 \\
+2 & 5 & 113 & 86 & -2.0115 & 185.7889 & 0.046 & 1.000 \\
+2 & 5.5 & 113 & 89 & -3.1801 & 194.9398 & 0.002 & 0.075 \\
+2 & 6 & 113 & 96 & -2.7820 & 200.9790 & 0.006 & 0.249 \\
+2.5 & 3 & 102 & 73 & 0.7203 & 148.3048 & 0.472 & 1.000 \\
+2.5 & 3.5 & 102 & 109 & 0.1890 & 208.9528 & 0.850 & 1.000 \\
+2.5 & 4 & 102 & 115 & -0.0213 & 212.7201 & 0.983 & 1.000 \\
+2.5 & 4.5 & 102 & 102 & -0.6966 & 201.9903 & 0.487 & 1.000 \\
+2.5 & 5 & 102 & 86 & -0.7096 & 176.8736 & 0.479 & 1.000 \\
+2.5 & 5.5 & 102 & 89 & -1.8496 & 185.1866 & 0.066 & 1.000 \\
+2.5 & 6 & 102 & 96 & -1.4804 & 191.3900 & 0.140 & 1.000 \\
+3 & 3.5 & 73 & 109 & -0.5495 & 152.3814 & 0.583 & 1.000 \\
+3 & 4 & 73 & 115 & -0.7505 & 147.1473 & 0.454 & 1.000 \\
+3 & 4.5 & 73 & 102 & -1.3312 & 147.6148 & 0.185 & 1.000 \\
+3 & 5 & 73 & 86 & -1.3104 & 152.0193 & 0.192 & 1.000 \\
+3 & 5.5 & 73 & 89 & -2.3315 & 149.5415 & 0.021 & 0.864 \\
+3 & 6 & 73 & 96 & -1.9985 & 156.9086 & 0.047 & 1.000 \\
+3.5 & 4 & 109 & 115 & -0.2141 & 220.2803 & 0.831 & 1.000 \\
+3.5 & 4.5 & 109 & 102 & -0.8798 & 208.9863 & 0.380 & 1.000 \\
+3.5 & 5 & 109 & 86 & -0.8794 & 182.2359 & 0.380 & 1.000 \\
+3.5 & 5.5 & 109 & 89 & -2.0156 & 191.1759 & 0.045 & 1.000 \\
+3.5 & 6 & 109 & 96 & -1.6454 & 197.2539 & 0.101 & 1.000 \\
+4 & 4.5 & 115 & 102 & -0.6901 & 213.0122 & 0.491 & 1.000 \\
+4 & 5 & 115 & 86 & -0.7028 & 179.3145 & 0.483 & 1.000 \\
+4 & 5.5 & 115 & 89 & -1.8653 & 190.3271 & 0.064 & 1.000 \\
+4 & 6 & 115 & 96 & -1.4879 & 195.9109 & 0.138 & 1.000 \\
+4.5 & 5 & 102 & 86 & -0.0661 & 176.3472 & 0.947 & 1.000 \\
+4.5 & 5.5 & 102 & 89 & -1.1854 & 184.8194 & 0.237 & 1.000 \\
+4.5 & 6 & 102 & 96 & -0.8334 & 190.9868 & 0.406 & 1.000 \\
+5 & 5.5 & 86 & 89 & -1.0376 & 171.7890 & 0.301 & 1.000 \\
+5 & 6 & 86 & 96 & -0.7150 & 179.0788 & 0.476 & 1.000 \\
+5.5 & 6 & 89 & 96 & 0.3077 & 182.9720 & 0.759 & 1.000 \\
 \end{longtable}
-\end{ThreePartTable}
-
-\newpage
-\begin{table}[htbp]
-\centering
-\begin{threeparttable}
-\caption{\textbf{OLS Regression: Interaction between Temperature and Unit Framing ($^{\circ}$C vs $^{\circ}$F).}}
-\label{tab:s3_unit_framing}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l S[table-format=-1.2] S[table-format=1.2] c @{}}
+{\footnotesize\textit{Note.} Warming levels are in Celsius-equivalent units, pooling the Celsius and Fahrenheit conditions. Two-sided Welch tests; Holm correction across all 45 contrasts.\par}
+\endgroup\clearpage
+\captionof{table}{Interaction between projected warming and unit framing.}\label{tab:3}
+\begingroup\small
+\begin{tabularx}{\textwidth}{@{}Xrrrrr@{}}
 \toprule
- & \multicolumn{3}{c}{\textbf{Dependent Variable: Worry Index}} \\
-\cmidrule{2-4}
-\textbf{Predictor} & {\textbf{Coefficient} ($\beta$)} & {\textbf{Std. Error}} & \textbf{95\% CI} \\
+Predictor & $b$ & SE & $t$ & 95\% CI & $p$ \\
 \midrule
-(Intercept) & 59.73*** & 1.28 & $[57.22, 62.25]$ \\
-Projected Warming (centered) & 3.16*** & 0.88 & $[1.43, 4.90]$ \\
-Unit Condition [Fahrenheit] & 4.27* & 1.79 & $[0.77, 7.78]$ \\
-Warming $\times$ Unit [F] & -0.71 & 1.25 & $[-3.16, 1.74]$ \\
-\midrule
-Observations & {986} & & \\
-$R^2$ & {0.026} & & \\
-Adjusted $R^2$ & {0.023} & & \\
-\bottomrule
-\end{tabular*}
-\begin{tablenotes}
-    \footnotesize
-    \item \textit{Note:} Assigned warming is expressed in Celsius-equivalent units and centered at the sample mean (3.699$^\circ$C). The reference group is Celsius; the Fahrenheit coefficient therefore represents the average unit-framing difference at the sample-mean warming level. The interaction term tests whether the warming slope differs by unit.
-    \item Significance levels: * $p<0.05$, ** $p<0.01$, *** $p<0.001$.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-\begin{table}[htbp]
-\centering
-\begin{threeparttable}
-\caption{\textbf{Semantic Similarity Analysis across Five Embedding Models (N=986).}}
-\label{tab:s4_embedding}
-\begin{tabularx}{\textwidth}{@{} l l S[table-format=1.5] S[table-format=1.3] l @{}}
+Intercept & 59.734 & 1.283 & 46.554 & [57.22, 62.25] & $<0.001$ \\
+Projected warming (centered) & 3.162 & 0.884 & 3.579 & [1.43, 4.90] & $<0.001$ \\
+Fahrenheit (vs. Celsius) & 4.274 & 1.786 & 2.393 & [0.77, 7.78] & 0.017 \\
+Warming $\times$ Fahrenheit & -0.712 & 1.247 & -0.571 & [-3.16, 1.74] & 0.568 \\
+Observations & 986 &  &  &  &  \\
+$R^2$ & 0.026 &  &  &  &  \\
+Adjusted $R^2$ & 0.023 &  &  &  &  \\
+\bottomrule\end{tabularx}
+\par\smallskip
+{\footnotesize\textit{Note.} Unstandardized OLS coefficients; two-sided tests and 95\% confidence intervals. Warming is centered at the main-sample mean (3.699$^\circ$C). Celsius is the reference unit.\par}
+\endgroup\bigskip
+\captionof{table}{Semantic similarity across five embedding models.}\label{tab:4}
+\begingroup\small
+\begin{tabularx}{\textwidth}{@{}Xrrrrr@{}}
 \toprule
-\textbf{Embedding Model} & \textbf{Text Input} & {\textbf{$\Delta$ (Within--Between)}} & {\textbf{$p$-value}} & \textbf{Significance} \\
+Model & Input & Within & Between & $\Delta$ & $p$ \\
 \midrule
-\textbf{all-mpnet-base-v2} & Raw & 0.00223 & 0.025 & \textit{Sig.} \\
- & Clean\tnote{a} & 0.00233 & 0.018 & \textit{Sig.} \\
-\addlinespace
-\textbf{BAAI/bge-large-en-v1.5} & Raw & 0.00111 & 0.041 & \textit{Sig.} \\
- & Clean\tnote{a} & 0.00095 & 0.076 & \textit{Marginal} \\
-\addlinespace
-\textbf{mixedbread-ai/mxbai-embed-large-v1} & Raw & 0.00095 & 0.102 & \textit{Non-sig.} \\
- & Clean\tnote{a} & 0.00081 & 0.159 & \textit{Non-sig.} \\
-\addlinespace
-\textbf{all-MiniLM-L6-v2} & Raw & 0.00133 & 0.110 & \textit{Non-sig.} \\
- & Clean\tnote{a} & 0.00131 & 0.123 & \textit{Non-sig.} \\
-\addlinespace
-\textbf{intfloat/e5-large-v2} & Raw & 0.00014 & 0.580 & \textit{Non-sig.} \\
- & Clean\tnote{a} & 0.00004 & 0.860 & \textit{Non-sig.} \\
-\bottomrule
-\end{tabularx}
-\begin{tablenotes}
-\footnotesize
-\item[a] ``Clean'' text input refers to responses where explicit temperature references (e.g., ``1.5 degrees'', ``6C'') were removed to test for semantic content independent of numerical cues.
-\item Significance is determined by permutation testing (1000 iterations).
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-\newpage
-\begin{table}[htbp]
-\centering
-\begin{threeparttable}
-\caption{\textbf{Interaction Model for Party-Specific Sensitivity to Projected Warming.}}
-\label{tab:s5_interaction}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l S[table-format=-2.3] S[table-format=1.3] c @{}}
+MPNet-Base & Raw & 0.46445 & 0.46222 & 0.00223 & 0.025 \\
+MPNet-Base & Clean & 0.46471 & 0.46238 & 0.00233 & 0.018 \\
+MiniLM-L6 & Raw & 0.39978 & 0.39846 & 0.00133 & 0.110 \\
+MiniLM-L6 & Clean & 0.40508 & 0.40377 & 0.00131 & 0.123 \\
+E5-Large & Raw & 0.83040 & 0.83026 & 0.00014 & 0.580 \\
+E5-Large & Clean & 0.83179 & 0.83175 & 0.00004 & 0.860 \\
+BGE-Large & Raw & 0.61863 & 0.61752 & 0.00111 & 0.041 \\
+BGE-Large & Clean & 0.62047 & 0.61952 & 0.00095 & 0.076 \\
+Mxbai-Large & Raw & 0.61447 & 0.61352 & 0.00095 & 0.102 \\
+Mxbai-Large & Clean & 0.61684 & 0.61604 & 0.00081 & 0.159 \\
+\bottomrule\end{tabularx}
+\par\smallskip
+{\footnotesize\textit{Note.} $N=986$. $\Delta$ is mean within-condition minus between-condition cosine similarity. Two-sided permutation tests use 1,000 label permutations (seed 123); $p$-values are unadjusted. Clean input removes numeric and temperature cues as described in SI Section S5.\par}
+\endgroup\bigskip
+\clearpage
+\captionof{table}{Interaction between projected warming and political party.}\label{tab:5}
+\begingroup\small
+\begin{tabularx}{\textwidth}{@{}Xrrrrr@{}}
 \toprule
-\textbf{Term} & {\textbf{Coefficient}} & {\textbf{Std. Error}} & \textbf{95\% CI} \\
+Predictor & $b$ & SE & $t$ & 95\% CI & $p$ \\
 \midrule
-(Intercept) & 62.864*** & 3.140 & $[56.70, 69.03]$ \\
-Projected Warming ($^\circ$C) & 2.746*** & 0.787 & $[1.20, 4.29]$ \\
-Republican (vs Democrat) & -23.235*** & 4.851 & $[-32.76, -13.71]$ \\
-Warming $\times$ Republican & 0.095 & 1.222 & $[-2.30, 2.49]$ \\
-\midrule
-Observations & {845} & & \\
-$R^2$ & {0.186} & & \\
-Adjusted $R^2$ & {0.183} & & \\
-\bottomrule
-\end{tabular*}
-\begin{tablenotes}
-\footnotesize
-\item \textit{Note:} Party coding follows survey skip logic: self-identified Democrats/Republicans are coded directly, and Independents/No preference/Other are classified using lean (Closer to Democratic/Republican). The interaction term is not statistically significant ($p = 0.938$), indicating little evidence that warming sensitivity differs by party. Separate within-party regressions are reported in Table S11.
-\item Significance levels: * $p<0.05$, ** $p<0.01$, *** $p<0.001$.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-\newpage
-\begin{table}[htbp]
-\centering
-\begin{threeparttable}
-\caption{\textbf{Pilot 1 Full OLS Regression (Outcome: Worry 1--7).}}
-\label{tab:s6_pilot1}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l S[table-format=1.3] S[table-format=2.3] S[table-format=1.3] c c @{}}
+Intercept & 62.864 & 3.140 & 20.019 & [56.70, 69.03] & $<0.001$ \\
+Projected warming ($^\circ$C) & 2.746 & 0.787 & 3.488 & [1.20, 4.29] & $<0.001$ \\
+Republican (vs. Democrat) & -23.235 & 4.851 & -4.790 & [-32.76, -13.71] & $<0.001$ \\
+Warming $\times$ Republican & 0.095 & 1.222 & 0.077 & [-2.30, 2.49] & 0.938 \\
+Observations & 845 &  &  &  &  \\
+$R^2$ & 0.186 &  &  &  &  \\
+Adjusted $R^2$ & 0.183 &  &  &  &  \\
+\bottomrule\end{tabularx}
+\par\smallskip
+{\footnotesize\textit{Note.} Unstandardized OLS coefficients; two-sided tests and 95\% confidence intervals. Democrats are the reference group. Self-identified partisans are coded directly; Independents, Other party, and No preference respondents are classified using the leaning question. Respondents without a Democratic or Republican affiliation or lean are excluded. Table 11 reports separate within-party fits.\par}
+\endgroup\bigskip
+\clearpage
+\captionof{table}{Pilot 1: regression of worry on projected warming.}\label{tab:6}
+\begingroup\small
+\begin{tabularx}{\textwidth}{@{}Xrrrrr@{}}
 \toprule
-\textbf{Predictor} & {\textbf{Coefficient}} & {\textbf{Std. Error}} & {\textbf{t-stat}} & \textbf{95\% CI} & \textbf{$p$-value} \\
+Predictor & $b$ & SE & $t$ & 95\% CI & $p$ \\
 \midrule
-(Intercept) & 4.759*** & 0.224 & 21.286 & $[4.32, 5.20]$ & $<0.001$ \\
-Projected Warming ($^\circ$C) & 0.126* & 0.056 & 2.239 & $[0.02, 0.24]$ & 0.026 \\
-\midrule
-Observations & 493 & & & & \\
-$R^2$ & 0.010 & & & & \\
-Adjusted $R^2$ & 0.008 & & & & \\
-\bottomrule
-\end{tabular*}
-\begin{tablenotes}
-\footnotesize
-\item \textit{Note:} OLS model estimated as Worry $\sim$ Projected Warming.
-\item Significance levels: * $p<0.05$, ** $p<0.01$, *** $p<0.001$.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-\begin{table}[htbp]
-\centering
-\begin{threeparttable}
-\caption{\textbf{Pilot 2 Full OLS Regression (Outcome: Worry 0--100).}}
-\label{tab:s7_pilot2}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l S[table-format=2.3] S[table-format=1.3] S[table-format=2.3] c c @{}}
+Intercept & 4.759 & 0.224 & 21.286 & [4.32, 5.20] & $<0.001$ \\
+Projected warming ($^\circ$C) & 0.126 & 0.056 & 2.239 & [0.02, 0.24] & 0.026 \\
+Observations & 493 &  &  &  &  \\
+$R^2$ & 0.010 &  &  &  &  \\
+Adjusted $R^2$ & 0.008 &  &  &  &  \\
+\bottomrule\end{tabularx}
+\par\smallskip
+{\footnotesize\textit{Note.} Unstandardized OLS coefficients; two-sided tests and 95\% confidence intervals. Worry uses a 1--7 scale; warming is in $^\circ$C.\par}
+\endgroup\bigskip
+\captionof{table}{Pilot 2: regression of worry on projected warming.}\label{tab:7}
+\begingroup\small
+\begin{tabularx}{\textwidth}{@{}Xrrrrr@{}}
 \toprule
-\textbf{Predictor} & {\textbf{Coefficient}} & {\textbf{Std. Error}} & {\textbf{t-stat}} & \textbf{95\% CI} & \textbf{$p$-value} \\
+Predictor & $b$ & SE & $t$ & 95\% CI & $p$ \\
 \midrule
-(Intercept) & 56.985*** & 3.838 & 14.849 & $[49.44, 64.52]$ & $<0.001$ \\
-Projected Warming ($^\circ$C) & 1.511 & 0.946 & 1.598 & $[-0.35, 3.37]$ & 0.111 \\
-\midrule
-Observations & 498 & & & & \\
-$R^2$ & 0.005 & & & & \\
-Adjusted $R^2$ & 0.003 & & & & \\
-\bottomrule
-\end{tabular*}
-\begin{tablenotes}
-\footnotesize
-\item \textit{Note:} OLS model estimated as Worry $\sim$ Projected Warming.
-\item Significance levels: * $p<0.05$, ** $p<0.01$, *** $p<0.001$.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-\newpage
-\begin{table}[htbp]
-\centering
-\small
-\setlength{\tabcolsep}{3pt}
-\begin{threeparttable}
-\caption{\textbf{Main Study Item-Level Full OLS Regression (Outcome: Worry Assigned Temperature).}}
-\label{tab:s8_main_item_worry}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l S[table-format=2.3] S[table-format=1.3] S[table-format=2.3] c c @{}}
+Intercept & 56.985 & 3.838 & 14.849 & [49.44, 64.52] & $<0.001$ \\
+Projected warming ($^\circ$C) & 1.511 & 0.946 & 1.598 & [-0.35, 3.37] & 0.111 \\
+Observations & 498 &  &  &  &  \\
+$R^2$ & 0.005 &  &  &  &  \\
+Adjusted $R^2$ & 0.003 &  &  &  &  \\
+\bottomrule\end{tabularx}
+\par\smallskip
+{\footnotesize\textit{Note.} Unstandardized OLS coefficients; two-sided tests and 95\% confidence intervals. Worry uses a 0--100 scale; warming is in $^\circ$C.\par}
+\endgroup\bigskip
+\clearpage
+\captionof{table}{Main-study item-level regression: worry about assigned warming.}\label{tab:8}
+\begingroup\small
+\begin{tabularx}{\textwidth}{@{}Xrrrrr@{}}
 \toprule
-\textbf{Predictor} & {\textbf{Coefficient}} & {\textbf{Std. Error}} & {\textbf{t-stat}} & \textbf{95\% CI} & \textbf{$p$-value} \\
+Predictor & $b$ & SE & $t$ & 95\% CI & $p$ \\
 \midrule
-(Intercept) & 56.651*** & 2.626 & 21.570 & $[51.50, 61.80]$ & $<0.001$ \\
-Projected Warming ($^\circ$C) & 2.591*** & 0.662 & 3.913 & $[1.29, 3.89]$ & $<0.001$ \\
-\midrule
-Observations & 986 & & & & \\
-$R^2$ & 0.015 & & & & \\
-Adjusted $R^2$ & 0.014 & & & & \\
-\bottomrule
-\end{tabular*}
-\begin{tablenotes}
-\footnotesize
-\item \textit{Note:} OLS model estimated as Assigned-temperature Worry $\sim$ Projected Warming.
-\item Significance levels: * $p<0.05$, ** $p<0.01$, *** $p<0.001$.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-\begin{table}[htbp]
-\centering
-\small
-\setlength{\tabcolsep}{3pt}
-\begin{threeparttable}
-\caption{\textbf{Main Study Item-Level Full OLS Regression (Outcome: Harm to US People).}}
-\label{tab:s9_main_item_harm_us}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l S[table-format=2.3] S[table-format=1.3] S[table-format=2.3] c c @{}}
+Intercept & 56.651 & 2.626 & 21.570 & [51.50, 61.80] & $<0.001$ \\
+Projected warming ($^\circ$C) & 2.591 & 0.662 & 3.913 & [1.29, 3.89] & $<0.001$ \\
+Observations & 986 &  &  &  &  \\
+$R^2$ & 0.015 &  &  &  &  \\
+Adjusted $R^2$ & 0.014 &  &  &  &  \\
+\bottomrule\end{tabularx}
+\par\smallskip
+{\footnotesize\textit{Note.} Unstandardized OLS coefficients; two-sided tests and 95\% confidence intervals. The outcome uses a 0--100 scale; warming is in Celsius-equivalent units. Each item is fitted separately on the main analytic sample.\par}
+\endgroup\bigskip
+\captionof{table}{Main-study item-level regression: harm to people in the United States.}\label{tab:9}
+\begingroup\small
+\begin{tabularx}{\textwidth}{@{}Xrrrrr@{}}
 \toprule
-\textbf{Predictor} & {\textbf{Coefficient}} & {\textbf{Std. Error}} & {\textbf{t-stat}} & \textbf{95\% CI} & \textbf{$p$-value} \\
+Predictor & $b$ & SE & $t$ & 95\% CI & $p$ \\
 \midrule
-(Intercept) & 57.237*** & 2.504 & 22.859 & $[52.32, 62.15]$ & $<0.001$ \\
-Projected Warming ($^\circ$C) & 2.519*** & 0.631 & 3.990 & $[1.28, 3.76]$ & $<0.001$ \\
-\midrule
-Observations & 986 & & & & \\
-$R^2$ & 0.016 & & & & \\
-Adjusted $R^2$ & 0.015 & & & & \\
-\bottomrule
-\end{tabular*}
-\begin{tablenotes}
-\footnotesize
-\item \textit{Note:} OLS model estimated as Harm to US People $\sim$ Projected Warming.
-\item Significance levels: * $p<0.05$, ** $p<0.01$, *** $p<0.001$.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-\begin{table}[htbp]
-\centering
-\small
-\setlength{\tabcolsep}{3pt}
-\begin{threeparttable}
-\caption{\textbf{Main Study Item-Level Full OLS Regression (Outcome: Personal Harm).}}
-\label{tab:s10_main_item_personal}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l S[table-format=2.3] S[table-format=1.3] S[table-format=2.3] c c @{}}
+Intercept & 57.237 & 2.504 & 22.859 & [52.32, 62.15] & $<0.001$ \\
+Projected warming ($^\circ$C) & 2.519 & 0.631 & 3.990 & [1.28, 3.76] & $<0.001$ \\
+Observations & 986 &  &  &  &  \\
+$R^2$ & 0.016 &  &  &  &  \\
+Adjusted $R^2$ & 0.015 &  &  &  &  \\
+\bottomrule\end{tabularx}
+\par\smallskip
+{\footnotesize\textit{Note.} Unstandardized OLS coefficients; two-sided tests and 95\% confidence intervals. The outcome uses a 0--100 scale; warming is in Celsius-equivalent units. Each item is fitted separately on the main analytic sample.\par}
+\endgroup\bigskip
+\captionof{table}{Main-study item-level regression: personal harm.}\label{tab:10}
+\begingroup\small
+\begin{tabularx}{\textwidth}{@{}Xrrrrr@{}}
 \toprule
-\textbf{Predictor} & {\textbf{Coefficient}} & {\textbf{Std. Error}} & {\textbf{t-stat}} & \textbf{95\% CI} & \textbf{$p$-value} \\
+Predictor & $b$ & SE & $t$ & 95\% CI & $p$ \\
 \midrule
-(Intercept) & 41.266*** & 2.881 & 14.325 & $[35.61, 46.92]$ & $<0.001$ \\
-Projected Warming ($^\circ$C) & 3.191*** & 0.726 & 4.394 & $[1.77, 4.62]$ & $<0.001$ \\
-\midrule
-Observations & 986 & & & & \\
-$R^2$ & 0.019 & & & & \\
-Adjusted $R^2$ & 0.018 & & & & \\
-\bottomrule
-\end{tabular*}
-\begin{tablenotes}
-\footnotesize
-\item \textit{Note:} OLS model estimated as Personal Harm $\sim$ Projected Warming.
-\item Significance levels: * $p<0.05$, ** $p<0.01$, *** $p<0.001$.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-\begin{table}[htbp]
-\centering
-\begin{threeparttable}
-\caption{\textbf{Within-Party Linear Regressions of Worry Index on Projected Warming.}}
-\label{tab:s11_within_party}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l c c @{}}
+Intercept & 41.266 & 2.881 & 14.325 & [35.61, 46.92] & $<0.001$ \\
+Projected warming ($^\circ$C) & 3.191 & 0.726 & 4.394 & [1.77, 4.62] & $<0.001$ \\
+Observations & 986 &  &  &  &  \\
+$R^2$ & 0.019 &  &  &  &  \\
+Adjusted $R^2$ & 0.018 &  &  &  &  \\
+\bottomrule\end{tabularx}
+\par\smallskip
+{\footnotesize\textit{Note.} Unstandardized OLS coefficients; two-sided tests and 95\% confidence intervals. The outcome uses a 0--100 scale; warming is in Celsius-equivalent units. Each item is fitted separately on the main analytic sample.\par}
+\endgroup\bigskip
+\clearpage
+\captionof{table}{Within-party regressions of the Worry Index on projected warming.}\label{tab:11}
+\begingroup\small
+\begin{tabularx}{\textwidth}{@{}Xrrrrr@{}}
 \toprule
-\textbf{Metric} & \textbf{Democrats} & \textbf{Republicans} \\
+Predictor & $b$ & SE & $t$ & 95\% CI & $p$ \\
 \midrule
-Observations ($N$) & 491 & 354 \\
-Intercept ($\beta$, SE) & 62.86*** (2.69) & 39.63*** (4.33) \\
-Intercept 95\% CI & $[57.58, 68.14]$ & $[31.11, 48.15]$ \\
-Projected Warming ($^\circ$C) ($\beta$, SE) & 2.75*** (0.67) & 2.84** (1.09) \\
-Projected Warming 95\% CI & $[1.42, 4.07]$ & $[0.69, 4.99]$ \\
-$R^2$ & 0.033 & 0.019 \\
-Adjusted $R^2$ & 0.031 & 0.016 \\
-\bottomrule
-\end{tabular*}
-\begin{tablenotes}
-\footnotesize
-\item \textit{Note:} Each column reports a separate OLS model estimated within party, with Worry Index as outcome and Projected Warming ($^\circ$C) as predictor.
-\item Significance levels: * $p<0.05$, ** $p<0.01$, *** $p<0.001$.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-\newpage
-\begin{table}[htbp]
-\centering
-\small
-\setlength{\tabcolsep}{4pt}
-\begin{threeparttable}
-\caption{\textbf{Sensitivity Analyses Excluding Accounts Matched from Prolific's Post Hoc LLM-Check Export.}}
-\label{tab:s12_llm_sensitivity}
-
-\textbf{Panel A. Primary continuous-temperature regression}\\[0.4em]
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l S[table-format=3.0] S[table-format=1.3] S[table-format=1.3] S[table-format=1.3] S[table-format=1.3] @{}}
+\textit{Democrat} &  &  &  &  &  \\
+Intercept & 62.864 & 2.687 & 23.396 & [57.58, 68.14] & $<0.001$ \\
+Projected warming & 2.746 & 0.674 & 4.077 & [1.42, 4.07] & $<0.001$ \\
+Observations & 491 &  &  &  &  \\
+$R^2$ & 0.033 &  &  &  &  \\
+Adjusted $R^2$ & 0.031 &  &  &  &  \\
+\textit{Republican} &  &  &  &  &  \\
+Intercept & 39.629 & 4.330 & 9.151 & [31.11, 48.15] & $<0.001$ \\
+Projected warming & 2.841 & 1.094 & 2.596 & [0.69, 4.99] & 0.010 \\
+Observations & 354 &  &  &  &  \\
+$R^2$ & 0.019 &  &  &  &  \\
+Adjusted $R^2$ & 0.016 &  &  &  &  \\
+\bottomrule\end{tabularx}
+\par\smallskip
+{\footnotesize\textit{Note.} Separate OLS models within party, including leaners. Warming is in Celsius-equivalent units. Each fit estimates its own residual variance; its standard errors need not equal those in the pooled interaction model (Table 5).\par}
+\endgroup\bigskip
+\clearpage
+\captionof{table}{Sensitivity analyses excluding accounts matched to the post hoc LLM-check export.}\label{tab:12}
+\begingroup\small
+\begin{tabularx}{\textwidth}{@{}Xrrrrr@{}}
 \toprule
-\textbf{Analytic sample} & {\textbf{N}} & {$\beta$} & {\textbf{SE}} & {\textbf{$p$-value}} & {$R^2$} \\
+Sample & $N$ & $b$ & SE & $p$ & $R^2$ \\
 \midrule
-Full analytic sample & 986 & 2.767 & 0.625 & {$<.001$} & 0.020 \\
-Excluding 19 matched accounts & 967 & 2.863 & 0.633 & {$<.001$} & 0.021 \\
-\bottomrule
-\end{tabular*}
-
-\vspace{1.2em}
-\textbf{Panel B. Five-model embedding sensitivity analysis}\\[0.4em]
-\begin{tabularx}{\textwidth}{@{} l l S[table-format=1.5] S[table-format=1.3] S[table-format=1.5] S[table-format=1.3] @{}}
-\toprule
-\textbf{Model} & \textbf{Input} & {\textbf{Full $\Delta$}} & {\textbf{Full $p$}} & {\textbf{Exclusion $\Delta$}} & {\textbf{Exclusion $p$}} \\
+Full sample & 986 & 2.767 & 0.625 & $<0.001$ & 0.020 \\
+Excluding matched accounts & 967 & 2.863 & 0.633 & $<0.001$ & 0.021 \\
+\bottomrule\end{tabularx}
+\par\smallskip
+{\footnotesize\textit{Note.} Primary OLS regression of the Worry Index on warming. Archived aggregate results after excluding 19 matched accounts; reproducing the exclusion requires the nonpublic participant-level classification.\par}
+\endgroup\bigskip
+\textbf{Table 12 (continued). Embedding sensitivity}\par\smallskip
+\begingroup\small\begin{tabularx}{\textwidth}{@{}Xlrrrr@{}}\toprule
+Model & Input & Full $\Delta$ & Full $p$ & Exclusion $\Delta$ & Exclusion $p$ \\
 \midrule
 MPNet-Base & Raw & 0.00223 & 0.025 & 0.00195 & 0.052 \\
- & Clean & 0.00233 & 0.018 & 0.00202 & 0.053 \\
+MPNet-Base & Clean & 0.00233 & 0.018 & 0.00202 & 0.053 \\
 MiniLM-L6 & Raw & 0.00133 & 0.110 & 0.00102 & 0.247 \\
- & Clean & 0.00131 & 0.123 & 0.00103 & 0.262 \\
+MiniLM-L6 & Clean & 0.00131 & 0.123 & 0.00103 & 0.262 \\
 E5-Large & Raw & 0.00014 & 0.580 & 0.00006 & 0.826 \\
- & Clean & 0.00004 & 0.860 & -0.00005 & 0.860 \\
+E5-Large & Clean & 0.00004 & 0.860 & -0.00005 & 0.860 \\
 BGE-Large & Raw & 0.00111 & 0.041 & 0.00092 & 0.076 \\
- & Clean & 0.00095 & 0.076 & 0.00076 & 0.146 \\
+BGE-Large & Clean & 0.00095 & 0.076 & 0.00076 & 0.146 \\
 Mxbai-Large & Raw & 0.00095 & 0.102 & 0.00073 & 0.198 \\
- & Clean & 0.00081 & 0.159 & 0.00059 & 0.313 \\
-\bottomrule
-\end{tabularx}
-\begin{tablenotes}
-\footnotesize
-\item \textit{Note:} N=986 in the full analytic sample and N=967 after excluding the 19 accounts that could be matched to archived main-study records. The primary model is Worry Index $\sim$ Projected Warming ($^\circ$C). Embedding values report $\Delta=\mu_{\mathrm{within}}-\mu_{\mathrm{between}}$ and two-sided permutation $p$-values from 1,000 label permutations with seed 123. No participant identifiers are included.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-
+Mxbai-Large & Clean & 0.00081 & 0.159 & 0.00059 & 0.313 \\
+\bottomrule\end{tabularx}
+\par\smallskip{\footnotesize\textit{Note.} Full sample: $N=986$; exclusion sample: $N=967$. $\Delta$ is within-condition minus between-condition cosine similarity. Two-sided permutation tests use 1,000 label permutations (seed 123); $p$-values are unadjusted.\par}
+\endgroup
 \end{document}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reproduce Figure 2 and Table S12 for the manuscript.
+"""Reproduce Figure 2 and the embedding CSV used in statistical Table 4.
 
 Default mode uses cached embedding test results so replication works quickly.
 Use --recompute to run all embedding models from scratch.

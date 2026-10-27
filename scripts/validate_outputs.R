@@ -314,3 +314,81 @@ if (!all(checks$passed) || !privacy_ok || !content_privacy_ok || !outputs_ok || 
 }
 
 message("All statistical, privacy, and output checks passed.")
+
+# Recompute every scalar table directly from the public analysis data.
+check_equal <- function(actual, expected, label, tolerance = 1e-10) {
+  if (length(actual) != length(expected) || any(!is.finite(actual)) ||
+      any(abs(actual - expected) > tolerance)) stop(paste("Mismatch:", label))
+}
+check_model_table <- function(number, model) {
+  actual <- read_csv(file.path(root_dir, sprintf("outputs/tables/table_s%d.csv", number)),
+                     show_col_types = FALSE)
+  expected <- broom::tidy(model, conf.int = TRUE)
+  # Independent models use different factor names but the same ordered design columns.
+  for (key in c("estimate", "std.error", "statistic", "p.value", "conf.low", "conf.high")) {
+    check_equal(actual[[key]], expected[[key]], paste(number, key))
+  }
+  check_equal(actual$N, rep(nobs(model), nrow(actual)), paste(number, "N"))
+  check_equal(actual$R_squared, rep(summary(model)$r.squared, nrow(actual)), paste(number, "R2"))
+  check_equal(actual$adjusted_R_squared, rep(summary(model)$adj.r.squared, nrow(actual)), paste(number, "adjusted R2"))
+}
+models <- list(`2` = m_main, `3` = m_p1, `4` = m_p2,
+               `5` = lm(QID5_1 ~ temp_numeric_c, data = v1),
+               `6` = lm(Q17_1 ~ temp_numeric_c, data = v1),
+               `7` = lm(Q18_1 ~ temp_numeric_c, data = v1),
+               `10` = m_party, `11` = m_unit_centered)
+for (number in names(models)) check_model_table(as.integer(number), models[[number]])
+pairs <- read_csv(file.path(root_dir, "outputs/tables/table_s8.csv"), show_col_types = FALSE)
+stopifnot(nrow(pairs) == 45, !anyDuplicated(pairs[c("Group1", "Group2")]),
+          !any(c("|d|", "Magnitude") %in% names(pairs)))
+raw_p <- numeric(nrow(pairs))
+for (i in seq_len(nrow(pairs))) {
+  a <- v1$worry_index[v1$temp_numeric_c == pairs$Group1[i]]
+  b <- v1$worry_index[v1$temp_numeric_c == pairs$Group2[i]]
+  fit <- t.test(a, b)
+  pooled <- sqrt(((length(a)-1)*var(a) + (length(b)-1)*var(b))/(length(a)+length(b)-2))
+  expected <- c(length(a), length(b), fit$statistic, fit$parameter, fit$p.value, (mean(a)-mean(b))/pooled)
+  actual <- unlist(pairs[i,c("N1","N2","t","df","p","Cohen's d")], use.names=FALSE)
+  check_equal(actual, unname(expected), paste("Contrast", i))
+  raw_p[i] <- fit$p.value
+}
+check_equal(pairs$p_adj, p.adjust(raw_p, "holm"), "Holm family of 45")
+party_export <- read_csv(file.path(root_dir, "outputs/tables/table_s9.csv"), show_col_types = FALSE)
+for (party in c("Democrat", "Republican")) {
+  fit <- lm(worry_index ~ temp_numeric_c, data = party_binary[party_binary$party == party, ])
+  b <- broom::tidy(fit, conf.int = TRUE)
+  r <- party_export[party_export$Party == party, ]
+  keys <- c("N", "Intercept", "Intercept SE", "Intercept t", "Intercept p",
+            "Intercept CI low", "Intercept CI high", "Projected warming", "Projected warming SE",
+            "Projected warming t", "Projected warming CI low", "Projected warming CI high",
+            "p-value", "R-squared", "Adjusted R-squared")
+  values <- c(nobs(fit), b$estimate[1], b$std.error[1], b$statistic[1], b$p.value[1],
+              b$conf.low[1], b$conf.high[1], b$estimate[2], b$std.error[2], b$statistic[2],
+              b$conf.low[2], b$conf.high[2], b$p.value[2], summary(fit)$r.squared, summary(fit)$adj.r.squared)
+  check_equal(unlist(r[keys], use.names=FALSE), values, paste("Within-party", party))
+}
+# Verify skip-logic coding for direct partisans and respondents who answered lean.
+stopifnot(all(party_binary$party[party_binary$partyid == "Democrat"] == "Democrat"),
+          all(party_binary$party[party_binary$partyid == "Republican"] == "Republican"))
+embedding <- read_csv(file.path(root_dir, "outputs/tables/table_s12.csv"), show_col_types = FALSE)
+stopifnot(nrow(embedding) == 10, !anyDuplicated(embedding[c("Model", "Version")]))
+check_equal(embedding$Delta_Obs, embedding$Within_Mean - embedding$Between_Mean,
+            "Embedding within-minus-between", 1e-7)
+for (i in seq_len(nrow(embedding))) {
+  archived <- s13_embedding[s13_embedding$model == embedding$Model[i] &
+                            toupper(s13_embedding$input) == embedding$Version[i], ]
+  stopifnot(nrow(archived) == 1)
+  check_equal(embedding$P_Value[i], archived$full_p, "Archived full-sample permutation p")
+  # The two archived runs retain different numerical precision; compare the five displayed decimals.
+  check_equal(round(embedding$Delta_Obs[i], 5), round(archived$full_estimate, 5),
+              "Archived full-sample delta at published precision", 0)
+}
+check_equal(s13_regression$full_estimate, coef(m_main)[2], "Sensitivity full slope")
+check_equal(s13_regression$full_SE, summary(m_main)$coefficients[2,2], "Sensitivity full SE", 1e-6)
+check_equal(s13_regression$full_R_squared, summary(m_main)$r.squared, "Sensitivity full R2", 1e-7)
+status <- system2(Sys.getenv("PYTHON", "python3"), c(file.path(root_dir, "scripts/sync_statistical_tables.py") |> shQuote(), "--check"))
+if (status != 0) stop("Statistical-table source does not match CSV outputs")
+message("All scalar coefficients, contrasts, model fits, party coding and table-source checks passed.")
+message("Embedding and exclusion outputs checked against archives; exclusion classifications are not public.")
+unit_output <- read_csv(file.path(root_dir, "outputs/tables/table_s11.csv"), show_col_types = FALSE)
+check_equal(unit_output$centering_value, rep(mean(v1$temp_numeric_c), nrow(unit_output)), "Unit centering value")

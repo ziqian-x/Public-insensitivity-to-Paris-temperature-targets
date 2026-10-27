@@ -11,7 +11,8 @@ python3 -m pip install -r requirements-lock.txt
 Rscript run_all.R
 ```
 
-The report is written to `outputs/reports/Main_SI_All.html`; figures and CSV tables are in `outputs/`. R Markdown requires Pandoc.
+The report is written to `outputs/reports/Main_SI_All.html`; figures and CSV tables are in `outputs/`. R Markdown requires Pandoc. Building the statistical PDF also requires a LaTeX installation with `latexmk`.
+`extended_analysis/full_statistical_outputs.pdf` is rebuilt automatically from the CSV outputs.
 
 The default text analysis uses archived embedding results. To recompute all five models with 1,000 permutations:
 
@@ -31,6 +32,6 @@ Model revisions are listed in `text_embedding/model_revisions.csv`.
 - `scripts/`: data preparation, table export, and numerical checks.
 - `validation/`: R session information.
 
-The CSV table numbering predates the final SI; `extended_analysis/README.md` maps the files to the statistical tables. The final SI contains Methods Sections S1-S6.
+`extended_analysis/README.md` maps the CSV files to the statistical tables. The journal SI contains Methods Sections S1-S6.
 
-Post hoc Prolific LLM-check sensitivity results are provided as aggregates in `outputs/tables/table_s13.csv`. The participant-level classification is not public, so that exclusion analysis cannot be reconstructed from these files alone.
+Post hoc Prolific LLM-check results are in `outputs/tables/table_s13.csv`. Reproducing this exclusion requires the nonpublic participant-level classification (see `sensitivity/README.md`).

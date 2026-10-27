@@ -19,7 +19,6 @@ library(broom)
 library(rstatix)
 library(patchwork)
 library(knitr)
-library(stargazer)
 ```
 
 ## 1) Data Preparation
@@ -107,19 +106,11 @@ pairwise_cohens_d <- function(data, outcome, group_var) {
     s2 <- sd(x2, na.rm = TRUE)
     pooled_sd <- sqrt(((n1 - 1) * s1^2 + (n2 - 1) * s2^2) / (n1 + n2 - 2))
     d <- (mean(x1, na.rm = TRUE) - mean(x2, na.rm = TRUE)) / pooled_sd
-    d_abs <- abs(d)
-
+    test <- t.test(x1, x2, var.equal = FALSE)
     tibble::tibble(
-      group1 = g[1],
-      group2 = g[2],
-      cohen_d = d,
-      abs_cohen_d = d_abs,
-      effect_size = dplyr::case_when(
-        d_abs < 0.2 ~ "Trivial",
-        d_abs < 0.5 ~ "Small",
-        d_abs < 0.8 ~ "Medium",
-        TRUE ~ "Large"
-      )
+      group1 = g[1], group2 = g[2], n1 = n1, n2 = n2,
+      statistic = unname(test$statistic), df = unname(test$parameter),
+      p = test$p.value, cohen_d = d
     )
   })
 
@@ -230,7 +221,7 @@ party_three <- v1 |>
     )
   )
 
-# Tables S9 and S10 use two-party coding, including leaners (N=845).
+# Tables 11 and 5 use two-party coding, including leaners (N=845).
 party_binary_df <- v1 |>
   mutate(
     party_binary = case_when(
@@ -281,7 +272,7 @@ dir.create(file.path("outputs", "figures"), recursive = TRUE, showWarnings = FAL
 ggsave(file.path("outputs", "figures", "Figure1.pdf"), fig1, width = 12, height = 9.5)
 ```
 
-## 3) SI Table S1 (Study Chronology and Participant Flow)
+## 3) Study Chronology and Participant Flow
 
 The public data exclude collection timestamps and direct participant identifiers.
 The dates and exclusion counts below reproduce the participant-flow table in the
@@ -295,10 +286,10 @@ s1_flow <- tibble::tribble(
   "Main study", "Oct. 11-13, 2025", 1005, 1, 6, 12, 986
 )
 
-kable(s1_flow, caption = "Table S1. Study chronology and participant flow")
+kable(s1_flow, caption = "Participant flow")
 ```
 
-## 4) SI Table S2 (Main OLS)
+## 4) Main OLS
 
 ```{r}
 s1_model <- lm(worry_index ~ temp_numeric_c, data = v1)
@@ -315,56 +306,34 @@ s1_tidy <- tidy(s1_model, conf.int = TRUE) |>
 
 s1_fit <- glance(s1_model)
 
-kable(s1_tidy, caption = "Table S2. Linear regression model predicting worry index")
+kable(s1_tidy, caption = "Table 1. Linear regression model predicting worry index")
 kable(
   tibble::tibble(
     N = nrow(v1),
     `R-squared` = round(s1_fit$r.squared, 3),
     `Adjusted R-squared` = round(s1_fit$adj.r.squared, 3)
   ),
-  caption = "Table S2 model fit"
+  caption = "Table 1 model fit"
 )
 ```
 
-## 5) SI Table S8 (Holm-Corrected Pairwise Comparisons)
+## 5) Holm-Corrected Pairwise Comparisons
 
 ```{r}
 cohen_d_pairs <- pairwise_cohens_d(v1, "worry_index", "temp_condition")
 
-s2_pairs <- pairwise_t_test(v1, worry_index ~ temp_condition, pool.sd = FALSE, p.adjust.method = "holm") |>
-  left_join(cohen_d_pairs, by = c("group1", "group2")) |>
+s2_pairs <- cohen_d_pairs |>
+  mutate(p.adj = p.adjust(p, method = "holm")) |>
   transmute(
-    Group1 = group1,
-    Group2 = group2,
-    N1 = n1,
-    N2 = n2,
-    t = round(statistic, 4),
-    df = round(df, 4),
-    p = signif(p, 3),
-    p_adj = signif(p.adj, 3),
-    Sig_unadj = dplyr::case_when(
-      p < 0.001 ~ "***",
-      p < 0.01 ~ "**",
-      p < 0.05 ~ "*",
-      p < 0.1 ~ ".",
-      TRUE ~ "ns"
-    ),
-    Sig_holm = dplyr::case_when(
-      p.adj < 0.001 ~ "***",
-      p.adj < 0.01 ~ "**",
-      p.adj < 0.05 ~ "*",
-      p.adj < 0.1 ~ ".",
-      TRUE ~ "ns"
-    ),
-    `Cohen's d` = round(cohen_d, 3),
-    `|d|` = round(abs_cohen_d, 3),
-    Magnitude = effect_size
+    Group1 = group1, Group2 = group2, N1 = n1, N2 = n2,
+    t = statistic, df = df, p = p, p_adj = p.adj,
+    `Cohen's d` = cohen_d
   )
 
-kable(s2_pairs, caption = "Table S8. Pairwise contrasts across warming conditions with Holm correction and Cohen's d")
+kable(s2_pairs |> select(-`Cohen's d`), digits = 4, caption = "Table 2. Pairwise contrasts across warming conditions with Holm correction")
 ```
 
-## 6) SI Table S11 (Unit Framing Interaction)
+## 6) Unit Framing Interaction
 
 ```{r}
 s3_model <- lm(worry_index ~ temp_centered_c * unit_condition, data = v1)
@@ -383,20 +352,20 @@ s3_tidy <- tidy(s3_model, conf.int = TRUE) |>
 
 s3_fit <- glance(s3_model)
 
-kable(s3_tidy, caption = "Table S11. Interaction model: warming x unit framing")
+kable(s3_tidy, caption = "Table 3. Interaction model: warming x unit framing")
 kable(
   tibble::tibble(
     N = nrow(v1),
     `R-squared` = round(s3_fit$r.squared, 3),
     `Adjusted R-squared` = round(s3_fit$adj.r.squared, 3)
   ),
-  caption = "Table S11 model fit"
+  caption = "Table 3 model fit"
 )
 ```
 
-## 7) SI Table S12 (Text Embedding Results)
+## 7) Text Embedding Results
 
-Run this first from `text_embedding/` if needed:
+Run this from the repository root if needed:
 
 ```bash
 python3 text_embedding/run_text_embedding.py
@@ -406,13 +375,13 @@ python3 text_embedding/run_text_embedding.py
 path_s4 <- file.path("outputs", "tables", "table_s12.csv")
 if (file.exists(path_s4)) {
   s4 <- read_csv(path_s4, show_col_types = FALSE)
-  kable(s4, caption = "Table S12. Embedding model results")
+  kable(s4, caption = "Table 4. Embedding model results")
 } else {
-  cat("Table S12 file not found. Run: python3 text_embedding/run_text_embedding.py\n")
+  cat("Embedding results file not found. Run: python3 text_embedding/run_text_embedding.py\n")
 }
 ```
 
-## 8) SI Table S10 (Party x Temperature Model)
+## 8) Party x Temperature Model
 
 The interaction term for projected warming by party is not statistically significant (`p = 0.938` for Republican vs Democrat slope difference), indicating little evidence that warming sensitivity differs by party.
 
@@ -430,18 +399,18 @@ s5_interaction <- tidy(s5_interaction_model, conf.int = TRUE) |>
 
 s5_fit <- glance(s5_interaction_model)
 
-kable(s5_interaction, caption = "Table S10. Interaction model for party-specific sensitivity to projected warming")
+kable(s5_interaction, caption = "Table 5. Interaction model for party-specific sensitivity to projected warming")
 kable(
   tibble::tibble(
     N = nrow(party_binary_df),
     `R-squared` = round(s5_fit$r.squared, 3),
     `Adjusted R-squared` = round(s5_fit$adj.r.squared, 3)
   ),
-  caption = "Table S10 model fit"
+  caption = "Table 5 model fit"
 )
 ```
 
-## 9) SI Table S3 (Pilot 1 Full Regression Results)
+## 9) Pilot 1 Full Regression Results
 
 Pilot analyses use the same linear trend specification as the main model, regressing each pilot outcome on projected warming magnitude (in C).
 
@@ -458,7 +427,7 @@ s6_p1 <- tidy(m_p1, conf.int = TRUE) |>
 
 s6_fit <- glance(m_p1)
 
-kable(s6_p1, caption = "Table S3. Pilot 1 full OLS regression (Outcome: Worry 1-7)")
+kable(s6_p1, caption = "Table 6. Pilot 1 full OLS regression (Outcome: Worry 1-7)")
 kable(
   tibble::tibble(
     N = nrow(p1),
@@ -466,11 +435,11 @@ kable(
     `Adjusted R-squared` = round(s6_fit$adj.r.squared, 3),
     Sigma = round(s6_fit$sigma, 3)
   ),
-  caption = "Table S3 model fit"
+  caption = "Table 6 model fit"
 )
 ```
 
-## 10) SI Table S4 (Pilot 2 Full Regression Results)
+## 10) Pilot 2 Full Regression Results
 
 ```{r}
 s7_p2 <- tidy(m_p2, conf.int = TRUE) |>
@@ -485,7 +454,7 @@ s7_p2 <- tidy(m_p2, conf.int = TRUE) |>
 
 s7_fit <- glance(m_p2)
 
-kable(s7_p2, caption = "Table S4. Pilot 2 full OLS regression (Outcome: Worry 0-100)")
+kable(s7_p2, caption = "Table 7. Pilot 2 full OLS regression (Outcome: Worry 0-100)")
 kable(
   tibble::tibble(
     N = nrow(p2),
@@ -493,86 +462,30 @@ kable(
     `Adjusted R-squared` = round(s7_fit$adj.r.squared, 3),
     Sigma = round(s7_fit$sigma, 3)
   ),
-  caption = "Table S4 model fit"
+  caption = "Table 7 model fit"
 )
 ```
 
-## 11) SI Tables S5-S7 (Outcome-Specific Full Regressions via Stargazer)
+## 11) Item-Level Regressions
 
-To assess robustness beyond the composite index, we report separate full regressions for each main-study item-level outcome using stargazer exports.
+Each main-study item is regressed separately on assigned warming. Pilot regressions
+report the single worry item collected in each pilot.
 
-```{r}
+```{r, results="asis"}
 s8_fit <- lm(QID5_1 ~ temp_numeric_c, data = v1)
 s9_fit <- lm(Q17_1 ~ temp_numeric_c, data = v1)
 s10_fit <- lm(Q18_1 ~ temp_numeric_c, data = v1)
-
-dir.create(file.path("outputs", "tables"), recursive = TRUE, showWarnings = FALSE)
-
-stargazer(
-  s8_fit,
-  type = "text",
-  title = "Table S5. Main Study Item-Level Regression: Worry Assigned Temperature",
-  dep.var.labels = "Worry assigned temperature",
-  covariate.labels = c("Projected warming (C)", "Constant"),
-  digits = 3,
-  star.cutoffs = c(0.05, 0.01, 0.001)
-)
-stargazer(
-  s8_fit,
-  type = "latex",
-  out = file.path("outputs", "tables", "table_s5_stargazer.tex"),
-  title = "Supplementary Table S5. Main Study Item-Level Regression: Worry Assigned Temperature",
-  label = "tab:s5_main_item_worry",
-  dep.var.labels = "Worry assigned temperature",
-  covariate.labels = c("Projected warming (C)", "Constant"),
-  digits = 3,
-  star.cutoffs = c(0.05, 0.01, 0.001)
-)
-
-stargazer(
-  s9_fit,
-  type = "text",
-  title = "Table S6. Main Study Item-Level Regression: Harm to US People",
-  dep.var.labels = "Perceived harm to US people",
-  covariate.labels = c("Projected warming (C)", "Constant"),
-  digits = 3,
-  star.cutoffs = c(0.05, 0.01, 0.001)
-)
-stargazer(
-  s9_fit,
-  type = "latex",
-  out = file.path("outputs", "tables", "table_s6_stargazer.tex"),
-  title = "Supplementary Table S6. Main Study Item-Level Regression: Harm to US People",
-  label = "tab:s6_main_item_harm_us",
-  dep.var.labels = "Perceived harm to US people",
-  covariate.labels = c("Projected warming (C)", "Constant"),
-  digits = 3,
-  star.cutoffs = c(0.05, 0.01, 0.001)
-)
-
-stargazer(
-  s10_fit,
-  type = "text",
-  title = "Table S7. Main Study Item-Level Regression: Personal Harm",
-  dep.var.labels = "Perceived personal harm",
-  covariate.labels = c("Projected warming (C)", "Constant"),
-  digits = 3,
-  star.cutoffs = c(0.05, 0.01, 0.001)
-)
-stargazer(
-  s10_fit,
-  type = "latex",
-  out = file.path("outputs", "tables", "table_s7_stargazer.tex"),
-  title = "Supplementary Table S7. Main Study Item-Level Regression: Personal Harm",
-  label = "tab:s7_main_item_personal",
-  dep.var.labels = "Perceived personal harm",
-  covariate.labels = c("Projected warming (C)", "Constant"),
-  digits = 3,
-  star.cutoffs = c(0.05, 0.01, 0.001)
-)
+for (entry in list(list(s8_fit, "8. Worry assigned temperature"),
+                   list(s9_fit, "9. Harm to US people"),
+                   list(s10_fit, "10. Personal harm"))) {
+  print(kable(tidy(entry[[1]], conf.int = TRUE), digits = 3,
+              caption = paste("Table", entry[[2]])))
+  print(kable(glance(entry[[1]]) |> select(nobs, r.squared, adj.r.squared),
+              digits = 3, caption = paste("Model fit:", entry[[2]])))
+}
 ```
 
-## 12) SI Table S9 (Within-Party Regressions)
+## 12) Within-Party Regressions
 
 ```{r}
 s11_models <- party_binary_df |>
@@ -590,10 +503,13 @@ s11 <- bind_rows(lapply(names(s11_models), function(group_name) {
     N = nobs(model),
     Intercept = intercept$estimate,
     `Intercept SE` = intercept$std.error,
+    `Intercept t` = intercept$statistic,
+    `Intercept p` = intercept$p.value,
     `Intercept CI low` = intercept$conf.low,
     `Intercept CI high` = intercept$conf.high,
     `Projected warming` = slope$estimate,
     `Projected warming SE` = slope$std.error,
+    `Projected warming t` = slope$statistic,
     `Projected warming CI low` = slope$conf.low,
     `Projected warming CI high` = slope$conf.high,
     `p-value` = slope$p.value,
@@ -604,13 +520,13 @@ s11 <- bind_rows(lapply(names(s11_models), function(group_name) {
 
 kable(
   s11 |> mutate(across(where(is.numeric), ~ round(.x, 3))),
-  caption = "Table S9. Within-party linear regressions of worry index on projected warming"
+  caption = "Table 11. Within-party linear regressions of worry index on projected warming"
 )
 ```
 
-## 13) SI Table S13 (Post Hoc LLM-Check Sensitivity)
+## 13) Post Hoc LLM-Check Sensitivity
 
-Table S13 contains aggregate results after excluding 19 responses matched to
+`outputs/tables/table_s13.csv` contains aggregate results after excluding 19 responses matched to
 Prolific's post hoc LLM-check export. Reproducing this exclusion requires the
 nonpublic participant-level classification; see `sensitivity/README.md`.
 
@@ -623,7 +539,7 @@ s13 <- read_csv(
 kable(
   s13,
   digits = 6,
-  caption = "Table S13. Sensitivity analyses excluding 19 accounts matched from Prolific's post hoc LLM-check export"
+  caption = "Table 12. Sensitivity analyses excluding 19 accounts matched from Prolific's post hoc LLM-check export"
 )
 ```
 
@@ -655,13 +571,15 @@ write_csv(model_export(s10_fit), file.path("outputs", "tables", "table_s7.csv"))
 write_csv(s2_pairs, file.path("outputs", "tables", "table_s8.csv"))
 write_csv(s11, file.path("outputs", "tables", "table_s9.csv"))
 write_csv(model_export(s5_interaction_model), file.path("outputs", "tables", "table_s10.csv"))
-write_csv(model_export(s3_model), file.path("outputs", "tables", "table_s11.csv"))
-# Table S12 is generated by text_embedding/run_text_embedding.py;
-# Table S13 contains archived aggregate sensitivity results.
+write_csv(model_export(s3_model) |> mutate(centering_value = mean(v1$temp_numeric_c)),
+          file.path("outputs", "tables", "table_s11.csv"))
+# table_s12.csv is generated by text_embedding/run_text_embedding.py;
+# table_s13.csv contains archived aggregate sensitivity results.
 
 kable(
   tibble(
-    Output = paste0("Table S", 1:13),
+    Output = c("Participant flow", "1", "6", "7", "8", "9", "10",
+               "2", "11", "5", "3", "4", "12"),
     File = file.path("outputs", "tables", paste0("table_s", 1:13, ".csv"))
   ),
   caption = "Machine-readable SI table outputs"

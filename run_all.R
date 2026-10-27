@@ -57,7 +57,7 @@ for (i in seq_along(levels(analysis_env$party_three$party_figure))) {
   check_curve(party_curves[party_curves$group == i, ], model)
 }
 message("All six fitted lines and confidence bands match numeric-temperature predictions.")
-status <- system2(python, file.path("scripts", "sync_statistical_tables.py"))
+status <- system2(python, c(file.path("scripts", "sync_statistical_tables.py"), "--compile"))
 if (status != 0) stop("Statistical table synchronization failed.")
 
 report_path <- file.path("outputs", "reports", "Main_SI_All.html")
