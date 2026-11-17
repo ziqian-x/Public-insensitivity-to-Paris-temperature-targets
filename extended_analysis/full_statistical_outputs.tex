@@ -34,6 +34,8 @@ Adjusted $R^2$ & 0.019 &  &  &  &  \\
 \captionof{table}{Pairwise comparisons across warming levels with Holm correction.}\label{tab:2}
 \begingroup\small\setstretch{1.0}
 \setlength{\LTleft}{\fill}\setlength{\LTright}{\fill}
+% The caption above already increments the table counter; longtable does too.
+\addtocounter{table}{-1}
 \begin{longtable}{@{}rrrrrrrr@{}}
 \toprule
 Group 1 & Group 2 & $N_1$ & $N_2$ & $t$ & df & $p$ & $p_{\mathrm{Holm}}$\\

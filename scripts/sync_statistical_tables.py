@@ -2,6 +2,7 @@
 import argparse
 import csv
 import math
+import re
 import subprocess
 import tempfile
 from pathlib import Path
@@ -104,6 +105,8 @@ Ziqian Xia, Rachit Dubey, and Sara M. Constantino
     TITLES.append('Pairwise comparisons')
     text += r'''\begingroup\small\setstretch{1.0}
 \setlength{\LTleft}{\fill}\setlength{\LTright}{\fill}
+% The caption above already increments the table counter; longtable does too.
+\addtocounter{table}{-1}
 \begin{longtable}{@{}rrrrrrrr@{}}
 \toprule
 Group 1 & Group 2 & $N_1$ & $N_2$ & $t$ & df & $p$ & $p_{\mathrm{Holm}}$\\
@@ -206,6 +209,10 @@ def main():
             log=(Path(build)/'full_statistical_outputs.log').read_text()
             if 'Overfull \\hbox' in log or 'Overfull \\vbox' in log:
                 raise RuntimeError('Statistical tables overflow; inspect LaTeX layout')
+            aux = (Path(build)/'full_statistical_outputs.aux').read_text()
+            labels = re.findall(r'\\newlabel\{tab:(\d+)\}\{\{(\d+)\}', aux)
+            if labels != [(str(i), str(i)) for i in range(1, 13)]:
+                raise RuntimeError('Compiled table numbers do not match Tables 1-12')
             PATH.with_suffix('.pdf').write_bytes((Path(build)/'full_statistical_outputs.pdf').read_bytes())
 
 if __name__=='__main__':
